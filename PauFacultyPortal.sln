@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PauFacultyPortal.Models", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PauFacultyPortal.Service", "PauFacultyPortal.Service\PauFacultyPortal.Service.csproj", "{4E2118B4-E0E0-4261-A6FE-A7D0E6029965}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PauFacultyPortal.Server", "PauFacultyPortal.Server\PauFacultyPortal.Server.csproj", "{30E0A369-5383-498A-9F2E-505FF93FAC78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PauFacultyPortal.ViewModel", "PauFacultyPortal.ViewModel\PauFacultyPortal.ViewModel.csproj", "{D7DF93A8-2802-4078-94FF-3EE0F1189EA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{4E2118B4-E0E0-4261-A6FE-A7D0E6029965}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E2118B4-E0E0-4261-A6FE-A7D0E6029965}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E2118B4-E0E0-4261-A6FE-A7D0E6029965}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30E0A369-5383-498A-9F2E-505FF93FAC78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30E0A369-5383-498A-9F2E-505FF93FAC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30E0A369-5383-498A-9F2E-505FF93FAC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30E0A369-5383-498A-9F2E-505FF93FAC78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7DF93A8-2802-4078-94FF-3EE0F1189EA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7DF93A8-2802-4078-94FF-3EE0F1189EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7DF93A8-2802-4078-94FF-3EE0F1189EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7DF93A8-2802-4078-94FF-3EE0F1189EA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
