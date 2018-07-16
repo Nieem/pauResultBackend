@@ -27,9 +27,9 @@ namespace PauFacultyPortal.Models
         public Nullable<System.DateTime> EntryDate { get; set; }
         public string EntryBy { get; set; }
     
-        public virtual Account Account { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Section> Sections { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

@@ -447,18 +447,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId">
-          <End Role="AccountsRoles" Type="Self.AccountsRoles" Multiplicity="1" />
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AccountsRoles">
-              <PropertyRef Name="AccountsRoleId" />
-            </Principal>
-            <Dependent Role="Accounts">
-              <PropertyRef Name="AccountsRoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId">
           <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
           <End Role="CourseForDepartments" Type="Self.CourseForDepartments" Multiplicity="*" />
@@ -691,10 +679,6 @@
             <End Role="AccountMetaProfessionals" EntitySet="AccountMetaProfessionals" />
             <End Role="AccountExtPublications" EntitySet="AccountExtPublications" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId" Association="Self.FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId">
-            <End Role="AccountsRoles" EntitySet="AccountsRoles" />
-            <End Role="Accounts" EntitySet="Accounts" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId" Association="Self.FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId">
             <End Role="Departments" EntitySet="Departments" />
             <End Role="CourseForDepartments" EntitySet="CourseForDepartments" />
@@ -772,7 +756,6 @@
           <EntitySet Name="AccountMetaInformations" EntityType="PauFacultyPortalModel.AccountMetaInformation" />
           <EntitySet Name="AccountMetaProfessionals" EntityType="PauFacultyPortalModel.AccountMetaProfessional" />
           <EntitySet Name="AccountReferenceLinktables" EntityType="PauFacultyPortalModel.AccountReferenceLinktable" />
-          <EntitySet Name="Accounts" EntityType="PauFacultyPortalModel.Account" />
           <EntitySet Name="CourseForDepartments" EntityType="PauFacultyPortalModel.CourseForDepartment" />
           <EntitySet Name="CourseForStudentsAcademics" EntityType="PauFacultyPortalModel.CourseForStudentsAcademic" />
           <EntitySet Name="CourseStatus" EntityType="PauFacultyPortalModel.CourseStatu" />
@@ -802,10 +785,6 @@
           <AssociationSet Name="FK_dbo_AccountExtPublications_dbo_AccountMetaProfessionals_AccountMetaProfessionalId" Association="PauFacultyPortalModel.FK_dbo_AccountExtPublications_dbo_AccountMetaProfessionals_AccountMetaProfessionalId">
             <End Role="AccountMetaProfessional" EntitySet="AccountMetaProfessionals" />
             <End Role="AccountExtPublication" EntitySet="AccountExtPublications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_Teachers_dbo_Accounts_AccountId" Association="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Teacher" EntitySet="Teachers" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId" Association="PauFacultyPortalModel.FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId">
             <End Role="Department" EntitySet="Departments" />
@@ -866,6 +845,11 @@
           <AssociationSet Name="FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId" Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId">
             <End Role="SemesterInfo" EntitySet="SemesterInfoes" />
             <End Role="StudentIdentification" EntitySet="StudentIdentifications" />
+          </AssociationSet>
+          <EntitySet Name="Accounts" EntityType="PauFacultyPortalModel.Account" />
+          <AssociationSet Name="FK_dbo_Teachers_dbo_Accounts_AccountId" Association="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Teacher" EntitySet="Teachers" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountExtEducation">
@@ -982,33 +966,6 @@
           <Property Name="Fax" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="TelephoneNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="MobileNo" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Account">
-          <Key>
-            <PropertyRef Name="AccountId" />
-          </Key>
-          <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TeleExchange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Designation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DepartmentSection" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LoginIdentity" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AccountsRoleId" Type="Int32" Nullable="false" />
-          <Property Name="Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="AccountHash" Type="Guid" />
-          <Property Name="PartimeTeacher" Type="Boolean" Nullable="false" />
-          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Deactivate" Type="Boolean" Nullable="false" />
-          <Property Name="CauseOfDeactivate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TeporaryBlock" Type="Boolean" Nullable="false" />
-          <Property Name="TemporaryBlockExpireDate" Type="DateTime" Precision="3" />
-          <Property Name="LastPsswordChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Teachers" Relationship="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId" FromRole="Account" ToRole="Teacher" />
         </EntityType>
         <EntityType Name="CourseForDepartment">
           <Key>
@@ -1291,9 +1248,9 @@
           <Property Name="LoginId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EntryDate" Type="DateTime" Precision="3" />
           <Property Name="EntryBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Account" Relationship="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId" FromRole="Teacher" ToRole="Account" />
           <NavigationProperty Name="Department" Relationship="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Departments_DepartmentId" FromRole="Teacher" ToRole="Department" />
           <NavigationProperty Name="Sections" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_Teachers_TeacherId" FromRole="Teacher" ToRole="Section" />
+          <NavigationProperty Name="Account" Relationship="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId" FromRole="Teacher" ToRole="Account" />
         </EntityType>
         <Association Name="FK_dbo_AccountExtEducations_dbo_AccountMetaProfessionals_AccountMetaProfessionalId">
           <End Type="PauFacultyPortalModel.AccountMetaProfessional" Role="AccountMetaProfessional" Multiplicity="1" />
@@ -1340,18 +1297,6 @@
             </Principal>
             <Dependent Role="AccountExtPublication">
               <PropertyRef Name="AccountMetaProfessionalId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Teachers_dbo_Accounts_AccountId">
-          <End Type="PauFacultyPortalModel.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="PauFacultyPortalModel.Teacher" Role="Teacher" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="AccountId" />
-            </Principal>
-            <Dependent Role="Teacher">
-              <PropertyRef Name="AccountId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1535,6 +1480,45 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TeleExchange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Designation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentSection" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LoginIdentity" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccountsRoleId" Type="Int32" Nullable="false" />
+          <Property Name="Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="AccountHash" Type="Guid" />
+          <Property Name="PartimeTeacher" Type="Boolean" Nullable="false" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Deactivate" Type="Boolean" Nullable="false" />
+          <Property Name="CauseOfDeactivate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TeporaryBlock" Type="Boolean" Nullable="false" />
+          <Property Name="TemporaryBlockExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="LastPsswordChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Teachers" Relationship="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId" FromRole="Account" ToRole="Teacher" />
+        </EntityType>
+        <Association Name="FK_dbo_Teachers_dbo_Accounts_AccountId">
+          <End Type="PauFacultyPortalModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="PauFacultyPortalModel.Teacher" Role="Teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Teacher">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1652,33 +1636,6 @@
                 <ScalarProperty Name="Facebook" ColumnName="Facebook" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="AccountReferenceId" ColumnName="AccountReferenceId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Accounts">
-            <EntityTypeMapping TypeName="PauFacultyPortalModel.Account">
-              <MappingFragment StoreEntitySet="Accounts">
-                <ScalarProperty Name="LastPsswordChange" ColumnName="LastPsswordChange" />
-                <ScalarProperty Name="TemporaryBlockExpireDate" ColumnName="TemporaryBlockExpireDate" />
-                <ScalarProperty Name="TeporaryBlock" ColumnName="TeporaryBlock" />
-                <ScalarProperty Name="CauseOfDeactivate" ColumnName="CauseOfDeactivate" />
-                <ScalarProperty Name="Deactivate" ColumnName="Deactivate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
-                <ScalarProperty Name="PartimeTeacher" ColumnName="PartimeTeacher" />
-                <ScalarProperty Name="AccountHash" ColumnName="AccountHash" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Pic" ColumnName="Pic" />
-                <ScalarProperty Name="AccountsRoleId" ColumnName="AccountsRoleId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="LoginIdentity" ColumnName="LoginIdentity" />
-                <ScalarProperty Name="DepartmentSection" ColumnName="DepartmentSection" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="TeleExchange" ColumnName="TeleExchange" />
-                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1947,6 +1904,33 @@
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="LastPsswordChange" ColumnName="LastPsswordChange" />
+                <ScalarProperty Name="TemporaryBlockExpireDate" ColumnName="TemporaryBlockExpireDate" />
+                <ScalarProperty Name="TeporaryBlock" ColumnName="TeporaryBlock" />
+                <ScalarProperty Name="CauseOfDeactivate" ColumnName="CauseOfDeactivate" />
+                <ScalarProperty Name="Deactivate" ColumnName="Deactivate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="PartimeTeacher" ColumnName="PartimeTeacher" />
+                <ScalarProperty Name="AccountHash" ColumnName="AccountHash" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Pic" ColumnName="Pic" />
+                <ScalarProperty Name="AccountsRoleId" ColumnName="AccountsRoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginIdentity" ColumnName="LoginIdentity" />
+                <ScalarProperty Name="DepartmentSection" ColumnName="DepartmentSection" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="TeleExchange" ColumnName="TeleExchange" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
