@@ -32,7 +32,6 @@ namespace PauFacultyPortal.Models
         public virtual DbSet<AccountMetaInformation> AccountMetaInformations { get; set; }
         public virtual DbSet<AccountMetaProfessional> AccountMetaProfessionals { get; set; }
         public virtual DbSet<AccountReferenceLinktable> AccountReferenceLinktables { get; set; }
-        public virtual DbSet<CourseForDepartment> CourseForDepartments { get; set; }
         public virtual DbSet<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
         public virtual DbSet<CourseStatu> CourseStatus { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
@@ -42,10 +41,11 @@ namespace PauFacultyPortal.Models
         public virtual DbSet<Section> Sections { get; set; }
         public virtual DbSet<SemesterInfo> SemesterInfoes { get; set; }
         public virtual DbSet<Semester> Semesters { get; set; }
-        public virtual DbSet<StudentIdentification> StudentIdentifications { get; set; }
         public virtual DbSet<StudentInfo> StudentInfoes { get; set; }
         public virtual DbSet<TeacherDesignation> TeacherDesignations { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<CourseForDepartment> CourseForDepartments { get; set; }
+        public virtual DbSet<StudentIdentification> StudentIdentifications { get; set; }
     }
 }

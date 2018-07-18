@@ -42,7 +42,7 @@ namespace PauFacultyPortal.Models
         public string LastPsswordChange { get; set; }
         public bool SuspendedByProbation { get; set; }
         public int StudentGroupId { get; set; }
-        public Nullable<System.Guid> StudentGuid { get; set; }
+        public string StudentGuid { get; set; }
         public string AcademicRecordFile { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

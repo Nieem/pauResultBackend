@@ -34,9 +34,9 @@ namespace PauFacultyPortal.Models
         public Nullable<System.DateTime> ResubmitDate { get; set; }
         public bool NonCreditMarkSubmit { get; set; }
     
-        public virtual CourseForDepartment CourseForDepartment { get; set; }
         public virtual GradingSystem GradingSystem { get; set; }
         public virtual Semester Semester { get; set; }
         public virtual Teacher Teacher { get; set; }
+        public virtual CourseForDepartment CourseForDepartment { get; set; }
     }
 }

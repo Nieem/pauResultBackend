@@ -8,13 +8,14 @@ namespace PauFacultyPortal.ViewModel
 {
     public class ResponseModel
     {
-        public ResponseModel(object data = null, bool isSuccess = false, string messege = "", Exception exception = null)
+        public ResponseModel(object data = null, bool isSuccess = true, string messege = "", Exception exception = null)
         {
 
             this.Data = data;
             this.Exception = exception;
             this.Message = messege;
-            this.Exception = exception;
+            this.IsSuccess = isSuccess;
+
         }
 
         public Exception Exception { get; set; }

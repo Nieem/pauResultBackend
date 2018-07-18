@@ -33,6 +33,8 @@ namespace PauFacultyPortal.Models
         public string Note { get; set; }
         public int GradingSystemId { get; set; }
         public string Remarks { get; set; }
+        public string EffectiveBatch { get; set; }
+        public string EndBatch { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -14,12 +14,12 @@ namespace PauFacultyPortal.Server.Controllers
         ProfileService service = new ProfileService();
 
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(string LoginId)
         {
             ResponseModel response = new ResponseModel();
             try
             {
-                List<ProfileViewModel> models = service.GetProfileInfo();
+                List<ProfileViewModel> models = service.GetProfileInfo(LoginId);
                 response = new ResponseModel(models, true, "", null);
 
             }
