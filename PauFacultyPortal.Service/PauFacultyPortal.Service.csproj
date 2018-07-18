@@ -40,7 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PauFacultyPortal.Models\PauFacultyPortal.Models.csproj">
+      <Project>{F926C49F-DFE9-48F5-8FB4-7417F688C3F1}</Project>
+      <Name>PauFacultyPortal.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PauFacultyPortal.ViewModel\PauFacultyPortal.ViewModel.csproj">
+      <Project>{D7DF93A8-2802-4078-94FF-3EE0F1189EA9}</Project>
+      <Name>PauFacultyPortal.ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
