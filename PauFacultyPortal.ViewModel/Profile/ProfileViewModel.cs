@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PauFacultyPortal.ViewModel
+namespace PauFacultyPortal.ViewModel.Profile
 {
     public class ProfileViewModel
     {
@@ -48,12 +46,12 @@ namespace PauFacultyPortal.ViewModel
 
         //====================== Metainformation=====================================
 
-        public List<ProfileMetainfoViewModel> ProfileMetainformation { get; set; }
+        public ProfileMetainfoViewModel ProfileMetainformation { get; set; }
 
 
         //======================  MetaProfessional ====================================\
         public List<ProfileMetaProfesionalViewModel> ProfileMetaProfessional { get; set; }
 
-
+        
     }
 }

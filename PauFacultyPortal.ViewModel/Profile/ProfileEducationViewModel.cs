@@ -1,4 +1,10 @@
-﻿namespace PauFacultyPortal.ViewModel
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PauFacultyPortal.ViewModel.Profile
 {
     public class ProfileEducationViewModel
     {

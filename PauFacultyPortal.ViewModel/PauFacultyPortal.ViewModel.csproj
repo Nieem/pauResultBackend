@@ -49,12 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProfileEducationViewModel.cs" />
-    <Compile Include="ProfileMetainfoViewModel.cs" />
-    <Compile Include="ProfileMetaProfesionalViewModel.cs" />
-    <Compile Include="ProfileProfesionalActivityViewModel.cs" />
-    <Compile Include="ProfileProjectViewModel.cs" />
-    <Compile Include="ProfileViewModel.cs" />
+    <Compile Include="Profile\ProfileEducationViewModel.cs" />
+    <Compile Include="Profile\ProfileMetainfoViewModel.cs" />
+    <Compile Include="Profile\ProfileMetaProfesionalViewModel.cs" />
+    <Compile Include="Profile\ProfileProfesionalActivityViewModel.cs" />
+    <Compile Include="Profile\ProfileProjectViewModel.cs" />
+    <Compile Include="Profile\ProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseModel.cs" />
   </ItemGroup>

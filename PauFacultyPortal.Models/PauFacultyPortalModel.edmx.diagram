@@ -5,9 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5e9e944bd0744b53bc11531919ec35c3" Name="Diagram1" ZoomLevel="86">
-        <EntityTypeShape EntityType="PauFacultyPortalModel.AccountExtEducation" Width="1.5" PointX="15" PointY="13" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.AccountExtEducation" Width="2.375" PointX="15" PointY="13" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.AccountExtProfessionalActivity" Width="1.5" PointX="15" PointY="9.375" />
-        <EntityTypeShape EntityType="PauFacultyPortalModel.AccountExtProject" Width="1.5" PointX="15" PointY="5.5" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.AccountExtProject" Width="2.375" PointX="15" PointY="5.5" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.AccountExtPublication" Width="1.5" PointX="15" PointY="1.625" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.AccountMetaInformation" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.AccountMetaProfessional" Width="1.5" PointX="12.75" PointY="7.25" />

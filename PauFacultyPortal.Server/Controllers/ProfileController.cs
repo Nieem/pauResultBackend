@@ -1,5 +1,6 @@
 ﻿using PauFacultyPortal.Service;
 using PauFacultyPortal.ViewModel;
+using PauFacultyPortal.ViewModel.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
