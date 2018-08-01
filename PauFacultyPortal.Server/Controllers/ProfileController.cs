@@ -16,12 +16,15 @@ namespace PauFacultyPortal.Server.Controllers
 
         [HttpGet]
         public IHttpActionResult Get(string LoginId)
-        {
+         {
+            ProfileViewModel profile = new ProfileViewModel();
             ResponseModel response = new ResponseModel();
             try
             {
-                List<ProfileViewModel> models = service.GetProfileInfo(LoginId);
-                response = new ResponseModel(models, true, "", null);
+                 profile = service.GetProfileInfo(LoginId);
+
+                response = new ResponseModel(profile, true, "", null);
+               // HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, models);
 
             }
             catch (Exception exception)

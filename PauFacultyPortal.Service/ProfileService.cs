@@ -9,10 +9,10 @@ namespace PauFacultyPortal.Service
     public class ProfileService
     {
         PauFacultyPortalEntities _db = new PauFacultyPortalEntities();
-        public List<ProfileViewModel> GetProfileInfo(string userId)
+        public ProfileViewModel GetProfileInfo(string userId)
         {
             List<ProfileViewModel> list = new List<ProfileViewModel>();
-
+            ProfileViewModel modelProfile = new ProfileViewModel();
             if (!string.IsNullOrEmpty(userId))
             {
 
@@ -133,7 +133,7 @@ namespace PauFacultyPortal.Service
                     }
 
 
-                    ProfileViewModel model = new ProfileViewModel()
+                    modelProfile = new ProfileViewModel()
                     {
                         AccountId = accountList.AccountId,
                         Name = accountList.Name,
@@ -164,13 +164,13 @@ namespace PauFacultyPortal.Service
                     };
 
 
-                    list.Add(model);
+                   // list.Add(model);
                 }
 
             }
 
 
-            return list;
+            return modelProfile;
         }
 
     }
