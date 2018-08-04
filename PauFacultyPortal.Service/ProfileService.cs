@@ -9,7 +9,7 @@ namespace PauFacultyPortal.Service
     public class ProfileService
     {
         PauFacultyPortalEntities _db = new PauFacultyPortalEntities();
-        public ProfileViewModel GetProfileInfo(string userId)
+        public List<ProfileViewModel> GetProfileInfo(string userId)
         {
             List<ProfileViewModel> list = new List<ProfileViewModel>();
             ProfileViewModel modelProfile = new ProfileViewModel();
@@ -164,13 +164,13 @@ namespace PauFacultyPortal.Service
                     };
 
 
-                   // list.Add(model);
+                     list.Add(modelProfile);
                 }
 
             }
 
 
-            return modelProfile;
+            return list;
         }
 
     }
