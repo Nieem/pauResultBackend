@@ -1,6 +1,6 @@
-﻿using PauFacultyPortal.Service;
+﻿using PauFacultyPortal.Service.Semester;
 using PauFacultyPortal.ViewModel;
-using PauFacultyPortal.ViewModel.Profile;
+using PauFacultyPortal.ViewModel.Semester;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +10,19 @@ using System.Web.Http;
 
 namespace PauFacultyPortal.Server.Controllers
 {
-    public class ProfileController : ApiController
+    public class SemesterController : ApiController
     {
-        ProfileService service = new ProfileService();
-
-        [HttpGet]
-        public IHttpActionResult Get(string LoginId)
-         {
-            ProfileViewModel profile = new ProfileViewModel();
+        SemesterService service = new SemesterService();
+        public IHttpActionResult Get()
+        {
+            SemesterViewModel semester = new SemesterViewModel();
             ResponseModel response = new ResponseModel();
             try
             {
-                 profile = service.GetProfileInfo(LoginId);
-                response = new ResponseModel(profile, true, "", null);
+               int teacherID = 47;
+               List<SemesterViewModel> semesters = service.GetSemesters(teacherID);
+
+                response = new ResponseModel(semesters, true, "", null);
 
             }
             catch (Exception exception)
@@ -30,6 +30,7 @@ namespace PauFacultyPortal.Server.Controllers
 
                 response = new ResponseModel(null, false, "Error Found", exception);
             }
+
 
             return Ok(response);
         }
