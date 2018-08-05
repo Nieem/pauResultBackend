@@ -13,26 +13,27 @@ namespace PauFacultyPortal.Server.Controllers
     public class SemesterController : ApiController
     {
         SemesterService service = new SemesterService();
-        public IHttpActionResult Get()
+        public List<SemesterViewModel> Get()
         {
             SemesterViewModel semester = new SemesterViewModel();
             ResponseModel response = new ResponseModel();
+            List<SemesterViewModel> semesters = new List<SemesterViewModel>();
             try
             {
-               int teacherID = 47;
-               List<SemesterViewModel> semesters = service.GetSemesters(teacherID);
+                string userID = "140073"; 
+                semesters = service.GetSemesters(userID);
 
-                response = new ResponseModel(semesters, true, "", null);
+                //response = new ResponseModel(semesters, true, "", null);
 
             }
             catch (Exception exception)
             {
 
-                response = new ResponseModel(null, false, "Error Found", exception);
+                //response = new ResponseModel(null, false, "Error Found", exception);
             }
 
 
-            return Ok(response);
+            return semesters;
         }
     }
 }

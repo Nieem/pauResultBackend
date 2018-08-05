@@ -12,42 +12,47 @@ namespace PauFacultyPortal.Service.Semester
     {
 
         PauFacultyPortalEntities _db = new PauFacultyPortalEntities();
-        public List<SemesterViewModel> GetSemesters(int teacherId)
+        public List<SemesterViewModel> GetSemesters(string userID)
         {
             List<SemesterViewModel> modelList = new List<SemesterViewModel>();
-
-            if (teacherId > 0)
+            if (!string.IsNullOrEmpty(userID))
             {
-                var semesters = from sem in _db.Semesters
-                                join secSem in _db.Sections
-                                on sem.SemesterId equals secSem.SemesterId
-                                where secSem.TeacherId == teacherId
-                                select new
-                                {
-                                    semesterID = sem.SemesterId,
-                                    semesterName = sem.SemesterNYear,
-                                    semesterIsActive = sem.ActiveSemester
 
-                                };
+                var accountList = _db.Accounts.Where(x => x.LoginIdentity == userID).FirstOrDefault();
+                var TeacherId = _db.Teachers.Where(x => x.LoginId == accountList.LoginIdentity).FirstOrDefault().TeacherId;
 
-                var orderBySemester = semesters.Distinct().OrderByDescending(x => x.semesterID);
-
-                foreach (var item in orderBySemester.ToList())
+                if (TeacherId > 0)
                 {
-                    SemesterViewModel model = new SemesterViewModel();
-                    model = new SemesterViewModel()
-                    {
-                        SemesterID = item.semesterID,
-                        SemesterName = item.semesterName,
-                        ActiveSemester = item.semesterIsActive
-                    };
+                    var semesters = from sem in _db.Semesters
+                                    join secSem in _db.Sections
+                                    on sem.SemesterId equals secSem.SemesterId
+                                    where secSem.TeacherId == TeacherId
+                                    select new
+                                    {
+                                        semesterID = sem.SemesterId,
+                                        semesterName = sem.SemesterNYear,
+                                        semesterIsActive = sem.ActiveSemester
 
-                    modelList.Add(model);
+                                    };
+
+                    var orderBySemester = semesters.Distinct().OrderByDescending(x => x.semesterID);
+
+                    foreach (var item in orderBySemester.ToList())
+                    {
+                        SemesterViewModel model = new SemesterViewModel();
+                        model = new SemesterViewModel()
+                        {
+                            SemesterID = item.semesterID,
+                            SemesterName = item.semesterName,
+                            ActiveSemester = item.semesterIsActive
+                        };
+
+                        modelList.Add(model);
+
+                    }
 
                 }
-
             }
-
             return modelList;
         }
     }
