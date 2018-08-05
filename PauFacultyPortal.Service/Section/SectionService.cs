@@ -82,6 +82,65 @@ namespace PauFacultyPortal.Service.Section
 
         }
 
+        public List<SectionStudentsViewModel> GetSectionWiseStudents(int SectionID, string userID)
+        {
+            List<SectionStudentsViewModel> modelList = new List<SectionStudentsViewModel>();
+
+            if ((!string.IsNullOrEmpty(userID)) && SectionID > 0)
+            {
+
+                var accountList = _db.Accounts.Where(x => x.LoginIdentity == userID).FirstOrDefault();
+                var teacherInfo = _db.Teachers.Where(x => x.LoginId == accountList.LoginIdentity).FirstOrDefault();
+                int SectionWiseStudentCount = teacherInfo == null ? 0 : _db.CourseForStudentsAcademics.Where(x => x.SectionId == SectionID).Count();
+
+                if (SectionWiseStudentCount > 0)
+                {
+
+                    var result = (from crsAcademic in _db.CourseForStudentsAcademics
+                                 join std in _db.StudentIdentifications on crsAcademic.StudentIdentificationId equals std.StudentIdentificationId
+                                 join stdInfo in _db.StudentInfoes on std.StudentId equals stdInfo.StudentId
+                                 where crsAcademic.SectionId == SectionID
+                                  select new
+                                 {
+                                     StudentID = stdInfo.StudentId,
+                                     StudentName = stdInfo.StudentName,
+                                     LetterGrade = crsAcademic.LetterGrade,
+                                     Grade = crsAcademic.Grade,
+                                     ConfirmLetterGrade = crsAcademic.LetterGrade,
+                                     ConfirmGrade = crsAcademic.Grade
+
+
+                                 }).OrderByDescending(x=>x.StudentID);
+
+
+                    foreach (var item in result.ToList())
+                    {
+                        var model = new SectionStudentsViewModel()
+                        {
+                            StudentID = item.StudentID,
+                            StudentName = item.StudentName,
+                            LetterGrade = item.LetterGrade,
+                            Grade= item.Grade,
+                            ConfirmLetterGrade = item.ConfirmLetterGrade,
+                            ConfirmGrade = item.ConfirmGrade
+                            
+
+
+                        };
+
+                        modelList.Add(model);
+                    }
+                }
+
+
+            }
+
+            return modelList;
+        }
+
+
+
+
 
     }
 }

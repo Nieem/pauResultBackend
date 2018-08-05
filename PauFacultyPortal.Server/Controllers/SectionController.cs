@@ -21,8 +21,7 @@ namespace PauFacultyPortal.Server.Controllers
             //try
             //{
             // List<ProfileViewModel>
-            //string userID = "180049"; 
-              string userID = "140073"; 
+            string userID = "140073";
             List<SectionListViewModel> models = service.GetSections(SemesterID, userID);
             // response = new ResponseModel(models, true, "", null);
 
@@ -37,5 +36,34 @@ namespace PauFacultyPortal.Server.Controllers
             //return Ok(response);
             return models;
         }
+
+        [HttpGet]
+        public List<SectionStudentsViewModel> GetSectionStudent(int SectionID)
+        {
+
+
+            //ResponseModel response = new ResponseModel();
+            //try
+            //{
+            // List<ProfileViewModel>
+            string userID = "140073";
+            List<SectionStudentsViewModel> models = service.GetSectionWiseStudents(SectionID, userID);
+            // response = new ResponseModel(models, true, "", null);
+
+            //}
+            //catch (Exception exception)
+            //{
+
+            //    response = new ResponseModel(null, false, "Error Found", exception);
+            //}
+
+
+            //return Ok(response);
+            return models;
+
+        }
+
+
+
     }
 }
