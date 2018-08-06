@@ -32,7 +32,7 @@ namespace PauFacultyPortal.Service.Section
                                   sec.TeacherId == teacherInfo.TeacherId && sem.SemesterId == SemesterCode
                                   select new
                                   {
-                                      SectionID = sec.SemesterId,
+                                      SectionID = sec.SectionId,
                                       SectionName = sec.SectionName,
                                       CourseCode = crsDept.CourseCode,
                                       CourseName = crsDept.CourseName,
@@ -97,33 +97,40 @@ namespace PauFacultyPortal.Service.Section
                 {
 
                     var result = (from crsAcademic in _db.CourseForStudentsAcademics
-                                 join std in _db.StudentIdentifications on crsAcademic.StudentIdentificationId equals std.StudentIdentificationId
-                                 join stdInfo in _db.StudentInfoes on std.StudentId equals stdInfo.StudentId
-                                 where crsAcademic.SectionId == SectionID
+                                  join std in _db.StudentIdentifications on crsAcademic.StudentIdentificationId equals std.StudentIdentificationId
+                                  join stdInfo in _db.StudentInfoes on std.StudentId equals stdInfo.StudentId
+                                  join sec in _db.Sections on crsAcademic.SectionId equals sec.SectionId
+                                  where  crsAcademic.SemesterId == sec.SemesterId && 
+                                  crsAcademic.CourseForDepartmentId == sec.CourseForDepartmentId && crsAcademic.SectionId == SectionID 
                                   select new
-                                 {
+                                  {
+                                      SectionID = SectionID,
                                      StudentID = stdInfo.StudentId,
-                                     StudentName = stdInfo.StudentName,
-                                     LetterGrade = crsAcademic.LetterGrade,
-                                     Grade = crsAcademic.Grade,
-                                     ConfirmLetterGrade = crsAcademic.LetterGrade,
-                                     ConfirmGrade = crsAcademic.Grade
+                                      StudentName = stdInfo.StudentName,
+                                      LetterGrade = crsAcademic.LetterGrade,
+                                      Grade = crsAcademic.Grade,
+                                      ConfirmLetterGrade = crsAcademic.LetterGrade,
+                                      ConfirmGrade = crsAcademic.Grade,
+                                      HightLight = sec.HighLight
 
 
-                                 }).OrderByDescending(x=>x.StudentID);
+
+                                  }).OrderByDescending(x => x.StudentID);
 
 
                     foreach (var item in result.ToList())
                     {
                         var model = new SectionStudentsViewModel()
                         {
+                            SectionID = item.SectionID,
                             StudentID = item.StudentID,
                             StudentName = item.StudentName,
                             LetterGrade = item.LetterGrade,
-                            Grade= item.Grade,
+                            Grade = item.Grade,
                             ConfirmLetterGrade = item.ConfirmLetterGrade,
-                            ConfirmGrade = item.ConfirmGrade
-                            
+                            ConfirmGrade = item.ConfirmGrade,
+                            HighLight = item.HightLight
+
 
 
                         };

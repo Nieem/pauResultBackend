@@ -8,6 +8,7 @@ namespace PauFacultyPortal.ViewModel.Section
 {
     public class SectionStudentsViewModel
     {
+        public int SectionID { get; set; }
         public string StudentID { get; set; }
         public string StudentName { get; set; }
 
@@ -19,6 +20,10 @@ namespace PauFacultyPortal.ViewModel.Section
         public string ConfirmLetterGrade { get; set; }
 
         public double ConfirmGrade { get; set; }
+
+        public bool HighLight { get; set; }
+
+       
 
 
     }
