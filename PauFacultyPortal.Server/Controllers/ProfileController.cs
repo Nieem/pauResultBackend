@@ -15,23 +15,25 @@ namespace PauFacultyPortal.Server.Controllers
         ProfileService service = new ProfileService();
 
         [HttpGet]
-        public IHttpActionResult Get(string LoginId)
+        public List<ProfileViewModel> Get(string LoginId)
         {
-            ResponseModel response = new ResponseModel();
-            try
-            {
-                List<ProfileViewModel> models = service.GetProfileInfo(LoginId);
-                response = new ResponseModel(models, true, "", null);
+            //ResponseModel response = new ResponseModel();
+            //try
+            //{
+            // List<ProfileViewModel>
+            List<ProfileViewModel> models = service.GetProfileInfo(LoginId);
+            // response = new ResponseModel(models, true, "", null);
 
-            }
-            catch (Exception exception)
-            {
+            //}
+            //catch (Exception exception)
+            //{
 
-                response = new ResponseModel(null, false, "Error Found", exception);
-            }
+            //    response = new ResponseModel(null, false, "Error Found", exception);
+            //}
 
 
-            return Ok(response);
+            //return Ok(response);
+            return models;
         }
     }
 }

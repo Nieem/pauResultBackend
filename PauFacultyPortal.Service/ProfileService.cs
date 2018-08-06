@@ -12,7 +12,7 @@ namespace PauFacultyPortal.Service
         public List<ProfileViewModel> GetProfileInfo(string userId)
         {
             List<ProfileViewModel> list = new List<ProfileViewModel>();
-
+            ProfileViewModel modelProfile = new ProfileViewModel();
             if (!string.IsNullOrEmpty(userId))
             {
 
@@ -133,7 +133,7 @@ namespace PauFacultyPortal.Service
                     }
 
 
-                    ProfileViewModel model = new ProfileViewModel()
+                    modelProfile = new ProfileViewModel()
                     {
                         AccountId = accountList.AccountId,
                         Name = accountList.Name,
@@ -164,7 +164,7 @@ namespace PauFacultyPortal.Service
                     };
 
 
-                    list.Add(model);
+                     list.Add(modelProfile);
                 }
 
             }
