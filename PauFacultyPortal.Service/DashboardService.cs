@@ -99,15 +99,31 @@ namespace PauFacultyPortal.Service
                 }
 
                 List<LinechartViewModel> Linechart = new List<LinechartViewModel>();
-                var allchartData = _db.Notifications.ToList();
-                                  
-                //foreach (var crt in allchartData)
-                //{
-                //    LinechartViewModel linchart = new LinechartViewModel()
-                //    {
-                //    };
-                //    allchartData.Add(linchart);
-                //}
+                var allchartData = (from cs in _db.CourseForStudentsAcademics
+                                    join st in _db.Sections on cs.SectionId equals st.SectionId
+                                    join tc in _db.Teachers on st.TeacherId equals tc.TeacherId
+                                    join sm in _db.Semesters on cs.SemesterId equals sm.SemesterId
+                                    where tc.LoginId == userId
+                                    select new
+                                    {
+                                        sm.SemesterNYear,
+                                    });
+                var chartdatas = allchartData.GroupBy(x => new { x.SemesterNYear})
+                                      .Select(res => new
+                                      {
+                                          SemesterNYear = res.FirstOrDefault().SemesterNYear,                                       
+                                          totalStudents = res.Count()
+                                      });
+
+                foreach (var nt in chartdatas.ToList())
+                {
+                    LinechartViewModel ntmodel = new LinechartViewModel()
+                    {
+                        SemesterNYear = nt.SemesterNYear,
+                        totalStudents = nt.totalStudents
+                    };
+                    Linechart.Add(ntmodel);
+                }
 
                 DashboardViewModel model = new DashboardViewModel()
                     {
@@ -125,7 +141,7 @@ namespace PauFacultyPortal.Service
                         leftMarksupload = leftMarksupload,
                         totalenrolled = totalenrolled,
                         DashboardNotifications = notifications,
-                      //  LinechartDatas = allchartData
+                        LinechartDatas = Linechart
                 };
 
                 list.Add(model);
@@ -135,4 +151,21 @@ namespace PauFacultyPortal.Service
 
 
     }
-}   
+}
+
+//----------------------------------------
+//-------------------------------------------
+//   SELECT COUNT(sm.SemesterNYear) as total, SemesterNYear FROM[UmsDb2_4_0_055].[dbo].[CourseForStudentsAcademics] as cs
+//join[UmsDb2_4_0_055].[dbo].[Sections] as s on s.SectionId = cs.SectionId
+//join[UmsDb2_4_0_055].[dbo].[Teachers] as t on s.TeacherId = t.TeacherId
+//join[UmsDb2_4_0_055].[dbo].[Semesters] as sm on cs.SemesterId = sm.SemesterId
+//where t.LoginId = 140055
+//group by sm.SemesterNYear
+//-------------------------------------------              
+//foreach (var crt in allchartData)
+//{
+//    LinechartViewModel linchart = new LinechartViewModel()
+//    {
+//    };
+//    allchartData.Add(linchart);
+//}
