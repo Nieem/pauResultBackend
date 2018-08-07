@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dashboard\DashboardViewModel.cs" />
+    <Compile Include="Dashboard\LinechartViewModel.cs" />
+    <Compile Include="Dashboard\NotificationViewModel.cs" />
     <Compile Include="Profile\ProfileEducationViewModel.cs" />
     <Compile Include="Profile\ProfileMetainfoViewModel.cs" />
     <Compile Include="Profile\ProfileMetaProfesionalViewModel.cs" />

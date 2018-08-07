@@ -20,10 +20,10 @@ namespace PauFacultyPortal.Service
                 var accountList = _db.Accounts.Where(x => x.LoginIdentity == userId).FirstOrDefault();
                 string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + accountList.LoginIdentity.ToString() + ".jpg&type=1";
 
-                  int presentSemester = (from ss in _db.Semesters
-                                          where ss.CourseAdvising.Equals(true) select ss).FirstOrDefault().SemesterId;
+                  //int presentSemester = (from ss in _db.Semesters
+                  //                        where ss.CourseAdvising.Equals(true) select ss).FirstOrDefault().SemesterId;
 
-                   // int presentSemester = 46;
+                    int presentSemester = 46;
                    int teacher_id = (from th in _db.Teachers where th.LoginId == userId select th).FirstOrDefault().TeacherId;
 
                 var currentSectns = (from sc in _db.Sections
@@ -70,13 +70,44 @@ namespace PauFacultyPortal.Service
                                            mk.CourseForStudentsAcademicId
                                        }).Count();
 
-                var totalenrolled = (from std in _db.StudentIdentifications
-                                     where std.SemesterId == presentSemester 
-                                     // && std.DepartmentId == 1
+                var totalenrolled = (from cs in _db.CourseForStudentsAcademics
+                                     join st in _db.Sections on cs.SectionId equals st.SectionId
+                                     join tc in _db.Teachers on st.TeacherId equals tc.TeacherId                                    
+                                     where tc.LoginId == userId
                                      select new
                                      {
-                                         std.StudentIdentificationId
+                                         cs.CourseForStudentsAcademicId
                                      }).Count();
+
+                List<NotificationViewModel> notifications = new List<NotificationViewModel>();
+                var allnotifications = _db.Notifications.ToList();
+
+                foreach (var nt in allnotifications)
+                {
+                    NotificationViewModel ntmodel = new NotificationViewModel()
+                    {
+                       notification_id =  nt.notification_id,
+                        title = nt.title,
+                        description = nt.description,
+                        from_date = nt.from_date,
+                        to_date = nt.to_date,
+                        AccountsRoleId = nt.AccountsRoleId,
+                        created_by = nt.created_by
+
+                    };
+                    notifications.Add(ntmodel);
+                }
+
+                List<LinechartViewModel> Linechart = new List<LinechartViewModel>();
+                var allchartData = _db.Notifications.ToList();
+                                  
+                //foreach (var crt in allchartData)
+                //{
+                //    LinechartViewModel linchart = new LinechartViewModel()
+                //    {
+                //    };
+                //    allchartData.Add(linchart);
+                //}
 
                 DashboardViewModel model = new DashboardViewModel()
                     {
@@ -92,12 +123,16 @@ namespace PauFacultyPortal.Service
                         currentSectionCount = currentSectnCount,
                         completeMarksUpload = completeMarksUpld,
                         leftMarksupload = leftMarksupload,
-                        totalenrolled = totalenrolled
+                        totalenrolled = totalenrolled,
+                        DashboardNotifications = notifications,
+                      //  LinechartDatas = allchartData
                 };
 
                 list.Add(model);
             }
                 return list; 
         }
+
+
     }
 }   

@@ -37,16 +37,10 @@ namespace PauFacultyPortal.ViewModel.Dashboard
         public int StudentId { set; get; }
         //---------------------- semester
         public int ActiveSemester { set; get; }
-        
 
-        //----------- notification
-        public int notification_id { set; get; }
-        public string title { set; get; }
-        public string description { set; get; }
-        public DateTime from_date { set; get; }
-        public DateTime to_date { set; get; }
-        public int AccountsRoleId { set; get; }
-        public int created_by { set; get; }
-        public DateTime create_date { set; get; }
+        //--------------- notification  ------------------------------------
+        public List<NotificationViewModel> DashboardNotifications { get; set; }
+        public List<LinechartViewModel> LinechartDatas { get; set; }
+
     }
 }
