@@ -2,6 +2,7 @@
 using PauFacultyPortal.ViewModel.Section;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace PauFacultyPortal.Service.Section
 {
@@ -82,6 +83,46 @@ namespace PauFacultyPortal.Service.Section
 
         }
 
+        public int UpdateStuentResult(SectionStudentsViewModel student)
+        {
+
+           var studentIdentificationID = _db.StudentIdentifications
+                .Where(x => x.StudentId == student.StudentID).FirstOrDefault().StudentIdentificationId;
+
+            var entity = _db.CourseForStudentsAcademics
+                .Where(x => x.SectionId == student.SectionID && x.StudentIdentificationId == studentIdentificationID).FirstOrDefault();
+
+            double courseCredit = _db.CourseForDepartments
+                .Where(x => x.CourseForDepartmentId == entity.CourseForDepartmentId).FirstOrDefault().Credit;
+
+            double totalGrade = courseCredit * student.Grade;
+
+            entity.Grade = student.Grade;
+
+          
+
+
+
+
+
+
+
+
+
+            return 0;
+        }
+
+        public bool CheckStudentEntity(SectionStudentsViewModel students)
+        {
+
+            var studentIdentificationID = _db.StudentIdentifications.Where(x => x.StudentId == students.StudentID).FirstOrDefault().StudentIdentificationId;
+
+            var entity = _db.CourseForStudentsAcademics.Where(x => x.SectionId == students.SectionID && x.StudentIdentificationId == studentIdentificationID && students.HighLight == true);
+
+            bool check = entity == null ? false : true;
+            return check;
+        }
+
         public List<SectionStudentsViewModel> GetSectionWiseStudents(int SectionID, string userID)
         {
             List<SectionStudentsViewModel> modelList = new List<SectionStudentsViewModel>();
@@ -100,12 +141,12 @@ namespace PauFacultyPortal.Service.Section
                                   join std in _db.StudentIdentifications on crsAcademic.StudentIdentificationId equals std.StudentIdentificationId
                                   join stdInfo in _db.StudentInfoes on std.StudentId equals stdInfo.StudentId
                                   join sec in _db.Sections on crsAcademic.SectionId equals sec.SectionId
-                                  where  crsAcademic.SemesterId == sec.SemesterId && 
-                                  crsAcademic.CourseForDepartmentId == sec.CourseForDepartmentId && crsAcademic.SectionId == SectionID 
+                                  where crsAcademic.SemesterId == sec.SemesterId &&
+                                  crsAcademic.CourseForDepartmentId == sec.CourseForDepartmentId && crsAcademic.SectionId == SectionID
                                   select new
                                   {
                                       SectionID = SectionID,
-                                     StudentID = stdInfo.StudentId,
+                                      StudentID = stdInfo.StudentId,
                                       StudentName = stdInfo.StudentName,
                                       LetterGrade = crsAcademic.LetterGrade,
                                       Grade = crsAcademic.Grade,

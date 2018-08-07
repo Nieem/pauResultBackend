@@ -29,6 +29,7 @@ namespace PauFacultyPortal.Server.Controllers
             catch (Exception exception)
             {
 
+                response.Exception = exception;
                 //response = new ResponseModel(null, false, "Error Found", exception);
             }
 
