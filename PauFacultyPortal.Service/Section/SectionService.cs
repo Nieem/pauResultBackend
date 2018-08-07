@@ -172,8 +172,6 @@ namespace PauFacultyPortal.Service.Section
                             ConfirmGrade = item.ConfirmGrade,
                             HighLight = item.HightLight
 
-
-
                         };
 
                         modelList.Add(model);
