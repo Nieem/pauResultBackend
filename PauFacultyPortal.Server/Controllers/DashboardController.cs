@@ -14,6 +14,7 @@ namespace PauFacultyPortal.Server.Controllers
     public class DashboardController:ApiController
     {
         DashboardService service = new DashboardService();
+
         [HttpGet]
         public IHttpActionResult Get(string LoginId)
         {

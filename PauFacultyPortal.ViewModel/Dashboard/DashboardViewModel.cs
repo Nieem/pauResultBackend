@@ -42,5 +42,7 @@ namespace PauFacultyPortal.ViewModel.Dashboard
         public List<NotificationViewModel> DashboardNotifications { get; set; }
         public List<LinechartViewModel> LinechartDatas { get; set; }
 
+        public List<BarChartViewModel> BarChartData { get; set; }
+
     }
 }

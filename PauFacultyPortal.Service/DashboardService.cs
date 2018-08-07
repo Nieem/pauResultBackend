@@ -20,20 +20,20 @@ namespace PauFacultyPortal.Service
                 var accountList = _db.Accounts.Where(x => x.LoginIdentity == userId).FirstOrDefault();
                 string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + accountList.LoginIdentity.ToString() + ".jpg&type=1";
 
-                  //int presentSemester = (from ss in _db.Semesters
-                  //                        where ss.CourseAdvising.Equals(true) select ss).FirstOrDefault().SemesterId;
+                //int presentSemester = (from ss in _db.Semesters
+                //                        where ss.CourseAdvising.Equals(true) select ss).FirstOrDefault().SemesterId;
 
-                    int presentSemester = 46;
-                   int teacher_id = (from th in _db.Teachers where th.LoginId == userId select th).FirstOrDefault().TeacherId;
+                int presentSemester = 46;
+                int teacher_id = (from th in _db.Teachers where th.LoginId == userId select th).FirstOrDefault().TeacherId;
 
                 var currentSectns = (from sc in _db.Sections
                                      join sm in _db.Semesters on sc.SemesterId equals sm.SemesterId
                                      join t in _db.Teachers on sc.TeacherId equals t.TeacherId
-                                  
+
                                      where t.TeacherId == teacher_id && sm.CourseAdvising == true && sc.SemesterId == presentSemester
                                      && t.LoginId == userId
                                      select sc.SectionId).ToArray();
-                                       
+
                 var currentSectnCount = currentSectns.Count();
 
                 var Totalsectioncount = (from st in _db.Sections
@@ -44,8 +44,8 @@ namespace PauFacultyPortal.Service
                                              st.SectionId
                                          }).Count();
 
-             //   List<int> enrolled = new List<int>();    
-              string  currentSectionArray = string.Join(",", currentSectns.ToArray());
+                //   List<int> enrolled = new List<int>();    
+                string currentSectionArray = string.Join(",", currentSectns.ToArray());
 
                 // var result = from x in collection where new [] {1,2,3}.Contains(x) select x;
                 //var result = from x in _db.CourseForStudentsAcademics where currentSectns.Contains(x.SectionId) select x;
@@ -54,16 +54,16 @@ namespace PauFacultyPortal.Service
                 var result = from x in _db.CourseForStudentsAcademics.Where(s => currentSectionArray.Contains(s.SectionId.ToString())) select x;  // where currentSectns.Contains(x.SectionId) select x;
 
                 var completeMarksUpld = (from mk in _db.CourseForStudentsAcademics
-                                         join ss in _db.Sections on mk.SectionId equals ss.SectionId                                        
-                                           where ss.TeacherId == teacher_id && ss.SemesterId == presentSemester && mk.LetterGrade != null
-                                           select new
-                                           {
-                                               mk.CourseForStudentsAcademicId
-                                           }).Count();
+                                         join ss in _db.Sections on mk.SectionId equals ss.SectionId
+                                         where ss.TeacherId == teacher_id && ss.SemesterId == presentSemester && mk.LetterGrade != null
+                                         select new
+                                         {
+                                             mk.CourseForStudentsAcademicId
+                                         }).Count();
 
                 // //SectionId(x => x.SectionId).Except(currentSectns.Select(x =>
                 var leftMarksupload = (from mk in _db.CourseForStudentsAcademics
-                                       join ss in _db.Sections on mk.SectionId equals ss.SectionId                                      
+                                       join ss in _db.Sections on mk.SectionId equals ss.SectionId
                                        where ss.TeacherId == teacher_id && ss.SemesterId == presentSemester && mk.LetterGrade == null
                                        select new
                                        {
@@ -72,7 +72,7 @@ namespace PauFacultyPortal.Service
 
                 var totalenrolled = (from cs in _db.CourseForStudentsAcademics
                                      join st in _db.Sections on cs.SectionId equals st.SectionId
-                                     join tc in _db.Teachers on st.TeacherId equals tc.TeacherId                                    
+                                     join tc in _db.Teachers on st.TeacherId equals tc.TeacherId
                                      where tc.LoginId == userId
                                      select new
                                      {
@@ -86,7 +86,7 @@ namespace PauFacultyPortal.Service
                 {
                     NotificationViewModel ntmodel = new NotificationViewModel()
                     {
-                       notification_id =  nt.notification_id,
+                        notification_id = nt.notification_id,
                         title = nt.title,
                         description = nt.description,
                         from_date = nt.from_date,
@@ -108,10 +108,10 @@ namespace PauFacultyPortal.Service
                                     {
                                         sm.SemesterNYear,
                                     });
-                var chartdatas = allchartData.GroupBy(x => new { x.SemesterNYear})
+                var chartdatas = allchartData.GroupBy(x => new { x.SemesterNYear })
                                       .Select(res => new
                                       {
-                                          SemesterNYear = res.FirstOrDefault().SemesterNYear,                                       
+                                          SemesterNYear = res.FirstOrDefault().SemesterNYear,
                                           totalStudents = res.Count()
                                       });
 
@@ -125,28 +125,64 @@ namespace PauFacultyPortal.Service
                     Linechart.Add(ntmodel);
                 }
 
-                DashboardViewModel model = new DashboardViewModel()
+
+                List<BarChartViewModel> barChartList = new List<BarChartViewModel>();
+
+                var barChart = (from sec in _db.Sections
+                                join crd in _db.CourseForDepartments on sec.CourseForDepartmentId equals crd.CourseForDepartmentId
+                                join sem in _db.Semesters on sec.SemesterId equals sem.SemesterId
+                                join tc in _db.Teachers on sec.TeacherId equals tc.TeacherId
+                                where tc.LoginId == userId
+                                select new
+                                {
+                                    sem.SemesterNYear,
+                                });
+                var barChartModel = barChart.GroupBy(x => new { x.SemesterNYear })
+                                     .Select(res => new
+                                     {
+                                         SemesterNYear = res.FirstOrDefault().SemesterNYear,
+                                         totalCourse = res.Count()
+                                     });
+                foreach (var item in barChartModel)
+                {
+                    BarChartViewModel barChartItem = new BarChartViewModel()
                     {
-                        AccountId = accountList.AccountId,
-                        Name = accountList.Name,
-              
-                        PhoneNo = accountList.PhoneNo,
-                        TeleExchange = accountList.TeleExchange,
-                        Designation = accountList.Designation,
-                        DepartmentSection = accountList.DepartmentSection,
-                        Pic = userpic,
-                        TotalSections = Totalsectioncount,
-                        currentSectionCount = currentSectnCount,
-                        completeMarksUpload = completeMarksUpld,
-                        leftMarksupload = leftMarksupload,
-                        totalenrolled = totalenrolled,
-                        DashboardNotifications = notifications,
-                        LinechartDatas = Linechart
+                        SemesterNYear = item.SemesterNYear,
+                        totalCourse = item.totalCourse
+
+                    };
+
+                    barChartList.Add(barChartItem);
+
+                }
+
+
+
+
+
+                DashboardViewModel model = new DashboardViewModel()
+                {
+                    AccountId = accountList.AccountId,
+                    Name = accountList.Name,
+
+                    PhoneNo = accountList.PhoneNo,
+                    TeleExchange = accountList.TeleExchange,
+                    Designation = accountList.Designation,
+                    DepartmentSection = accountList.DepartmentSection,
+                    Pic = userpic,
+                    TotalSections = Totalsectioncount,
+                    currentSectionCount = currentSectnCount,
+                    completeMarksUpload = completeMarksUpld,
+                    leftMarksupload = leftMarksupload,
+                    totalenrolled = totalenrolled,
+                    DashboardNotifications = notifications,
+                    LinechartDatas = Linechart,
+
                 };
 
                 list.Add(model);
             }
-                return list; 
+            return list;
         }
 
 
