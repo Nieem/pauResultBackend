@@ -63,8 +63,34 @@ namespace PauFacultyPortal.Server.Controllers
 
         }
 
+        [HttpPut]
+        public HttpResponseMessage Put([FromBody]SectionStudentsViewModel students)
+        {
 
-        
+            try
+            {
+                var CheckStudent = service.CheckStudentEntity(students);
+
+                if (CheckStudent)
+                {
+                    int result = service.UpdateStuentResult(students);
+                    return result > 0 ? Request.CreateResponse(HttpStatusCode.OK, students) : Request.CreateResponse(HttpStatusCode.NotModified, students);
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Request Information Not Found");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+
+
+        }
+
 
 
 
