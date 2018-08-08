@@ -20,10 +20,9 @@ namespace PauFacultyPortal.Service
                 var accountList = _db.Accounts.Where(x => x.LoginIdentity == userId).FirstOrDefault();
                 string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + accountList.LoginIdentity.ToString() + ".jpg&type=1";
 
-                //int presentSemester = (from ss in _db.Semesters
-                //                        where ss.CourseAdvising.Equals(true) select ss).FirstOrDefault().SemesterId;
+                int presentSemester = (from ss in _db.Semesters
+                                        where ss.CourseAdvising.Equals(true) select ss).FirstOrDefault().SemesterId;
 
-                int presentSemester = 46;
                 int teacher_id = (from th in _db.Teachers where th.LoginId == userId select th).FirstOrDefault().TeacherId;
 
                 var currentSectns = (from sc in _db.Sections
@@ -149,15 +148,10 @@ namespace PauFacultyPortal.Service
                     {
                         SemesterNYear = item.SemesterNYear,
                         totalCourse = item.totalCourse
-
                     };
 
                     barChartList.Add(barChartItem);
-
                 }
-
-
-
 
 
                 DashboardViewModel model = new DashboardViewModel()
@@ -177,7 +171,7 @@ namespace PauFacultyPortal.Service
                     totalenrolled = totalenrolled,
                     DashboardNotifications = notifications,
                     LinechartDatas = Linechart,
-
+                    BarChartData = barChartList
                 };
 
                 list.Add(model);

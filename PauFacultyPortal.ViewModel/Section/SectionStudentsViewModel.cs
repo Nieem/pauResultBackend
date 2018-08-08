@@ -32,7 +32,7 @@ namespace PauFacultyPortal.ViewModel.Section
 
         public bool HighLight { get; set; }
 
-       
+       public bool MarkSubmitFinal { get; set; }
 
 
     }

@@ -53,8 +53,6 @@ namespace PauFacultyPortal.Service.Section
                                            SemesterCode = res.FirstOrDefault().SemesterCode,
                                            SemesterName = res.FirstOrDefault().SemesterName,
                                            EnrollStudent = res.Count()
-
-
                                        });
 
 
@@ -75,12 +73,8 @@ namespace PauFacultyPortal.Service.Section
                         modelList.Add(model);
                     }
                 }
-
-
             }
-
             return modelList;
-
         }
 
         public int UpdateStuentResult(SectionStudentsViewModel student)
@@ -171,7 +165,7 @@ namespace PauFacultyPortal.Service.Section
                             ConfirmLetterGrade = item.ConfirmLetterGrade,
                             ConfirmGrade = item.ConfirmGrade,
                             HighLight = item.HightLight
-
+                          //  MarkSubmitFinal = 
                         };
 
                         modelList.Add(model);
