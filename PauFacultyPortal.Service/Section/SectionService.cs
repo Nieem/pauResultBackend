@@ -93,15 +93,6 @@ namespace PauFacultyPortal.Service.Section
 
             entity.Grade = student.Grade;
 
-          
-
-
-
-
-
-
-
-
 
             return 0;
         }
@@ -135,6 +126,7 @@ namespace PauFacultyPortal.Service.Section
                                   join std in _db.StudentIdentifications on crsAcademic.StudentIdentificationId equals std.StudentIdentificationId
                                   join stdInfo in _db.StudentInfoes on std.StudentId equals stdInfo.StudentId
                                   join sec in _db.Sections on crsAcademic.SectionId equals sec.SectionId
+                                  join sem in _db.Semesters on crsAcademic.SemesterId equals sem.SemesterId
                                   where crsAcademic.SemesterId == sec.SemesterId &&
                                   crsAcademic.CourseForDepartmentId == sec.CourseForDepartmentId && crsAcademic.SectionId == SectionID
                                   select new
@@ -146,10 +138,12 @@ namespace PauFacultyPortal.Service.Section
                                       Grade = crsAcademic.Grade,
                                       ConfirmLetterGrade = crsAcademic.LetterGrade,
                                       ConfirmGrade = crsAcademic.Grade,
-                                      HightLight = sec.HighLight
-
-
-
+                                      HightLight = sec.HighLight,
+                                      MarkSubmitFinal = crsAcademic.MarkSubmitFinal,
+                                      ConfirmSubmitByFaculty = sec.ConfirmSubmitByFaculty,
+                                      FinalTerm = sem.FinalTerm,
+                                      SpecialGradeuploadDeadLine = sem.SpecialGradeuploadDeadLine
+                                      
                                   }).OrderByDescending(x => x.StudentID);
 
 
@@ -164,23 +158,20 @@ namespace PauFacultyPortal.Service.Section
                             Grade = item.Grade,
                             ConfirmLetterGrade = item.ConfirmLetterGrade,
                             ConfirmGrade = item.ConfirmGrade,
-                            HighLight = item.HightLight
-                          //  MarkSubmitFinal = 
+                            HighLight = item.HightLight,
+                            MarkSubmitFinal = item.MarkSubmitFinal,
+                            FinalTerm = item.FinalTerm,
+                            SpecialGradeuploadDeadLine = item.SpecialGradeuploadDeadLine,
+                            ConfirmSubmitByFaculty = item.ConfirmSubmitByFaculty
                         };
 
                         modelList.Add(model);
                     }
                 }
-
-
             }
 
             return modelList;
         }
-
-
-
-
 
     }
 }

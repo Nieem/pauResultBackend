@@ -32,7 +32,10 @@ namespace PauFacultyPortal.ViewModel.Section
 
         public bool HighLight { get; set; }
 
-       public bool MarkSubmitFinal { get; set; }
+       public bool? MarkSubmitFinal { get; set; }
+        public bool? FinalTerm { get; set; }
+        public DateTime? SpecialGradeuploadDeadLine { get; set; }
+        public bool? ConfirmSubmitByFaculty { get; set; }
 
 
     }

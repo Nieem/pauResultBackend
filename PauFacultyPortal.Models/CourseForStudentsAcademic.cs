@@ -44,11 +44,11 @@ namespace PauFacultyPortal.Models
         public bool FirstScrutinized { get; set; }
         public bool SecondScrutinized { get; set; }
         public bool SuspendedForProbation { get; set; }
+        public Nullable<bool> MarkSubmitFinal { get; set; }
     
         public virtual CourseStatu CourseStatu { get; set; }
         public virtual GradingSystem GradingSystem { get; set; }
         public virtual Semester Semester { get; set; }
-        public virtual CourseForDepartment CourseForDepartment { get; set; }
         public virtual StudentIdentification StudentIdentification { get; set; }
     }
 }

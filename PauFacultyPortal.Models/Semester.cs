@@ -17,8 +17,8 @@ namespace PauFacultyPortal.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Semester()
         {
-            this.CourseForStudentsAcademics = new HashSet<CourseForStudentsAcademic>();
             this.Sections = new HashSet<Section>();
+            this.CourseForStudentsAcademics = new HashSet<CourseForStudentsAcademic>();
         }
     
         public int SemesterId { get; set; }
@@ -39,10 +39,10 @@ namespace PauFacultyPortal.Models
         public Nullable<System.DateTime> AdmissionEndDate { get; set; }
         public bool PublishResult { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Section> Sections { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
     }
 }

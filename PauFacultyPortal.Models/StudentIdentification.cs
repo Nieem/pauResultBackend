@@ -45,9 +45,9 @@ namespace PauFacultyPortal.Models
         public string StudentGuid { get; set; }
         public string AcademicRecordFile { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
         public virtual School School { get; set; }
         public virtual SemesterInfo SemesterInfo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
     }
 }
