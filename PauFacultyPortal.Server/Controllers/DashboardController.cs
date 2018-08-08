@@ -16,21 +16,22 @@ namespace PauFacultyPortal.Server.Controllers
         DashboardService service = new DashboardService();
 
         [HttpGet]
-        public IHttpActionResult Get(string LoginId)
+        public List<DashboardViewModel> Get(string LoginId)
         {
-            ResponseModel response = new ResponseModel();
-            try
-            {
+            //ResponseModel response = new ResponseModel();
+            //try
+            //{
                 List<DashboardViewModel> models = service.GetDashboardProfileInfo(LoginId);
-                response = new ResponseModel(models, true, "", null);
-            }
-            catch (Exception exception)
-            {
+            //    response = new ResponseModel(models, true, "", null);
+            //}
+            //catch (Exception exception)
+            //{
 
-                response = new ResponseModel(null, false, "Error Found", exception);
-            }
+            //    response = new ResponseModel(null, false, "Error Found", exception);
+            //}
 
-            return Ok(response);
+            //return Ok(response);
+            return models;
         }
     }
 }

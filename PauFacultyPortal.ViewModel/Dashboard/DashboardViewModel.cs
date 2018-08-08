@@ -23,6 +23,7 @@ namespace PauFacultyPortal.ViewModel.Dashboard
         public int completeMarksUpload { set; get; }
         public int leftMarksupload { set; get; }
         public int totalenrolled { set; get; }
+        public int Currentenrolled { set; get; }
         public bool CourseAdvising { set; get; }
         public int LoginId { set; get; }
         public int TeacherId { set; get; }

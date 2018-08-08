@@ -20,8 +20,8 @@ namespace PauFacultyPortal.Service
                 var accountList = _db.Accounts.Where(x => x.LoginIdentity == userId).FirstOrDefault();
                 string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + accountList.LoginIdentity.ToString() + ".jpg&type=1";
 
-                int presentSemester = (from ss in _db.Semesters
-                                        where ss.CourseAdvising.Equals(true) select ss).FirstOrDefault().SemesterId;
+                  int presentSemester = (from ss in _db.Semesters
+                                         where ss.CourseAdvising.Equals(true) select ss).FirstOrDefault().SemesterId;
 
                 int teacher_id = (from th in _db.Teachers where th.LoginId == userId select th).FirstOrDefault().TeacherId;
 
@@ -41,17 +41,8 @@ namespace PauFacultyPortal.Service
                                          select new
                                          {
                                              st.SectionId
-                                         }).Count();
-
-                //   List<int> enrolled = new List<int>();    
-                string currentSectionArray = string.Join(",", currentSectns.ToArray());
-
-                // var result = from x in collection where new [] {1,2,3}.Contains(x) select x;
-                //var result = from x in _db.CourseForStudentsAcademics where currentSectns.Contains(x.SectionId) select x;
-                //dataSource.StateList.Where(s => countryCodes.Contains(s.CountryCode))
-
-                var result = from x in _db.CourseForStudentsAcademics.Where(s => currentSectionArray.Contains(s.SectionId.ToString())) select x;  // where currentSectns.Contains(x.SectionId) select x;
-
+                                         }).Count();   
+              
                 var completeMarksUpld = (from mk in _db.CourseForStudentsAcademics
                                          join ss in _db.Sections on mk.SectionId equals ss.SectionId
                                          where ss.TeacherId == teacher_id && ss.SemesterId == presentSemester && mk.LetterGrade != null
@@ -60,7 +51,7 @@ namespace PauFacultyPortal.Service
                                              mk.CourseForStudentsAcademicId
                                          }).Count();
 
-                // //SectionId(x => x.SectionId).Except(currentSectns.Select(x =>
+          
                 var leftMarksupload = (from mk in _db.CourseForStudentsAcademics
                                        join ss in _db.Sections on mk.SectionId equals ss.SectionId
                                        where ss.TeacherId == teacher_id && ss.SemesterId == presentSemester && mk.LetterGrade == null
@@ -77,6 +68,15 @@ namespace PauFacultyPortal.Service
                                      {
                                          cs.CourseForStudentsAcademicId
                                      }).Count();
+
+                var Currentenrolled = (from cs in _db.CourseForStudentsAcademics
+                                       join st in _db.Sections on cs.SectionId equals st.SectionId
+                                       join tc in _db.Teachers on st.TeacherId equals tc.TeacherId
+                                       where tc.LoginId == userId && cs.SemesterId == presentSemester
+                                       select new
+                                       {
+                                           cs.CourseForStudentsAcademicId
+                                       }).Count();
 
                 List<NotificationViewModel> notifications = new List<NotificationViewModel>();
                 var allnotifications = _db.Notifications.ToList();
@@ -169,6 +169,7 @@ namespace PauFacultyPortal.Service
                     completeMarksUpload = completeMarksUpld,
                     leftMarksupload = leftMarksupload,
                     totalenrolled = totalenrolled,
+                    Currentenrolled = Currentenrolled,
                     DashboardNotifications = notifications,
                     LinechartDatas = Linechart,
                     BarChartData = barChartList
