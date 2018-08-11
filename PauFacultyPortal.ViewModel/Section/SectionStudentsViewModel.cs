@@ -32,11 +32,24 @@ namespace PauFacultyPortal.ViewModel.Section
 
         public bool HighLight { get; set; }
 
-       public bool? MarkSubmitFinal { get; set; }
+       public bool? SpecialMarkSubmit { get; set; }
         public bool? FinalTerm { get; set; }
         public DateTime? SpecialGradeuploadDeadLine { get; set; }
         public bool? ConfirmSubmitByFaculty { get; set; }
 
+        //=========================== Coursefor StudentAcademic  Added by Asma, 09-08-2018 =======================
+        public int CourseForStudentsAcademicId { get; set; }
+        public int StudentIdentificationId { get; set; }
+        public int SemesterId { get; set; }
+        public double TotalGrade { get; set; }
+        public int CourseStatusId { get; set; }
+        public int SectionId { get; set; }
+        // ,[PaymentRegistrationId]
+        // ,[GradingSystemId]
+        // ,[ReferenceCourseId]
+        // ,[WithHelded]
+        //  ,[ReportedCase]
+        //  ,[Remarks]
 
     }
 }

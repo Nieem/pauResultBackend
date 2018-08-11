@@ -198,7 +198,7 @@
           <Property Name="FirstScrutinized" Type="bit" Nullable="false" />
           <Property Name="SecondScrutinized" Type="bit" Nullable="false" />
           <Property Name="SuspendedForProbation" Type="bit" Nullable="false" />
-          <Property Name="MarkSubmitFinal" Type="bit" />
+          <Property Name="SpecialMarkSubmit" Type="bit" />
         </EntityType>
         <EntityType Name="CourseStatus">
           <Key>
@@ -818,7 +818,7 @@
             <End Role="StudentIdentification" EntitySet="StudentIdentifications" />
             <End Role="CourseForStudentsAcademic" EntitySet="CourseForStudentsAcademics" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="AccountExtEducation">
           <Key>
             <PropertyRef Name="AccountExtEducationId" />
@@ -1421,7 +1421,7 @@
           <Property Name="FirstScrutinized" Type="Boolean" Nullable="false" />
           <Property Name="SecondScrutinized" Type="Boolean" Nullable="false" />
           <Property Name="SuspendedForProbation" Type="Boolean" Nullable="false" />
-          <Property Name="MarkSubmitFinal" Type="Boolean" />
+          <Property Name="SpecialMarkSubmit" Type="Boolean" />
           <NavigationProperty Name="CourseStatu" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId" FromRole="CourseForStudentsAcademic" ToRole="CourseStatu" />
           <NavigationProperty Name="GradingSystem" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" FromRole="CourseForStudentsAcademic" ToRole="GradingSystem" />
           <NavigationProperty Name="Semester" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" FromRole="CourseForStudentsAcademic" ToRole="Semester" />
@@ -1859,7 +1859,7 @@
           <EntitySetMapping Name="CourseForStudentsAcademics">
             <EntityTypeMapping TypeName="PauFacultyPortalModel.CourseForStudentsAcademic">
               <MappingFragment StoreEntitySet="CourseForStudentsAcademics">
-                <ScalarProperty Name="MarkSubmitFinal" ColumnName="MarkSubmitFinal" />
+                <ScalarProperty Name="SpecialMarkSubmit" ColumnName="SpecialMarkSubmit" />
                 <ScalarProperty Name="SuspendedForProbation" ColumnName="SuspendedForProbation" />
                 <ScalarProperty Name="SecondScrutinized" ColumnName="SecondScrutinized" />
                 <ScalarProperty Name="FirstScrutinized" ColumnName="FirstScrutinized" />

@@ -1,8 +1,8 @@
 ﻿using PauFacultyPortal.Models;
 using PauFacultyPortal.ViewModel.Section;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace PauFacultyPortal.Service.Section
 {
@@ -86,15 +86,22 @@ namespace PauFacultyPortal.Service.Section
             var entity = _db.CourseForStudentsAcademics
                 .Where(x => x.SectionId == student.SectionID && x.StudentIdentificationId == studentIdentificationID).FirstOrDefault();
 
+            var entitySection = _db.Sections
+                .Where(x => x.SectionId == student.SectionID).FirstOrDefault();
+
             double courseCredit = _db.CourseForDepartments
                 .Where(x => x.CourseForDepartmentId == entity.CourseForDepartmentId).FirstOrDefault().Credit;
 
             double totalGrade = courseCredit * student.Grade;
 
-            entity.Grade = student.Grade;
+            entity.Grade = courseCredit;
+            entity.LetterGrade = student.LetterGrade;
+            entity.TotalGrade = student.TotalGrade;
+            //  entity.SpecialMarkSubmit = false;
+            entitySection.ConfirmSubmitByFaculty = true;
 
-
-            return 0;
+            _db.SaveChanges();
+            return 1;
         }
 
         public bool CheckStudentEntity(SectionStudentsViewModel students)
@@ -102,8 +109,19 @@ namespace PauFacultyPortal.Service.Section
 
             var studentIdentificationID = _db.StudentIdentifications.Where(x => x.StudentId == students.StudentID).FirstOrDefault().StudentIdentificationId;
 
-            var entity = _db.CourseForStudentsAcademics.Where(x => x.SectionId == students.SectionID && x.StudentIdentificationId == studentIdentificationID && students.HighLight == true);
-
+            DateTime todaydate = DateTime.Today;
+            var entity = (from cs in _db.CourseForStudentsAcademics
+                       
+                        join sc in _db.Sections on cs.SectionId equals sc.SectionId
+                        join sm in _db.Semesters on sc.SemesterId equals sm.SemesterId
+                        where (cs.SectionId == students.SectionId && cs.StudentIdentificationId == students.StudentIdentificationId && sc.HighLight == true && sc.ConfirmSubmitByFaculty == false && sc.ExpireDateTime >= todaydate)
+                        || (cs.Grade.ToString() == null && cs.SpecialMarkSubmit == true)
+                        || (sm.SpecialGradeuploadDeadLine >= todaydate && sm.FinalTerm == true && sm.ActiveSemester == true)
+                        select cs);
+            //.Join(_db.Sections, sc=>sc.SectionId,cs=>cs.SectionId,(sc,cs)=> new { SC=sc,CS=cs})
+            //.Where((x => x.SC.SectionId == students.SectionID
+            //&& x.StudentIdentificationId == studentIdentificationID
+            //&& x.HighLight == true && x.Grade == null && x.ConfirmSubmitByFaculty == false && x.) ||
             bool check = entity == null ? false : true;
             return check;
         }
@@ -121,7 +139,6 @@ namespace PauFacultyPortal.Service.Section
 
                 if (SectionWiseStudentCount > 0)
                 {
-
                     var result = (from crsAcademic in _db.CourseForStudentsAcademics
                                   join std in _db.StudentIdentifications on crsAcademic.StudentIdentificationId equals std.StudentIdentificationId
                                   join stdInfo in _db.StudentInfoes on std.StudentId equals stdInfo.StudentId
@@ -139,7 +156,7 @@ namespace PauFacultyPortal.Service.Section
                                       ConfirmLetterGrade = crsAcademic.LetterGrade,
                                       ConfirmGrade = crsAcademic.Grade,
                                       HightLight = sec.HighLight,
-                                      MarkSubmitFinal = crsAcademic.MarkSubmitFinal,
+                                      SpecialMarkSubmit = crsAcademic.SpecialMarkSubmit,
                                       ConfirmSubmitByFaculty = sec.ConfirmSubmitByFaculty,
                                       FinalTerm = sem.FinalTerm,
                                       SpecialGradeuploadDeadLine = sem.SpecialGradeuploadDeadLine
@@ -159,7 +176,7 @@ namespace PauFacultyPortal.Service.Section
                             ConfirmLetterGrade = item.ConfirmLetterGrade,
                             ConfirmGrade = item.ConfirmGrade,
                             HighLight = item.HightLight,
-                            MarkSubmitFinal = item.MarkSubmitFinal,
+                            SpecialMarkSubmit = item.SpecialMarkSubmit,
                             FinalTerm = item.FinalTerm,
                             SpecialGradeuploadDeadLine = item.SpecialGradeuploadDeadLine,
                             ConfirmSubmitByFaculty = item.ConfirmSubmitByFaculty
@@ -173,5 +190,15 @@ namespace PauFacultyPortal.Service.Section
             return modelList;
         }
 
+        //public List<SectionStudentsViewModel> Edit(int studentidentifctionID,int sectionID, string lettergrade)
+        //{              
+        //    var sectionl = _db.CourseForStudentsAcademics.Where(c=>c.StudentIdentificationId == studentidentifctionID && c.SectionId == sectionID).FirstOrDefault();
+        //    sectionl.LetterGrade = lettergrade;
+        //    sectionl.Grade = lettergrade;
+        //    sectionl.TotalGrade = lettergrade;
+        //    sectionl.MarkSubmitFinal = true;
+        //    _db.SaveChanges();
+        //    return sectionl;
+        //}
     }
 }

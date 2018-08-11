@@ -88,11 +88,7 @@ namespace PauFacultyPortal.Server.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
 
-
         }
-
-
-
 
     }
 }
