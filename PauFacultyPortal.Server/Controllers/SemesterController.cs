@@ -20,7 +20,7 @@ namespace PauFacultyPortal.Server.Controllers
             List<SemesterViewModel> semesters = new List<SemesterViewModel>();
             try
             {
-                string userID = "140073"; 
+                string userID = "140055"; 
                 semesters = service.GetSemesters(userID);
 
                 //response = new ResponseModel(semesters, true, "", null);

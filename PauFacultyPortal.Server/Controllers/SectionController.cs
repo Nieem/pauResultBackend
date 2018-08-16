@@ -21,7 +21,7 @@ namespace PauFacultyPortal.Server.Controllers
             //try
             //{
             // List<ProfileViewModel>
-            string userID = "140073";
+            string userID = "140055";
             List<SectionListViewModel> models = service.GetSections(SemesterID, userID);
             // response = new ResponseModel(models, true, "", null);
 
