@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth\UserPasswordResetViewModel.cs" />
+    <Compile Include="Auth\UserViewModel.cs" />
     <Compile Include="Dashboard\BarChartViewModel.cs" />
     <Compile Include="Dashboard\DashboardViewModel.cs" />
     <Compile Include="Dashboard\LinechartViewModel.cs" />

@@ -20,8 +20,9 @@ namespace PauFacultyPortal.Service
                 var accountList = _db.Accounts.Where(x => x.LoginIdentity == userId).FirstOrDefault();
                 string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + accountList.LoginIdentity.ToString() + ".jpg&type=1";
 
-                  int presentSemester = (from ss in _db.Semesters
-                                         where ss.CourseAdvising.Equals(true) select ss).FirstOrDefault().SemesterId;
+                int presentSemester = (from ss in _db.Semesters
+                                       where ss.CourseAdvising.Equals(true)
+                                       select ss).FirstOrDefault().SemesterId;
 
                 int teacher_id = (from th in _db.Teachers where th.LoginId == userId select th).FirstOrDefault().TeacherId;
 
@@ -41,8 +42,8 @@ namespace PauFacultyPortal.Service
                                          select new
                                          {
                                              st.SectionId
-                                         }).Count();   
-              
+                                         }).Count();
+
                 var completeMarksUpld = (from mk in _db.CourseForStudentsAcademics
                                          join ss in _db.Sections on mk.SectionId equals ss.SectionId
                                          where ss.TeacherId == teacher_id && ss.SemesterId == presentSemester && mk.LetterGrade != null
@@ -51,7 +52,7 @@ namespace PauFacultyPortal.Service
                                              mk.CourseForStudentsAcademicId
                                          }).Count();
 
-          
+
                 var leftMarksupload = (from mk in _db.CourseForStudentsAcademics
                                        join ss in _db.Sections on mk.SectionId equals ss.SectionId
                                        where ss.TeacherId == teacher_id && ss.SemesterId == presentSemester && mk.LetterGrade == null
@@ -98,6 +99,9 @@ namespace PauFacultyPortal.Service
                 }
 
                 List<LinechartViewModel> Linechart = new List<LinechartViewModel>();
+                var SemesterList = new List<string>();
+                var studentCount = new List<int>();
+
                 var allchartData = (from cs in _db.CourseForStudentsAcademics
                                     join st in _db.Sections on cs.SectionId equals st.SectionId
                                     join tc in _db.Teachers on st.TeacherId equals tc.TeacherId
@@ -113,19 +117,27 @@ namespace PauFacultyPortal.Service
                                           SemesterNYear = res.FirstOrDefault().SemesterNYear,
                                           totalStudents = res.Count()
                                       });
-
-                foreach (var nt in chartdatas.ToList())
+                foreach (var item in chartdatas.ToList())
                 {
-                    LinechartViewModel ntmodel = new LinechartViewModel()
-                    {
-                        SemesterNYear = nt.SemesterNYear,
-                        totalStudents = nt.totalStudents
-                    };
-                    Linechart.Add(ntmodel);
+                    SemesterList.Add(item.SemesterNYear);
                 }
+                foreach (var item2 in chartdatas.ToList())
+                {
+                    studentCount.Add(item2.totalStudents);
+                }
+
+                LinechartViewModel Linechartmodel = new LinechartViewModel()
+                {
+                    SemesterNYear = SemesterList,
+                    totalStudents = studentCount
+                };
+                Linechart.Add(Linechartmodel);
+
 
 
                 List<BarChartViewModel> barChartList = new List<BarChartViewModel>();
+                var CourseSemesterList = new List<string>();
+                var CourseCountList = new List<int>();
 
                 var barChart = (from sec in _db.Sections
                                 join crd in _db.CourseForDepartments on sec.CourseForDepartmentId equals crd.CourseForDepartmentId
@@ -136,22 +148,32 @@ namespace PauFacultyPortal.Service
                                 {
                                     sem.SemesterNYear,
                                 });
-                var barChartModel = barChart.GroupBy(x => new { x.SemesterNYear })
+                var barChartData = barChart.GroupBy(x => new { x.SemesterNYear })
                                      .Select(res => new
                                      {
                                          SemesterNYear = res.FirstOrDefault().SemesterNYear,
                                          totalCourse = res.Count()
                                      });
-                foreach (var item in barChartModel)
-                {
-                    BarChartViewModel barChartItem = new BarChartViewModel()
-                    {
-                        SemesterNYear = item.SemesterNYear,
-                        totalCourse = item.totalCourse
-                    };
 
-                    barChartList.Add(barChartItem);
+
+                foreach (var item in barChartData.ToList())
+                {
+                    CourseSemesterList.Add(item.SemesterNYear);
                 }
+                foreach (var item2 in barChartData.ToList())
+                {
+                    CourseCountList.Add(item2.totalCourse);
+                }
+
+
+                BarChartViewModel barChartModel = new BarChartViewModel()
+                {
+                    SemesterNYear = CourseSemesterList,
+                    totalCourse = CourseCountList
+                };
+
+                barChartList.Add(barChartModel);
+
 
 
                 DashboardViewModel model = new DashboardViewModel()

@@ -1,9 +1,13 @@
-﻿namespace PauFacultyPortal.ViewModel.Dashboard
+﻿using System;
+using System.Collections.Generic;
+
+namespace PauFacultyPortal.ViewModel.Dashboard
 {
     public class LinechartViewModel
     {
-        public string SemesterNYear { set; get; }
-        public int totalStudents { set; get; }
+        public List<string> SemesterNYear { set; get; }
+        public List<int> totalStudents { set; get; }
 
+        
     }
 }

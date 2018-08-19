@@ -158,6 +158,7 @@ namespace PauFacultyPortal.Service.Section
                                       HightLight = sec.HighLight,
                                       SpecialMarkSubmit = crsAcademic.SpecialMarkSubmit,
                                       ConfirmSubmitByFaculty = sec.ConfirmSubmitByFaculty,
+                                      ExpireDateTime = sec.ExpireDateTime,
                                       FinalTerm = sem.FinalTerm,
                                       SpecialGradeuploadDeadLine = sem.SpecialGradeuploadDeadLine
                                       
