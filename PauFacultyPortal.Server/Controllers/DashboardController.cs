@@ -15,14 +15,16 @@ namespace PauFacultyPortal.Server.Controllers
     {
         DashboardService service = new DashboardService();
 
-        [HttpGet]
+        [HttpGet]       
         public List<DashboardViewModel> Get()
         {
             //ResponseModel response = new ResponseModel();
             //try
             //{
-            var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value; 
-    
+             var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value; 
+            //var loginId = "140055";
+
+
             List<DashboardViewModel> models = loginId==null? null: service.GetDashboardProfileInfo(loginId);
 
             //    response = new ResponseModel(models, true, "", null);

@@ -8,8 +8,8 @@ namespace PauFacultyPortal.ViewModel.Dashboard
 {
     public class BarChartViewModel
     {
-        public string SemesterNYear { set; get; }
-        public int totalCourse { set; get; }
+        public List<string> SemesterNYear { set; get; }
+        public List<int> totalCourse { set; get; }
 
     }
 }
