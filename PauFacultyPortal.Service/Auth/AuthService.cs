@@ -70,6 +70,43 @@ namespace PauFacultyPortal.Service.Auth
             return result;
         }
 
+        public int ResetUserAuth(UserPasswordResetViewModel modifiedTeacher)
+        {
+            int result = 0;
+            var entity = from act in _db.Accounts.Where(x => x.AccountsRoleId == 5 && x.Deactivate == false &&
+                            x.Email == modifiedTeacher.Email && x.LoginIdentity == modifiedTeacher.LoginIdentity) select act;
+            if (entity != null)
+            {
+                entity.FirstOrDefault().Password = modifiedTeacher.Password;
+                entity.FirstOrDefault().LastPsswordChange = DateTime.Now.ToString();
+                result = _db.SaveChanges();
+            }
+            return result;
+        }
+
+        public UserViewModel CheckUserStatus(UserPasswordResetViewModel data)
+        {
+            UserViewModel result = new UserViewModel();
+            if (data != null && !string.IsNullOrEmpty(data.Email))
+            {
+                var user = from act in _db.Accounts.Where(x => x.AccountsRoleId == 5 && x.Deactivate == false &&
+                           x.Email == data.Email && x.LoginIdentity == data.LoginIdentity)
+                           select act;
+
+
+                result = new UserViewModel()
+                {
+                    Email = user.FirstOrDefault().Email,
+                    LoginIdentity = user.FirstOrDefault().LoginIdentity,
+                    Name = user.FirstOrDefault().Name,
+                    Password = user.FirstOrDefault().Password,
+                    LoginTime = DateTime.Now.ToString()
+
+                };
+            }
+            return result;
+        }
+
         public void SendMail(UserViewModel checkUser)
         {
           

@@ -58,5 +58,32 @@ namespace PauFacultyPortal.Server.Controllers
         }
 
 
+        [HttpPut]
+        [AllowAnonymous]
+        public HttpResponseMessage ResetUserPassword([FromBody] UserPasswordResetViewModel data)
+        {
+            try
+            {
+                AuthService service = new AuthService();
+                var checkStudent = service.CheckUserStatus(data);
+                if (data.Password != null)
+                {
+                    int result = service.ResetUserAuth(data);
+                    return result > 0 ? Request.CreateResponse(HttpStatusCode.OK, data) : Request.CreateResponse(HttpStatusCode.NotModified, data);
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Request Information Not Found");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+            
+        }
+
+
     }
 }

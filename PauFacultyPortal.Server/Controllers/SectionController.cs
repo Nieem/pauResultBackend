@@ -65,7 +65,7 @@ namespace PauFacultyPortal.Server.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage Put([FromBody]SectionStudentsViewModel students)
+        public HttpResponseMessage UpdateStudentData([FromBody]SectionStudentsViewModel students)
         {
 
             try
