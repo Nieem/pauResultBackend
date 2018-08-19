@@ -46,7 +46,7 @@ namespace PauFacultyPortal.Server.Controllers
             //try
             //{
             // List<ProfileViewModel>
-            string userID = "140073";
+            string userID = "140055";
             List<SectionStudentsViewModel> models = service.GetSectionWiseStudents(SectionID, userID);
             // response = new ResponseModel(models, true, "", null);
 
