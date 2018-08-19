@@ -7,7 +7,7 @@ using System.Web.Http;
 using PauFacultyPortal.Service;
 using PauFacultyPortal.ViewModel;
 using PauFacultyPortal.ViewModel.Dashboard;
-
+using System.Security.Claims;
 
 namespace PauFacultyPortal.Server.Controllers
 {
@@ -16,12 +16,15 @@ namespace PauFacultyPortal.Server.Controllers
         DashboardService service = new DashboardService();
 
         [HttpGet]
-        public List<DashboardViewModel> Get(string LoginId)
+        public List<DashboardViewModel> Get()
         {
             //ResponseModel response = new ResponseModel();
             //try
             //{
-                List<DashboardViewModel> models = service.GetDashboardProfileInfo(LoginId);
+            var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value; 
+    
+            List<DashboardViewModel> models = loginId==null? null: service.GetDashboardProfileInfo(loginId);
+
             //    response = new ResponseModel(models, true, "", null);
             //}
             //catch (Exception exception)

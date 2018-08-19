@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 
 namespace PauFacultyPortal.Server.Controllers
@@ -20,8 +21,9 @@ namespace PauFacultyPortal.Server.Controllers
             List<SemesterViewModel> semesters = new List<SemesterViewModel>();
             try
             {
-                string userID = "140055"; 
-                semesters = service.GetSemesters(userID);
+
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+                semesters = service.GetSemesters(loginId);
 
                 //response = new ResponseModel(semesters, true, "", null);
 

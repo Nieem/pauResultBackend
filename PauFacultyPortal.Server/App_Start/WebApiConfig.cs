@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
@@ -12,8 +13,8 @@ namespace PauFacultyPortal.Server
         public static void Register(HttpConfiguration config)
         {
             //cross origin 
-            ICorsPolicyProvider provider = new EnableCorsAttribute("*","*","*");
-            config.EnableCors(provider);
+           // ICorsPolicyProvider provider = new EnableCorsAttribute("*", "*", "*");
+            //config.EnableCors(provider);
 
 
             // Web API configuration and services
@@ -27,6 +28,10 @@ namespace PauFacultyPortal.Server
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Filters.Add(new AuthorizeAttribute());
+           // var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+            //jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }

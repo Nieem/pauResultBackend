@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 
 namespace PauFacultyPortal.Server.Controllers
@@ -20,9 +21,8 @@ namespace PauFacultyPortal.Server.Controllers
             //ResponseModel response = new ResponseModel();
             //try
             //{
-            // List<ProfileViewModel>
-            string userID = "140055";
-            List<SectionListViewModel> models = service.GetSections(SemesterID, userID);
+            var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+            List<SectionListViewModel> models = service.GetSections(SemesterID, loginId);
             // response = new ResponseModel(models, true, "", null);
 
             //}
@@ -46,8 +46,9 @@ namespace PauFacultyPortal.Server.Controllers
             //try
             //{
             // List<ProfileViewModel>
-            string userID = "140055";
-            List<SectionStudentsViewModel> models = service.GetSectionWiseStudents(SectionID, userID);
+
+            var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+            List<SectionStudentsViewModel> models = service.GetSectionWiseStudents(SectionID, loginId);
             // response = new ResponseModel(models, true, "", null);
 
             //}
