@@ -1,4 +1,5 @@
-﻿using PauFacultyPortal.ViewModel.Auth;
+﻿using PauFacultyPortal.Service.Auth;
+using PauFacultyPortal.ViewModel.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace PauFacultyPortal.Server.Controllers
     public class AuthController : ApiController
     {
 
-        [HttpGet]       
+        [HttpGet]
         public UserViewModel GetLoginUserInfo()
         {
 
@@ -29,5 +30,33 @@ namespace PauFacultyPortal.Server.Controllers
 
             return model;
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public HttpResponseMessage SendMail([FromBody]UserPasswordForgetViewModel data)
+        {
+            try
+            {
+                AuthService service = new AuthService();
+                UserViewModel checkUser = service.CheckUserStatus(data);
+                if (checkUser.Email != null)
+                {
+                    service.SendMail(checkUser);
+                    return Request.CreateResponse(HttpStatusCode.OK, checkUser);
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Request Information Not Found");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+
+        }
+
+
     }
 }
