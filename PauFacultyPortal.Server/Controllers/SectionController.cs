@@ -61,8 +61,8 @@ namespace PauFacultyPortal.Server.Controllers
 
                 if (CheckStudent)
                 {
-                    int result = service.UpdateStuentResult(students);
-                    return result > 0 ? Request.CreateResponse(HttpStatusCode.OK, students) : Request.CreateResponse(HttpStatusCode.NotModified, students);
+                    bool result = service.UpdateStuentResult(students);
+                    return result == true ? Request.CreateResponse(HttpStatusCode.OK, students) : Request.CreateResponse(HttpStatusCode.NotModified, students);
                 }
                 else
                 {
@@ -78,5 +78,19 @@ namespace PauFacultyPortal.Server.Controllers
 
         }
 
+        [HttpPut]
+        public HttpResponseMessage SectionMarkSubmitFinal(int sectionID)
+        {
+            try
+            {
+                bool result = service.UpdateSectionSubmitFinal(sectionID);
+                return result == true ? Request.CreateResponse(HttpStatusCode.OK, sectionID) : Request.CreateResponse(HttpStatusCode.NotModified, sectionID);
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
     }
 }
