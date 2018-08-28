@@ -41,7 +41,6 @@ namespace PauFacultyPortal.Server.Controllers
         public List<SectionStudentsViewModel> GetSectionStudent(int SectionID)
         {
 
-
             //ResponseModel response = new ResponseModel();
             //try
             //{
@@ -58,10 +57,8 @@ namespace PauFacultyPortal.Server.Controllers
             //    response = new ResponseModel(null, false, "Error Found", exception);
             //}
 
-
             //return Ok(response);
             return models;
-
         }
 
         [HttpPut]
@@ -74,8 +71,8 @@ namespace PauFacultyPortal.Server.Controllers
 
                 if (CheckStudent)
                 {
-                    int result = service.UpdateStuentResult(students);
-                    return result > 0 ? Request.CreateResponse(HttpStatusCode.OK, students) : Request.CreateResponse(HttpStatusCode.NotModified, students);
+                    bool result = service.UpdateStuentResult(students);
+                    return result == true ? Request.CreateResponse(HttpStatusCode.OK, students) : Request.CreateResponse(HttpStatusCode.NotModified, students);
                 }
                 else
                 {
@@ -89,6 +86,21 @@ namespace PauFacultyPortal.Server.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
 
+        }
+
+        [HttpPut]
+        public HttpResponseMessage SectionMarkSubmitFinal(int sectionID)
+        {
+            try
+            {
+                bool result = service.UpdateSectionSubmitFinal(sectionID);
+                return result == true ? Request.CreateResponse(HttpStatusCode.OK, sectionID) : Request.CreateResponse(HttpStatusCode.NotModified, sectionID);
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
         }
 
     }

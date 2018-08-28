@@ -77,7 +77,8 @@ namespace PauFacultyPortal.Service.Section
             return modelList;
         }
 
-        public int UpdateStuentResult(SectionStudentsViewModel student)
+        // change date: 27 aug 2018 AA
+        public bool UpdateStuentResult(SectionStudentsViewModel student)
         {
 
            var studentIdentificationID = _db.StudentIdentifications
@@ -89,19 +90,113 @@ namespace PauFacultyPortal.Service.Section
             var entitySection = _db.Sections
                 .Where(x => x.SectionId == student.SectionID).FirstOrDefault();
 
-            double courseCredit = _db.CourseForDepartments
-                .Where(x => x.CourseForDepartmentId == entity.CourseForDepartmentId).FirstOrDefault().Credit;
+            var courseCreditdata = _db.CourseForDepartments
+                .Where(x => x.CourseForDepartmentId == entity.CourseForDepartmentId).FirstOrDefault();
+            double courseCredit = courseCreditdata.Credit;
 
-            double totalGrade = courseCredit * student.Grade;
+            double Gradepoint = GradePointCalculatorByGrade(student.LetterGrade);
+            int CourseStatus = CourseStatusCalculate(student.LetterGrade);
+            double totalGrade = courseCredit * Gradepoint;
 
-            entity.Grade = courseCredit;
+            entity.Grade = Gradepoint;
             entity.LetterGrade = student.LetterGrade;
-            entity.TotalGrade = student.TotalGrade;
+            entity.TotalGrade = totalGrade;
+            entity.CourseStatusId = CourseStatus;
+            entity.SectionId = student.SectionId;
+            entity.GradingSystemId = ((courseCreditdata.CourseType).ToUpper() == "CORE") ? 1 : ((courseCreditdata.CourseType).ToUpper() == "LAB") ? 2 : 3; 
+
+           // _db.SaveChanges();
+            return _db.SaveChanges() > 0;
+        }
+
+        //  change date: 27 aug 2018 AA
+        public bool UpdateSectionSubmitFinal(int sectionID)
+        {
+            var entitySection = _db.Sections.Where(x => x.SectionId == sectionID).FirstOrDefault();
             //  entity.SpecialMarkSubmit = false;
             entitySection.ConfirmSubmitByFaculty = true;
+            entitySection.HighLight = false;
+            return _db.SaveChanges() > 0;
+        }
+        // create date: 27 aug 2018 AA
+        public double GradePointCalculatorByGrade(string Grade)
+        {
+            String grade = Grade;
+           // char grade = Convert.ToChar(Grade);
+            double gradepoint = 0.0;
+            switch (grade)
+            {
+                case "A+":
+                    gradepoint = 4.00;
+                    break;
+                case "A":
+                    gradepoint = 3.75;
+                    break;
+                case "A-":
+                    gradepoint = 3.50;
+                    break;
+                case "B+":
+                    gradepoint = 3.25;
+                    break;
+                case "B":
+                    gradepoint = 3.00;
+                    break;
+                case "B-":
+                    gradepoint = 2.75;
+                    break;
+                case "C+":
+                    gradepoint = 2.50;
+                    break;
+                case "C":
+                    gradepoint = 2.25;
+                    break;
+                case "D":
+                    gradepoint = 2.00;
+                    break;
+                case "W":
+                    gradepoint = 0.00;
+                    break;
+                case "F":
+                    gradepoint = 0.00;
+                    break;
+                //P4-W  NCP NCF I
+                //case "NCP":
+                //    gradepoint = 0.00;
+                //    break;
+                default:
+                    gradepoint = 0.00;
+                    break;
+            }
+            return gradepoint;
 
-            _db.SaveChanges();
-            return 1;
+        }
+
+        // create date: 27 aug 2018 AA
+        public int CourseStatusCalculate(string Grade)
+        {
+            int CorseStatus = 0;
+            switch(Grade)
+            {
+                case "F":
+                    CorseStatus = 7;// 2, 5, 7
+                    break;
+                case "P4-W":
+                    CorseStatus = 9;
+                    break;
+                case "W":
+                    CorseStatus = 4;
+                    break;
+                case "NCF":
+                    CorseStatus = 7;
+                    break;
+                case "NCP":
+                    CorseStatus = 7;
+                    break;
+                default:
+                    CorseStatus = 2;
+                    break;
+            }
+            return CorseStatus;
         }
 
         public bool CheckStudentEntity(SectionStudentsViewModel students)
