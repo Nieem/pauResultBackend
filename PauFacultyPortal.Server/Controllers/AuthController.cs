@@ -14,21 +14,29 @@ namespace PauFacultyPortal.Server.Controllers
     {
 
         [HttpGet]
-        public UserViewModel GetLoginUserInfo()
+        public HttpResponseMessage GetLoginUserInfo()
         {
-
-            var ClaimsClass = (ClaimsIdentity)User.Identity;
-            IEnumerable<Claim> items = ClaimsClass.Claims;
-            UserViewModel model = new UserViewModel()
+            try
             {
-                Name = ClaimsClass.FindFirst("Name").Value,
-                LoginIdentity = ClaimsClass.FindFirst("LoginID").Value,
-                Password = ClaimsClass.FindFirst("Password").Value,
-                Email = ClaimsClass.FindFirst("Email").Value,
-                LoginTime = ClaimsClass.FindFirst("LoginTime").Value,
-            };
+                var ClaimsClass = (ClaimsIdentity)User.Identity;
+                IEnumerable<Claim> items = ClaimsClass.Claims;
+                UserViewModel model = new UserViewModel()
+                {
+                    Name = ClaimsClass.FindFirst("Name").Value,
+                    LoginIdentity = ClaimsClass.FindFirst("LoginID").Value,
+                    Password = ClaimsClass.FindFirst("Password").Value,
+                    Email = ClaimsClass.FindFirst("Email").Value,
+                    LoginTime = ClaimsClass.FindFirst("LoginTime").Value,
+                };
+                return model != null ? Request.CreateResponse(HttpStatusCode.OK, model) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                    "User does not exist");
+            }
+            catch (Exception ex)
+            {
 
-            return model;
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+           
         }
 
         [HttpPost]
@@ -39,7 +47,7 @@ namespace PauFacultyPortal.Server.Controllers
             {
                 AuthService service = new AuthService();
                 UserViewModel checkUser = service.CheckUserStatus(data);
-                if (checkUser.Email != null)
+                if (checkUser.Email != null && (checkUser.Email == data.Email))
                 {
                     service.SendMail(checkUser);
                     return Request.CreateResponse(HttpStatusCode.OK, checkUser);
@@ -59,14 +67,13 @@ namespace PauFacultyPortal.Server.Controllers
 
 
         [HttpPut]
-        [AllowAnonymous]
         public HttpResponseMessage ResetUserPassword([FromBody] UserPasswordResetViewModel data)
         {
             try
             {
                 AuthService service = new AuthService();
-                var checkStudent = service.CheckUserStatus(data);
-                if (data.Password != null)
+                var checkUser = service.CheckUserStatus(data);
+                if (checkUser.Email != null && (data.Password == data.ConfirmPassword))
                 {
                     int result = service.ResetUserAuth(data);
                     return result > 0 ? Request.CreateResponse(HttpStatusCode.OK, data) : Request.CreateResponse(HttpStatusCode.NotModified, data);
@@ -81,7 +88,7 @@ namespace PauFacultyPortal.Server.Controllers
 
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-            
+
         }
 
 

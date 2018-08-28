@@ -41,96 +41,119 @@ namespace PauFacultyPortal.Service
 
 
                     List<ProfileEducationViewModel> educationModelList = new List<ProfileEducationViewModel>();
-
-                    foreach (var educationItem in educationList)
+                    if (educationList != null)
                     {
-                        ProfileEducationViewModel education = new ProfileEducationViewModel()
+                        foreach (var educationItem in educationList)
                         {
+                            ProfileEducationViewModel education = new ProfileEducationViewModel()
+                            {
 
-                            AccountExtEducationId = educationItem.AccountExtEducationId,
-                            NameOfExamination = educationItem.NameOfExamination,
-                            PassingYear = educationItem.NameOfExamination,
-                            Result = educationItem.Result,
-                            StartingSession = educationItem.Result,
-                            SubjectStudied = educationItem.SubjectStudied,
-                            UniversityBoard = educationItem.UniversityBoard
-                        };
+                                AccountExtEducationId = educationItem.AccountExtEducationId,
+                                NameOfExamination = educationItem.NameOfExamination,
+                                PassingYear = educationItem.NameOfExamination,
+                                Result = educationItem.Result,
+                                StartingSession = educationItem.Result,
+                                SubjectStudied = educationItem.SubjectStudied,
+                                UniversityBoard = educationItem.UniversityBoard
+                            };
 
 
-                        educationModelList.Add(education);
+                            educationModelList.Add(education);
+                        }
                     }
 
 
+                    ProfileMetainfoViewModel ProfileMetainfoModel = new ProfileMetainfoViewModel();
 
-                    ProfileMetainfoViewModel ProfileMetainfoModel = new ProfileMetainfoViewModel()
+                    if (metaInfoItem != null)
                     {
+                         ProfileMetainfoModel = new ProfileMetainfoViewModel()
+                        {
 
-                        AccountMetaInformationId = metaInfoItem.AccountMetaInformationId,
-                        FatherName = metaInfoItem.FatherName,
-                        MothersName = metaInfoItem.MothersName,
-                        MaritalStatusId = metaInfoItem.MaritalStatusId,
-                        SpouceName = metaInfoItem.SpouceName,
-                        BloodGroupsId = metaInfoItem.BloodGroupsId,
-                        GenderId = metaInfoItem.GenderId,
-                        CurrentAddress = metaInfoItem.CurrentAddress,
-                        PermanentAddress = metaInfoItem.PermanentAddress,
-                        DateOfBirth = metaInfoItem.DateOfBirth,
-                        JoiningDateTime = metaInfoItem.JoiningDateTime
+                            AccountMetaInformationId = metaInfoItem.AccountMetaInformationId,
+                            FatherName = metaInfoItem.FatherName,
+                            MothersName = metaInfoItem.MothersName,
+                            MaritalStatusId = metaInfoItem.MaritalStatusId,
+                            SpouceName = metaInfoItem.SpouceName,
+                            BloodGroupsId = metaInfoItem.BloodGroupsId,
+                            GenderId = metaInfoItem.GenderId,
+                            CurrentAddress = metaInfoItem.CurrentAddress,
+                            PermanentAddress = metaInfoItem.PermanentAddress,
+                            DateOfBirth = metaInfoItem.DateOfBirth,
+                            JoiningDateTime = metaInfoItem.JoiningDateTime
 
-                    };
+                        };
+
+                    }
+
+
+                    
 
 
                     List<ProfileMetaProfesionalViewModel> metaProfessionalList = new List<ProfileMetaProfesionalViewModel>();
 
-                    foreach (var mpItem in metaProfessionals)
+                    if (metaProfessionals != null)
                     {
-                        ProfileMetaProfesionalViewModel metaProfessionalmodel = new ProfileMetaProfesionalViewModel()
+                        foreach (var mpItem in metaProfessionals)
                         {
+                            ProfileMetaProfesionalViewModel metaProfessionalmodel = new ProfileMetaProfesionalViewModel()
+                            {
 
-                            AccountMetaProfessionalId = mpItem.AccountMetaProfessionalId,
-                            BackGround = mpItem.BackGround,
-                            MediaContriBution = mpItem.MediaContriBution,
-                            PhdSuperVision = mpItem.PhdSuperVision,
-                            Publication = mpItem.Publication,
-                            ResearchInterest = mpItem.ResearchInterest
-                        };
+                                AccountMetaProfessionalId = mpItem.AccountMetaProfessionalId,
+                                BackGround = mpItem.BackGround,
+                                MediaContriBution = mpItem.MediaContriBution,
+                                PhdSuperVision = mpItem.PhdSuperVision,
+                                Publication = mpItem.Publication,
+                                ResearchInterest = mpItem.ResearchInterest
+                            };
 
-                        metaProfessionalList.Add(metaProfessionalmodel);
+                            metaProfessionalList.Add(metaProfessionalmodel);
 
+                        }
                     }
+                    
 
                     List<ProfileProfesionalActivityViewModel> profesionalActivityList = new List<ProfileProfesionalActivityViewModel>();
-
-                    foreach (var paItem in professionalActivities)
+                    if (professionalActivities  != null)
                     {
-                        ProfileProfesionalActivityViewModel paModel = new ProfileProfesionalActivityViewModel()
+                        foreach (var paItem in professionalActivities)
                         {
-                            AccountExtProfessionalActivityId = paItem.AccountExtProfessionalActivityId,
-                            AttendType = paItem.AttendType,
-                            DateOfActivity = paItem.DateOfActivity,
-                            Description = paItem.Description,
-                            Location = paItem.Location
+                            ProfileProfesionalActivityViewModel paModel = new ProfileProfesionalActivityViewModel()
+                            {
+                                AccountExtProfessionalActivityId = paItem.AccountExtProfessionalActivityId,
+                                AttendType = paItem.AttendType,
+                                DateOfActivity = paItem.DateOfActivity,
+                                Description = paItem.Description,
+                                Location = paItem.Location
 
-                        };
+                            };
 
-                        profesionalActivityList.Add(paModel);
+                            profesionalActivityList.Add(paModel);
+                        }
                     }
+
+                    
                     List<ProfileProjectViewModel> projectList = new List<ProfileProjectViewModel>();
 
-                    foreach (var projectItem in projects)
+                    if (projects != null)
                     {
-                        ProfileProjectViewModel project = new ProfileProjectViewModel()
+                        foreach (var projectItem in projects)
                         {
-                            AccountExtProjectId = projectItem.AccountExtProjectId,
-                            ProjectCompletedDate = projectItem.ProjectCompletedDate,
-                            ProjectStratedDate = projectItem.ProjectStratedDate,
-                            ProjectTitle = projectItem.ProjectTitle,
-                            project_Location = projectItem.ProjectTitle,
-                            ShortDescription = projectItem.ShortDescription
-                        };
+                            ProfileProjectViewModel project = new ProfileProjectViewModel()
+                            {
+                                AccountExtProjectId = projectItem.AccountExtProjectId,
+                                ProjectCompletedDate = projectItem.ProjectCompletedDate,
+                                ProjectStratedDate = projectItem.ProjectStratedDate,
+                                ProjectTitle = projectItem.ProjectTitle,
+                                project_Location = projectItem.ProjectTitle,
+                                ShortDescription = projectItem.ShortDescription
+                            };
 
-                        projectList.Add(project);
+                            projectList.Add(project);
+                        }
                     }
+
+                    
 
 
                     modelProfile = new ProfileViewModel()

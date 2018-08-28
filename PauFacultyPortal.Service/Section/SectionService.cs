@@ -81,8 +81,8 @@ namespace PauFacultyPortal.Service.Section
         public bool UpdateStuentResult(SectionStudentsViewModel student)
         {
 
-           var studentIdentificationID = _db.StudentIdentifications
-                .Where(x => x.StudentId == student.StudentID).FirstOrDefault().StudentIdentificationId;
+            var studentIdentificationID = _db.StudentIdentifications
+                 .Where(x => x.StudentId == student.StudentID).FirstOrDefault().StudentIdentificationId;
 
             var entity = _db.CourseForStudentsAcademics
                 .Where(x => x.SectionId == student.SectionID && x.StudentIdentificationId == studentIdentificationID).FirstOrDefault();
@@ -206,13 +206,13 @@ namespace PauFacultyPortal.Service.Section
 
             DateTime todaydate = DateTime.Today;
             var entity = (from cs in _db.CourseForStudentsAcademics
-                       
-                        join sc in _db.Sections on cs.SectionId equals sc.SectionId
-                        join sm in _db.Semesters on sc.SemesterId equals sm.SemesterId
-                        where (cs.SectionId == students.SectionId && cs.StudentIdentificationId == students.StudentIdentificationId && sc.HighLight == true && sc.ConfirmSubmitByFaculty == false && sc.ExpireDateTime >= todaydate)
-                        || (cs.Grade.ToString() == null && cs.SpecialMarkSubmit == true)
-                        || (sm.SpecialGradeuploadDeadLine >= todaydate && sm.FinalTerm == true && sm.ActiveSemester == true)
-                        select cs);
+
+                          join sc in _db.Sections on cs.SectionId equals sc.SectionId
+                          join sm in _db.Semesters on sc.SemesterId equals sm.SemesterId
+                          where (cs.SectionId == students.SectionId && cs.StudentIdentificationId == students.StudentIdentificationId && sc.HighLight == true && sc.ConfirmSubmitByFaculty == false && sc.ExpireDateTime >= todaydate)
+                          || (cs.Grade.ToString() == null && cs.SpecialMarkSubmit == true)
+                          || (sm.SpecialGradeuploadDeadLine >= todaydate && sm.FinalTerm == true && sm.ActiveSemester == true)
+                          select cs);
             //.Join(_db.Sections, sc=>sc.SectionId,cs=>cs.SectionId,(sc,cs)=> new { SC=sc,CS=cs})
             //.Where((x => x.SC.SectionId == students.SectionID
             //&& x.StudentIdentificationId == studentIdentificationID
@@ -227,10 +227,11 @@ namespace PauFacultyPortal.Service.Section
 
             if ((!string.IsNullOrEmpty(userID)) && SectionID > 0)
             {
-
-                var accountList = _db.Accounts.Where(x => x.LoginIdentity == userID).FirstOrDefault();
-                var teacherInfo = _db.Teachers.Where(x => x.LoginId == accountList.LoginIdentity).FirstOrDefault();
-                int SectionWiseStudentCount = teacherInfo == null ? 0 : _db.CourseForStudentsAcademics.Where(x => x.SectionId == SectionID).Count();
+                //var accountList = _db.Accounts.Where(x => x.LoginIdentity == userID).FirstOrDefault();
+                var teacherInfo = _db.Teachers.Where(x => x.LoginId == userID).FirstOrDefault();
+                var teacherWiseSectionsCount = teacherInfo == null ? 0 :
+                _db.Sections.Where(x => x.TeacherId == teacherInfo.TeacherId && ( x.SectionId == SectionID)).Count();
+                int SectionWiseStudentCount = teacherWiseSectionsCount == 0 ? 0 : _db.CourseForStudentsAcademics.Where(x => x.SectionId == SectionID).Count();
 
                 if (SectionWiseStudentCount > 0)
                 {
@@ -239,8 +240,10 @@ namespace PauFacultyPortal.Service.Section
                                   join stdInfo in _db.StudentInfoes on std.StudentId equals stdInfo.StudentId
                                   join sec in _db.Sections on crsAcademic.SectionId equals sec.SectionId
                                   join sem in _db.Semesters on crsAcademic.SemesterId equals sem.SemesterId
+                                  join tech in _db.Teachers on sec.TeacherId equals tech.TeacherId
                                   where crsAcademic.SemesterId == sec.SemesterId &&
-                                  crsAcademic.CourseForDepartmentId == sec.CourseForDepartmentId && crsAcademic.SectionId == SectionID
+                                  crsAcademic.CourseForDepartmentId == sec.CourseForDepartmentId
+                                  && crsAcademic.SectionId == SectionID
                                   select new
                                   {
                                       SectionID = SectionID,
@@ -256,7 +259,7 @@ namespace PauFacultyPortal.Service.Section
                                       ExpireDateTime = sec.ExpireDateTime,
                                       FinalTerm = sem.FinalTerm,
                                       SpecialGradeuploadDeadLine = sem.SpecialGradeuploadDeadLine
-                                      
+
                                   }).OrderByDescending(x => x.StudentID);
 
 

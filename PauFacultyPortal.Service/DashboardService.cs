@@ -99,8 +99,8 @@ namespace PauFacultyPortal.Service
                 }
 
                 List<LinechartViewModel> Linechart = new List<LinechartViewModel>();
-                var SemesterList = new List<string>();
-                var studentCount = new List<int>();
+                //var SemesterList = new List<string>();
+                //var studentCount = new List<int>();
 
                 var allchartData = (from cs in _db.CourseForStudentsAcademics
                                     join st in _db.Sections on cs.SectionId equals st.SectionId
@@ -117,27 +117,31 @@ namespace PauFacultyPortal.Service
                                           SemesterNYear = res.FirstOrDefault().SemesterNYear,
                                           totalStudents = res.Count()
                                       });
+
+                //foreach (var item in chartdatas.ToList())
+                //{
+                //    SemesterList.Add(item.SemesterNYear);
+                //}
+                //foreach (var item2 in chartdatas.ToList())
+                //{
+                //    studentCount.Add(item2.totalStudents);
+                //}
                 foreach (var item in chartdatas.ToList())
                 {
-                    SemesterList.Add(item.SemesterNYear);
-                }
-                foreach (var item2 in chartdatas.ToList())
-                {
-                    studentCount.Add(item2.totalStudents);
+                    LinechartViewModel Linechartmodel = new LinechartViewModel()
+                    {
+                        SemesterNYear = item.SemesterNYear,
+                        totalStudents = item.totalStudents
+                    };
+                    Linechart.Add(Linechartmodel);
                 }
 
-                LinechartViewModel Linechartmodel = new LinechartViewModel()
-                {
-                    SemesterNYear = SemesterList,
-                    totalStudents = studentCount
-                };
-                Linechart.Add(Linechartmodel);
 
 
 
                 List<BarChartViewModel> barChartList = new List<BarChartViewModel>();
-                var CourseSemesterList = new List<string>();
-                var CourseCountList = new List<int>();
+                //var CourseSemesterList = new List<string>();
+                //var CourseCountList = new List<int>();
 
                 var barChart = (from sec in _db.Sections
                                 join crd in _db.CourseForDepartments on sec.CourseForDepartmentId equals crd.CourseForDepartmentId
@@ -156,23 +160,26 @@ namespace PauFacultyPortal.Service
                                      });
 
 
+                //foreach (var item in barChartData.ToList())
+                //{
+                //    CourseSemesterList.Add(item.SemesterNYear);
+                //}
+                //foreach (var item2 in barChartData.ToList())
+                //{
+                //    CourseCountList.Add(item2.totalCourse);
+                //}
+
                 foreach (var item in barChartData.ToList())
                 {
-                    CourseSemesterList.Add(item.SemesterNYear);
+                    var barChartModel = new BarChartViewModel()
+                    {
+                        SemesterNYear = item.SemesterNYear,
+                        totalCourse = item.totalCourse
+                    };
+
+                    barChartList.Add(barChartModel);
                 }
-                foreach (var item2 in barChartData.ToList())
-                {
-                    CourseCountList.Add(item2.totalCourse);
-                }
 
-
-                BarChartViewModel barChartModel = new BarChartViewModel()
-                {
-                    SemesterNYear = CourseSemesterList,
-                    totalCourse = CourseCountList
-                };
-
-                barChartList.Add(barChartModel);
 
 
 

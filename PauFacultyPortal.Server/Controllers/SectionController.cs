@@ -16,49 +16,39 @@ namespace PauFacultyPortal.Server.Controllers
         SectionService service = new SectionService();
 
         [HttpGet]
-        public List<SectionListViewModel> Get(int SemesterID)
+        public HttpResponseMessage Get(int SemesterID)
         {
-            //ResponseModel response = new ResponseModel();
-            //try
-            //{
-            var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
-            List<SectionListViewModel> models = service.GetSections(SemesterID, loginId);
-            // response = new ResponseModel(models, true, "", null);
-
-            //}
-            //catch (Exception exception)
-            //{
-
-            //    response = new ResponseModel(null, false, "Error Found", exception);
-            //}
-
-
-            //return Ok(response);
-            return models;
+            try
+            {
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+                List<SectionListViewModel> models = service.GetSections(SemesterID, loginId);
+                return models.Count > 0 ? Request.CreateResponse(HttpStatusCode.OK, models) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                    "Section does not exist");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+            
         }
 
         [HttpGet]
-        public List<SectionStudentsViewModel> GetSectionStudent(int SectionID)
+        public HttpResponseMessage GetSectionStudent(int SectionID)
         {
+            try
+            {
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+                List<SectionStudentsViewModel> models = service.GetSectionWiseStudents(SectionID, loginId);
+                return models.Count > 0 ? Request.CreateResponse(HttpStatusCode.OK, models) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                   "No Student Found");
 
-            //ResponseModel response = new ResponseModel();
-            //try
-            //{
-            // List<ProfileViewModel>
+            }
+            catch (Exception ex)
+            {
 
-            var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
-            List<SectionStudentsViewModel> models = service.GetSectionWiseStudents(SectionID, loginId);
-            // response = new ResponseModel(models, true, "", null);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
 
-            //}
-            //catch (Exception exception)
-            //{
-
-            //    response = new ResponseModel(null, false, "Error Found", exception);
-            //}
-
-            //return Ok(response);
-            return models;
         }
 
         [HttpPut]
@@ -71,8 +61,8 @@ namespace PauFacultyPortal.Server.Controllers
 
                 if (CheckStudent)
                 {
-                    bool result = service.UpdateStuentResult(students);
-                    return result == true ? Request.CreateResponse(HttpStatusCode.OK, students) : Request.CreateResponse(HttpStatusCode.NotModified, students);
+                    int result = service.UpdateStuentResult(students);
+                    return result > 0 ? Request.CreateResponse(HttpStatusCode.OK, students) : Request.CreateResponse(HttpStatusCode.NotModified, students);
                 }
                 else
                 {
@@ -86,21 +76,6 @@ namespace PauFacultyPortal.Server.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
 
-        }
-
-        [HttpPut]
-        public HttpResponseMessage SectionMarkSubmitFinal(int sectionID)
-        {
-            try
-            {
-                bool result = service.UpdateSectionSubmitFinal(sectionID);
-                return result == true ? Request.CreateResponse(HttpStatusCode.OK, sectionID) : Request.CreateResponse(HttpStatusCode.NotModified, sectionID);
-            }
-            catch (Exception ex)
-            {
-
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
-            }
         }
 
     }

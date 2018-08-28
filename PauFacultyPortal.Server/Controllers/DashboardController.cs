@@ -8,6 +8,7 @@ using PauFacultyPortal.Service;
 using PauFacultyPortal.ViewModel;
 using PauFacultyPortal.ViewModel.Dashboard;
 using System.Security.Claims;
+using System.Net;
 
 namespace PauFacultyPortal.Server.Controllers
 {
@@ -16,27 +17,21 @@ namespace PauFacultyPortal.Server.Controllers
         DashboardService service = new DashboardService();
 
         [HttpGet]       
-        public List<DashboardViewModel> Get()
+        public HttpResponseMessage Get()
         {
-            //ResponseModel response = new ResponseModel();
-            //try
-            //{
-             var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value; 
-            //var loginId = "140055";
+            try
+            {
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+                List<DashboardViewModel> models = loginId == null ? null : service.GetDashboardProfileInfo(loginId);
+                return models != null ? Request.CreateResponse(HttpStatusCode.OK, models) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                    "No data found");
+            }
+            catch (Exception ex)
+            {
 
-
-            List<DashboardViewModel> models = loginId==null? null: service.GetDashboardProfileInfo(loginId);
-
-            //    response = new ResponseModel(models, true, "", null);
-            //}
-            //catch (Exception exception)
-            //{
-
-            //    response = new ResponseModel(null, false, "Error Found", exception);
-            //}
-
-            //return Ok(response);
-            return models;
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+           
         }
     }
 }
