@@ -12,11 +12,11 @@ using System.Net;
 
 namespace PauFacultyPortal.Server.Controllers
 {
-    public class DashboardController:ApiController
+    public class DashboardController : ApiController
     {
         DashboardService service = new DashboardService();
 
-        [HttpGet]       
+        [HttpGet]
         public HttpResponseMessage Get()
         {
             try
@@ -31,7 +31,49 @@ namespace PauFacultyPortal.Server.Controllers
 
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-           
+
+        }
+
+
+        [HttpGet]
+        public HttpResponseMessage GetBarChartData(bool barChart)
+        {
+            try
+            {
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+
+                var models = loginId == null ? null : service.GetBarChartData(loginId, barChart);
+
+                return models != null ? Request.CreateResponse(HttpStatusCode.OK, models) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                    "No data found");
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+
+        }
+
+
+        [HttpGet]
+        public HttpResponseMessage GetLineChartData(bool lineChart)
+        {
+            try
+            {
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+
+                var models = loginId == null ? null : service.GetLineChartData(loginId, lineChart);
+
+                return models != null ? Request.CreateResponse(HttpStatusCode.OK, models) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                    "No data found");
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+
         }
     }
 }

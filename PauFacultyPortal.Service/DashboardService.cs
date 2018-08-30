@@ -209,7 +209,93 @@ namespace PauFacultyPortal.Service
             return list;
         }
 
+        public List<BarChartViewModel> GetBarChartData(string loginId, bool barChartStatus)
+        {
 
+            List<BarChartViewModel> barChartList = new List<BarChartViewModel>();
+            if (barChartStatus)
+            {
+
+                var barChart = (from sec in _db.Sections
+                                join crd in _db.CourseForDepartments on sec.CourseForDepartmentId equals crd.CourseForDepartmentId
+                                join sem in _db.Semesters on sec.SemesterId equals sem.SemesterId
+                                join tc in _db.Teachers on sec.TeacherId equals tc.TeacherId
+                                where tc.LoginId == loginId
+                                select new
+                                {
+                                    sem.SemesterNYear,
+                                });
+                var barChartData = barChart.GroupBy(x => new { x.SemesterNYear })
+                                     .Select(res => new
+                                     {
+                                         SemesterNYear = res.FirstOrDefault().SemesterNYear,
+                                         totalCourse = res.Count()
+                                     });
+
+
+                foreach (var item in barChartData.ToList())
+                {
+                    var barChartModel = new BarChartViewModel()
+                    {
+                        SemesterNYear = item.SemesterNYear,
+                        totalCourse = item.totalCourse
+                    };
+
+                    barChartList.Add(barChartModel);
+                }
+
+
+
+            }
+
+            return barChartList;
+
+
+
+        }
+
+
+        public List<LinechartViewModel> GetLineChartData(string loginId, bool lineChart)
+        {
+
+            List<LinechartViewModel> LinechartList = new List<LinechartViewModel>();
+            if (lineChart)
+            {
+                
+                    var allchartData = (from cs in _db.CourseForStudentsAcademics
+                                        join st in _db.Sections on cs.SectionId equals st.SectionId
+                                        join tc in _db.Teachers on st.TeacherId equals tc.TeacherId
+                                        join sm in _db.Semesters on cs.SemesterId equals sm.SemesterId
+                                        where tc.LoginId == loginId
+                                        select new
+                                        {
+                                            sm.SemesterNYear,
+                                        });
+                    var chartdatas = allchartData.GroupBy(x => new { x.SemesterNYear })
+                                          .Select(res => new
+                                          {
+                                              SemesterNYear = res.FirstOrDefault().SemesterNYear,
+                                              totalStudents = res.Count()
+                                          });
+
+                    foreach (var item in chartdatas.ToList())
+                    {
+                        LinechartViewModel Linechartmodel = new LinechartViewModel()
+                        {
+                            SemesterNYear = item.SemesterNYear,
+                            totalStudents = item.totalStudents
+                        };
+                        LinechartList.Add(Linechartmodel);
+                    }
+                
+
+
+            }
+            return LinechartList;
+
+
+
+        }
     }
 }
 
