@@ -57,17 +57,17 @@ namespace PauFacultyPortal.Service.Auth
 
         }
 
-        public int ResetUserAuth(UserPasswordResetViewModel modifiedTeacher)
+        public int ResetUserAuth(UserPasswordResetViewModel modifiedTeacher, string loginId, string email)
         {
             int result = 0;
             using (var db = new PauFacultyPortalEntities())
             {
-                var entity = from act in db.Accounts.Where(x => x.AccountsRoleId == 5 && x.Deactivate == false &&
-                           x.Email == modifiedTeacher.Email && x.LoginIdentity == modifiedTeacher.LoginIdentity)
-                             select act;
-                if (entity != null)
+                var entity = (from act in db.Accounts.Where(x => x.AccountsRoleId == 5 && x.Deactivate == false &&
+                           x.Email == email && x.LoginIdentity == loginId && x.Password == modifiedTeacher.OldPassword)
+                              select act).ToList();
+                if (entity.Count() > 0)
                 {
-                    entity.FirstOrDefault().Password = modifiedTeacher.Password;
+                    entity.FirstOrDefault().Password = modifiedTeacher.NewPassword;
                     entity.FirstOrDefault().LastPsswordChange = DateTime.Now.ToString();
                     result = db.SaveChanges();
                 }
@@ -76,11 +76,34 @@ namespace PauFacultyPortal.Service.Auth
             return result;
         }
 
-        public UserViewModel CheckUserStatus(UserPasswordResetViewModel data)
-        {
-            var result = UserValidation(data.Email, data.LoginIdentity);
-            return result;
-        }
+        //public UserViewModel CheckUserStatus(UserPasswordResetViewModel data,string loginId,string email)
+        //{
+        //    UserViewModel result = new UserViewModel();
+
+        //    if (!string.IsNullOrEmpty(data.NewPassword) && !string.IsNullOrEmpty(data.OldPassword))
+        //    {
+        //        using (var db = new PauFacultyPortalEntities())
+        //        {
+        //            var user = from act in db.Accounts.Where(x => x.AccountsRoleId == 5 && x.Deactivate == false &&
+        //                       x.Email == email && x.LoginIdentity == loginId && x.Password == data.OldPassword)
+        //                       select act;
+
+
+        //            result = new UserViewModel()
+        //            {
+        //                Email = user.FirstOrDefault().Email,
+        //                LoginIdentity = user.FirstOrDefault().LoginIdentity,
+        //                Name = user.FirstOrDefault().Name,
+        //                Password = user.FirstOrDefault().Password,
+        //                LoginTime = DateTime.Now.ToString()
+
+        //            };
+        //        }
+
+
+        //    }
+        //    return result;
+        //}
 
         private UserViewModel UserValidation(string email, string loginId)
         {

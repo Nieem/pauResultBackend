@@ -36,7 +36,7 @@ namespace PauFacultyPortal.Server.Controllers
 
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-           
+
         }
 
         [HttpPost]
@@ -72,11 +72,14 @@ namespace PauFacultyPortal.Server.Controllers
             try
             {
                 AuthService service = new AuthService();
-                var checkUser = service.CheckUserStatus(data);
-                if (checkUser.Email != null && (data.Password == data.ConfirmPassword))
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+                var email = ((ClaimsIdentity)User.Identity).FindFirst("Email").Value;
+                var loginPassword = ((ClaimsIdentity)User.Identity).FindFirst("Password").Value;
+                bool checkUser = data.OldPassword == loginPassword ? true : false;
+                if (checkUser)
                 {
-                    int result = service.ResetUserAuth(data);
-                    return result > 0 ? Request.CreateResponse(HttpStatusCode.OK, data) : Request.CreateResponse(HttpStatusCode.NotModified, data);
+                    int result = service.ResetUserAuth(data, loginId, email);
+                    return result > 0 ? Request.CreateResponse(HttpStatusCode.OK, "Success") : Request.CreateResponse(HttpStatusCode.NotModified, data);
                 }
                 else
                 {

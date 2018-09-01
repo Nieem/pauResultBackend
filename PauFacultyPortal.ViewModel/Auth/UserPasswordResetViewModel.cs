@@ -9,15 +9,12 @@ namespace PauFacultyPortal.ViewModel.Auth
 {
     public class UserPasswordResetViewModel
     {
-        public string LoginIdentity { get; set; }
+   
 
-        public string Email { get; set; }
+        public string OldPassword { get; set; }
 
-        public string Password { get; set; }
-
-        
-        [Compare("Password", ErrorMessage = "Password and ConfirmPassword is Mismatch")]
-        public string ConfirmPassword { get; set; }
+       
+        public string NewPassword { get; set; }
 
     }
 }
