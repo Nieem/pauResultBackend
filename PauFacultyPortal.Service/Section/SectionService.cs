@@ -206,12 +206,11 @@ namespace PauFacultyPortal.Service.Section
 
             DateTime todaydate = DateTime.Today;
             var entity = (from cs in _db.CourseForStudentsAcademics
-
                           join sc in _db.Sections on cs.SectionId equals sc.SectionId
                           join sm in _db.Semesters on sc.SemesterId equals sm.SemesterId
                           where (cs.SectionId == students.SectionId && cs.StudentIdentificationId == students.StudentIdentificationId && sc.HighLight == true && sc.ConfirmSubmitByFaculty == false && sc.ExpireDateTime >= todaydate)
-                          || (cs.Grade.ToString() == null && cs.SpecialMarkSubmit == true)
-                          || (sm.SpecialGradeuploadDeadLine >= todaydate && sm.FinalTerm == true && sm.ActiveSemester == true)
+                          || (cs.SectionId == students.SectionId && cs.StudentIdentificationId == students.StudentIdentificationId && cs.LetterGrade.ToString() == null && cs.SpecialMarkSubmit == true)
+                          || (cs.SectionId == students.SectionId && cs.StudentIdentificationId == students.StudentIdentificationId && sm.SpecialGradeuploadDeadLine >= todaydate && sm.FinalTerm == true && sm.ActiveSemester == true)
                           select cs);
             //.Join(_db.Sections, sc=>sc.SectionId,cs=>cs.SectionId,(sc,cs)=> new { SC=sc,CS=cs})
             //.Where((x => x.SC.SectionId == students.SectionID
