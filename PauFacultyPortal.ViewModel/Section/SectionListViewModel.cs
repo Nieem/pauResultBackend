@@ -17,7 +17,5 @@ namespace PauFacultyPortal.ViewModel.Section
         public string SemesterName { get; set; }
         public int TotalStudentEnrolled { get; set; }
 
-
-
     }
 }

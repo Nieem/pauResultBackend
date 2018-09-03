@@ -102,7 +102,8 @@ namespace PauFacultyPortal.Service.Section
             entity.LetterGrade = student.LetterGrade;
             entity.TotalGrade = totalGrade;
             entity.CourseStatusId = CourseStatus;
-            entity.SectionId = student.SectionId;
+            //entity.SectionId = student.SectionID;
+            entity.SpecialMarkSubmit = null;
             entity.GradingSystemId = ((courseCreditdata.CourseType).ToUpper() == "CORE") ? 1 : ((courseCreditdata.CourseType).ToUpper() == "LAB") ? 2 : 3; 
 
            // _db.SaveChanges();
@@ -208,9 +209,9 @@ namespace PauFacultyPortal.Service.Section
             var entity = (from cs in _db.CourseForStudentsAcademics
                           join sc in _db.Sections on cs.SectionId equals sc.SectionId
                           join sm in _db.Semesters on sc.SemesterId equals sm.SemesterId
-                          where (cs.SectionId == students.SectionId && cs.StudentIdentificationId == students.StudentIdentificationId && sc.HighLight == true && sc.ConfirmSubmitByFaculty == false && sc.ExpireDateTime >= todaydate)
-                          || (cs.SectionId == students.SectionId && cs.StudentIdentificationId == students.StudentIdentificationId && cs.LetterGrade.ToString() == null && cs.SpecialMarkSubmit == true)
-                          || (cs.SectionId == students.SectionId && cs.StudentIdentificationId == students.StudentIdentificationId && sm.SpecialGradeuploadDeadLine >= todaydate && sm.FinalTerm == true && sm.ActiveSemester == true)
+                          where (cs.SectionId == students.SectionID && cs.StudentIdentificationId == students.StudentIdentificationId && sc.HighLight == true && sc.ConfirmSubmitByFaculty == false && sc.ExpireDateTime >= todaydate)
+                          || (cs.SectionId == students.SectionID && cs.StudentIdentificationId == students.StudentIdentificationId && cs.LetterGrade.ToString() == null && cs.SpecialMarkSubmit == true)
+                          || (cs.SectionId == students.SectionID && cs.StudentIdentificationId == students.StudentIdentificationId && sm.SpecialGradeuploadDeadLine >= todaydate && sm.FinalTerm == true && sm.ActiveSemester == true)
                           select cs);
             //.Join(_db.Sections, sc=>sc.SectionId,cs=>cs.SectionId,(sc,cs)=> new { SC=sc,CS=cs})
             //.Where((x => x.SC.SectionId == students.SectionID
@@ -277,7 +278,8 @@ namespace PauFacultyPortal.Service.Section
                             SpecialMarkSubmit = item.SpecialMarkSubmit,
                             FinalTerm = item.FinalTerm,
                             SpecialGradeuploadDeadLine = item.SpecialGradeuploadDeadLine,
-                            ConfirmSubmitByFaculty = item.ConfirmSubmitByFaculty
+                            ConfirmSubmitByFaculty = item.ConfirmSubmitByFaculty,
+                            ExpireDateTime = item.ExpireDateTime
                         };
 
                         modelList.Add(model);

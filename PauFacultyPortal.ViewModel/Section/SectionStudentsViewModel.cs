@@ -36,6 +36,7 @@ namespace PauFacultyPortal.ViewModel.Section
         public bool? FinalTerm { get; set; }
         public DateTime? SpecialGradeuploadDeadLine { get; set; }
         public bool? ConfirmSubmitByFaculty { get; set; }
+        public DateTime? ExpireDateTime { get; set; }
 
         //=========================== Coursefor StudentAcademic  Added by Asma, 09-08-2018 =======================
         public int CourseForStudentsAcademicId { get; set; }
@@ -43,13 +44,7 @@ namespace PauFacultyPortal.ViewModel.Section
         public int SemesterId { get; set; }
         public double TotalGrade { get; set; }
         public int CourseStatusId { get; set; }
-        public int SectionId { get; set; }
-        // ,[PaymentRegistrationId]
-        // ,[GradingSystemId]
-        // ,[ReferenceCourseId]
-        // ,[WithHelded]
-        //  ,[ReportedCase]
+        public bool isVisible { get; set; }
         //  ,[Remarks]
-
     }
 }
