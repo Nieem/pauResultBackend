@@ -29,7 +29,7 @@ namespace PauFacultyPortal.Server.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-            
+
         }
 
         [HttpGet]
@@ -50,6 +50,22 @@ namespace PauFacultyPortal.Server.Controllers
             }
 
         }
+
+        [HttpPut]
+        public HttpResponseMessage SectionMarkSubmitFinal([FromBody] SectionFinalUpdateViewModel section)
+        {
+            try
+            {
+                bool result = section.SectionID > 0 ? service.UpdateSectionSubmitFinal(section.SectionID) : false;
+                return result == true ? Request.CreateResponse(HttpStatusCode.OK, section.SectionID) : Request.CreateResponse(HttpStatusCode.NotModified, section.SectionID);
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
 
         [HttpPut]
         public HttpResponseMessage UpdateStudentData([FromBody]SectionStudentsViewModel students)
@@ -78,19 +94,6 @@ namespace PauFacultyPortal.Server.Controllers
 
         }
 
-        [HttpPut]
-        public HttpResponseMessage SectionMarkSubmitFinal(int sectionID)
-        {
-            try
-            {
-                bool result = service.UpdateSectionSubmitFinal(sectionID);
-                return result == true ? Request.CreateResponse(HttpStatusCode.OK, sectionID) : Request.CreateResponse(HttpStatusCode.NotModified, sectionID);
-            }
-            catch (Exception ex)
-            {
-
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
-            }
-        }
+        
     }
 }
