@@ -73,8 +73,15 @@ namespace PauFacultyPortal.Server.Controllers
 
             try
             {
+                if (students != null && students.FinalUpdate != null)
+                {
+                    return students.FinalUpdate == false ? UpdateStudents(students) : FinalSubmit(students);
 
-                return students.FinalUpdate == false ? UpdateStudents(students) : FinalSubmit(students);
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Request Information Not Found");
+                }
 
 
 
