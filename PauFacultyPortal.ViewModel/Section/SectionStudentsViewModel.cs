@@ -46,5 +46,7 @@ namespace PauFacultyPortal.ViewModel.Section
         public int CourseStatusId { get; set; }
         public bool isVisible { get; set; }
         //  ,[Remarks]
+
+        public bool? FinalUpdate { get; set; }
     }
 }

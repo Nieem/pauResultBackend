@@ -51,20 +51,20 @@ namespace PauFacultyPortal.Server.Controllers
 
         }
 
-        [HttpPut]
-        public HttpResponseMessage SectionMarkSubmitFinal([FromBody] SectionFinalUpdateViewModel section)
-        {
-            try
-            {
-                bool result = section.SectionID > 0 ? service.UpdateSectionSubmitFinal(section.SectionID) : false;
-                return result == true ? Request.CreateResponse(HttpStatusCode.OK, section.SectionID) : Request.CreateResponse(HttpStatusCode.NotModified, section.SectionID);
-            }
-            catch (Exception ex)
-            {
+        //[HttpPut]
+        //public HttpResponseMessage SectionMarkSubmitFinal([FromBody] SectionFinalUpdateViewModel section)
+        //{
+        //    try
+        //    {
+        //        bool result = section.SectionID > 0 ? service.UpdateSectionSubmitFinal(section.SectionID) : false;
+        //        return result == true ? Request.CreateResponse(HttpStatusCode.OK, section.SectionID) : Request.CreateResponse(HttpStatusCode.NotModified, section.SectionID);
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
-            }
-        }
+        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+        //    }
+        //}
 
 
         [HttpPut]
@@ -73,17 +73,10 @@ namespace PauFacultyPortal.Server.Controllers
 
             try
             {
-                var CheckStudent = service.CheckStudentEntity(students);
 
-                if (CheckStudent)
-                {
-                    bool result = service.UpdateStuentResult(students);
-                    return result == true ? Request.CreateResponse(HttpStatusCode.OK, students) : Request.CreateResponse(HttpStatusCode.NotModified, students);
-                }
-                else
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Request Information Not Found");
-                }
+                return students.FinalUpdate == false ? UpdateStudents(students) : FinalSubmit(students);
+
+
 
             }
             catch (Exception ex)
@@ -94,6 +87,35 @@ namespace PauFacultyPortal.Server.Controllers
 
         }
 
-        
+        private HttpResponseMessage UpdateStudents(SectionStudentsViewModel students)
+        {
+            var CheckStudent = service.CheckStudentEntity(students);
+
+            if (CheckStudent)
+            {
+                bool result = service.UpdateStuentResult(students);
+                return result == true ? Request.CreateResponse(HttpStatusCode.OK, students) : Request.CreateResponse(HttpStatusCode.NotModified, students);
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Request Information Not Found");
+            }
+        }
+
+        private HttpResponseMessage FinalSubmit(SectionStudentsViewModel students)
+        {
+
+
+            if (students.SectionID > 0)
+            {
+                bool result = service.UpdateSectionSubmitFinal(students.SectionID);
+                return result == true ? Request.CreateResponse(HttpStatusCode.OK, students.SectionID) : Request.CreateResponse(HttpStatusCode.NotModified, students.SectionID);
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Request Information Not Found");
+            }
+        }
+
     }
 }
