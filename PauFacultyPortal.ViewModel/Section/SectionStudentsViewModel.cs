@@ -48,5 +48,10 @@ namespace PauFacultyPortal.ViewModel.Section
         //  ,[Remarks]
 
         public bool FinalUpdate { get; set; }
+
+        public string CourseCode { get; set; }
+
+        public string CourseTitle { get; set; }
+        public string SemesterName { get; set; }
     }
 }

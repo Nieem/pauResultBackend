@@ -241,6 +241,7 @@ namespace PauFacultyPortal.Service.Section
                                   join sec in _db.Sections on crsAcademic.SectionId equals sec.SectionId
                                   join sem in _db.Semesters on crsAcademic.SemesterId equals sem.SemesterId
                                   join tech in _db.Teachers on sec.TeacherId equals tech.TeacherId
+                                  join crs in _db.CourseForDepartments on crsAcademic.CourseForDepartmentId equals crs.CourseForDepartmentId
                                   where crsAcademic.SemesterId == sec.SemesterId &&
                                   crsAcademic.CourseForDepartmentId == sec.CourseForDepartmentId
                                   && crsAcademic.SectionId == SectionID
@@ -258,7 +259,13 @@ namespace PauFacultyPortal.Service.Section
                                       ConfirmSubmitByFaculty = sec.ConfirmSubmitByFaculty,
                                       ExpireDateTime = sec.ExpireDateTime,
                                       FinalTerm = sem.FinalTerm,
-                                      SpecialGradeuploadDeadLine = sem.SpecialGradeuploadDeadLine
+                                      SpecialGradeuploadDeadLine = sem.SpecialGradeuploadDeadLine,
+                                      CourseCode = crs.CourseCode,
+                                      CourseName = crs.CourseName,
+                                      SemesterName= sem.SemesterNYear,
+                                      SemesterID = sem.SemesterId
+                                      
+
 
                                   }).OrderByDescending(x => x.StudentID);
 
@@ -279,7 +286,11 @@ namespace PauFacultyPortal.Service.Section
                             FinalTerm = item.FinalTerm,
                             SpecialGradeuploadDeadLine = item.SpecialGradeuploadDeadLine,
                             ConfirmSubmitByFaculty = item.ConfirmSubmitByFaculty,
-                            ExpireDateTime = item.ExpireDateTime
+                            ExpireDateTime = item.ExpireDateTime,
+                            CourseCode = item.CourseCode,
+                            CourseTitle= item.CourseName,
+                            SemesterName = item.SemesterName,
+                            SemesterId = item.SemesterID
                         };
 
                         modelList.Add(model);
