@@ -18,6 +18,7 @@ namespace PauFacultyPortal.Models
         public CourseForDepartment()
         {
             this.Sections = new HashSet<Section>();
+            this.CourseForStudentsAcademics = new HashSet<CourseForStudentsAcademic>();
         }
     
         public int CourseForDepartmentId { get; set; }
@@ -38,5 +39,7 @@ namespace PauFacultyPortal.Models
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Section> Sections { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
     }
 }

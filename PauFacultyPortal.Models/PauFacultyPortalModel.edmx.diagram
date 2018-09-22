@@ -46,6 +46,9 @@
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_StudentIdentifications_StudentIdentificationId" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.LoginHistory" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.UserActivity" Width="1.5" PointX="7.375" PointY="7.75" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -50,5 +50,6 @@ namespace PauFacultyPortal.Models
         public virtual GradingSystem GradingSystem { get; set; }
         public virtual Semester Semester { get; set; }
         public virtual StudentIdentification StudentIdentification { get; set; }
+        public virtual CourseForDepartment CourseForDepartment { get; set; }
     }
 }
