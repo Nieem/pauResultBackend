@@ -17,7 +17,6 @@ namespace PauFacultyPortal.Models
         public int LoginHistoryId { get; set; }
         public int AccountId { get; set; }
         public string EntryTime { get; set; }
-       // public string LogoutTime { get; set; }
         public string LastVisitedPage { get; set; }
         public string PcAddress { get; set; }
         public string DeviceType { get; set; }

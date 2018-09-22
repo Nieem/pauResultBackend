@@ -139,6 +139,9 @@
     <Compile Include="UserActivity.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserActivityType.cs">
+      <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="PauFacultyPortalModel.edmx">

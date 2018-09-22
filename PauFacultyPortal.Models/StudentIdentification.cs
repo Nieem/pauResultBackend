@@ -14,12 +14,6 @@ namespace PauFacultyPortal.Models
     
     public partial class StudentIdentification
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public StudentIdentification()
-        {
-            this.CourseForStudentsAcademics = new HashSet<CourseForStudentsAcademic>();
-        }
-    
         public int StudentIdentificationId { get; set; }
         public int SchoolId { get; set; }
         public int DepartmentId { get; set; }
@@ -47,7 +41,5 @@ namespace PauFacultyPortal.Models
     
         public virtual School School { get; set; }
         public virtual SemesterInfo SemesterInfo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
     }
 }

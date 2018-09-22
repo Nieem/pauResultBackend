@@ -45,11 +45,12 @@ namespace PauFacultyPortal.Models
         public bool SecondScrutinized { get; set; }
         public bool SuspendedForProbation { get; set; }
         public Nullable<bool> SpecialMarkSubmit { get; set; }
+        public Nullable<int> Modify_By { get; set; }
+        public Nullable<System.DateTime> Modified_Date { get; set; }
     
+        public virtual CourseForDepartment CourseForDepartment { get; set; }
         public virtual CourseStatu CourseStatu { get; set; }
         public virtual GradingSystem GradingSystem { get; set; }
         public virtual Semester Semester { get; set; }
-        public virtual StudentIdentification StudentIdentification { get; set; }
-        public virtual CourseForDepartment CourseForDepartment { get; set; }
     }
 }

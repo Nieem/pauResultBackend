@@ -104,9 +104,11 @@ namespace PauFacultyPortal.Service.Section
             entity.CourseStatusId = CourseStatus;
             //entity.SectionId = student.SectionID;
             entity.SpecialMarkSubmit = null;
-            entity.GradingSystemId = ((courseCreditdata.CourseType).ToUpper() == "CORE") ? 1 : ((courseCreditdata.CourseType).ToUpper() == "LAB") ? 2 : 3; 
-
-           // _db.SaveChanges();
+            entity.GradingSystemId = ((courseCreditdata.CourseType).ToUpper() == "CORE") ? 1 : ((courseCreditdata.CourseType).ToUpper() == "LAB") ? 2 : 3;
+         
+            //  entity.Modify_By = ;
+            entity.Modified_Date = DateTime.Today;
+           
             return _db.SaveChanges() > 0;
         }
 

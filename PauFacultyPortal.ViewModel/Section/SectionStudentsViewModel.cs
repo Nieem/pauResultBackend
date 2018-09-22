@@ -53,5 +53,6 @@ namespace PauFacultyPortal.ViewModel.Section
 
         public string CourseTitle { get; set; }
         public string SemesterName { get; set; }
+
     }
 }

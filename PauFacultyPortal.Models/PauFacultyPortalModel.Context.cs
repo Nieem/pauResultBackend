@@ -46,8 +46,9 @@ namespace PauFacultyPortal.Models
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<CourseForDepartment> CourseForDepartments { get; set; }
         public virtual DbSet<StudentIdentification> StudentIdentifications { get; set; }
-        public virtual DbSet<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
         public virtual DbSet<LoginHistory> LoginHistories { get; set; }
         public virtual DbSet<UserActivity> UserActivities { get; set; }
+        public virtual DbSet<UserActivityType> UserActivityTypes { get; set; }
+        public virtual DbSet<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
     }
 }

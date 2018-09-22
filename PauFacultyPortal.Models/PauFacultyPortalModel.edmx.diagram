@@ -41,14 +41,15 @@
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_CourseForDepartments_CourseForDepartmentId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_Schools_SchoolId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId" />
-        <EntityTypeShape EntityType="PauFacultyPortalModel.CourseForStudentsAcademic" Width="2.5" PointX="10.5" PointY="15.875" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.LoginHistory" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.UserActivity" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.UserActivityType" Width="1.5" PointX="4.75" PointY="11.375" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_UserActivities_dbo_UserActivityTypes_UserActivityTypeId" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.CourseForStudentsAcademic" Width="2.375" PointX="13.5" PointY="20.625" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" />
-        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_StudentIdentifications_StudentIdentificationId" />
-        <EntityTypeShape EntityType="PauFacultyPortalModel.LoginHistory" Width="1.5" PointX="5.375" PointY="7.75" />
-        <EntityTypeShape EntityType="PauFacultyPortalModel.UserActivity" Width="1.5" PointX="7.375" PointY="7.75" />
-        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

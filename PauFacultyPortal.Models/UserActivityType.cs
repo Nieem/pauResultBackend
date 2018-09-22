@@ -12,17 +12,18 @@ namespace PauFacultyPortal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class UserActivity
+    public partial class UserActivityType
     {
-        public int UserActivityId { get; set; }
-        public int UserActivityTypeId { get; set; }
-        public int AccountId { get; set; }
-        public string Activity { get; set; }
-        public string StudentId { get; set; }
-        public Nullable<System.DateTime> ActivityTime { get; set; }
-        public bool Seen { get; set; }
-        public string ComputerIp { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UserActivityType()
+        {
+            this.UserActivities = new HashSet<UserActivity>();
+        }
     
-        public virtual UserActivityType UserActivityType { get; set; }
+        public int UserActivityTypeId { get; set; }
+        public string ActivityType { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserActivity> UserActivities { get; set; }
     }
 }
