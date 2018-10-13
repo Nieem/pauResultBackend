@@ -145,7 +145,9 @@ namespace PauFacultyPortal.Service.Auth
                            + "Your LoginId: " + checkUser.LoginIdentity + ",Password: " + checkUser.Password + Environment.NewLine + "Thanks," + Environment.NewLine + "UMS(Primeasia University)";
 
             string fromMail = "ums@primeasia.edu.bd";
-            string emailTo = "husneara_asma@yahoo.com";
+            string emailTo = "sydul.hassan@primeasia.edu.bd";
+            //string emailTo = checkUser.Email;
+
 
             MailMessage mail = new MailMessage();
             string host = "smtp.gmail.com";

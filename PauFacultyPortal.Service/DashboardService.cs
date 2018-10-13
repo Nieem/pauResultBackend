@@ -18,7 +18,7 @@ namespace PauFacultyPortal.Service
             if (!string.IsNullOrEmpty(userId))
             {
                 var accountList = _db.Accounts.Where(x => x.LoginIdentity == userId).FirstOrDefault();
-                string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + accountList.LoginIdentity.ToString() + ".jpg&type=1";
+                string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + accountList.LoginIdentity.ToString() + ".jpg";
 
                 int presentSemester = (from ss in _db.Semesters
                                        where ss.CourseAdvising.Equals(true)
