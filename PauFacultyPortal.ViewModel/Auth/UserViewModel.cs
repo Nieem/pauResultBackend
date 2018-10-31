@@ -19,5 +19,7 @@ namespace PauFacultyPortal.ViewModel.Auth
         public string LoginTime { get; set; }
 
 
+        public string UserType { get; set; }
+
     }
 }

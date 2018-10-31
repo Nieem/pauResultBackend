@@ -174,25 +174,52 @@ namespace PauFacultyPortal.Service.Auth
             {
                 using (var db = new PauFacultyPortalEntities())
                 {
-                    var result = (from act in db.Accounts.Where(x => (x.AccountsRoleId == 1 || x.AccountsRoleId == 5) && x.Deactivate == false && x.LoginIdentity == Identity && x.Password == Password)
+                    
+                    var result = Identity.Length == 6 ?(from act in db.Accounts.Where(x => (x.AccountsRoleId == 7 || x.AccountsRoleId == 5) && x.Deactivate == false && x.Status == true && x.LoginIdentity == Identity && x.Password == Password)
                                   select new
                                   {
                                       LoginIdentity = act.LoginIdentity,
                                       Password = act.Password,
                                       Name = act.Name,
                                       Email = act.Email,
+                                      UserType = act.AccountsRoleId == 5 ? "Teacher" : "Advisor"
 
 
-                                  }).FirstOrDefault();
+                                  }).FirstOrDefault() :(Identity.Length == 9?
 
-                    model = new UserViewModel()
+
+
+                                  (from Sident in db.StudentIdentifications
+                                   join  std in db.StudentInfoes 
+                                   on Sident.StudentInfoId equals std.StudentInfoId
+                                   where Sident.StudentId == Identity  &&  Sident.BlockStudent == false
+                                   && Sident.Password == Password 
+                                   
+                                   select new
+                                   {
+                                       LoginIdentity = Sident.StudentId,
+                                       Password = Sident.Password,
+                                       Name = std.StudentName,
+                                       Email = std.EmailAddress,
+                                       UserType = "Student"
+
+
+                                   }).FirstOrDefault()
+
+
+                                  : null);
+                                    
+                  
+
+                    model = result!=null ? new UserViewModel()
                     {
                         LoginIdentity = result.LoginIdentity,
                         Password = result.Password,
                         Name = result.Name,
-                        Email = result.Email
+                        Email = result.Email,
+                        UserType = result.UserType
 
-                    };
+                    }:null;
                 }
 
             }

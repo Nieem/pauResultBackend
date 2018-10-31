@@ -31,6 +31,7 @@ namespace PauFacultyPortal.Server
                     identity.AddClaim(new Claim("Email",user.Email));
                     identity.AddClaim(new Claim("Password",user.Password));
                     identity.AddClaim(new Claim("Name",user.Name));
+                    identity.AddClaim(new Claim("UserType", user.UserType));
                     identity.AddClaim(new Claim("LoginTime",DateTime.Now.ToString()));
                     context.Validated(identity);
 

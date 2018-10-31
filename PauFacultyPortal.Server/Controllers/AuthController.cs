@@ -27,6 +27,7 @@ namespace PauFacultyPortal.Server.Controllers
                     Password = ClaimsClass.FindFirst("Password").Value,
                     Email = ClaimsClass.FindFirst("Email").Value,
                     LoginTime = ClaimsClass.FindFirst("LoginTime").Value,
+                    UserType = ClaimsClass.FindFirst("UserType").Value
                 };
                 return model != null ? Request.CreateResponse(HttpStatusCode.OK, model) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
                     "User does not exist");
