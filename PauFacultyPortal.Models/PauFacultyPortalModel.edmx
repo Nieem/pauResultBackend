@@ -199,6 +199,8 @@
           <Property Name="SecondScrutinized" Type="bit" Nullable="false" />
           <Property Name="SuspendedForProbation" Type="bit" Nullable="false" />
           <Property Name="SpecialMarkSubmit" Type="bit" />
+          <Property Name="Entry_By" Type="int" />
+          <Property Name="Entry_Date" Type="datetime" />
           <Property Name="Modify_By" Type="int" />
           <Property Name="Modified_Date" Type="datetime" />
         </EntityType>
@@ -308,6 +310,10 @@
           <Property Name="RevisedStat" Type="bit" Nullable="false" />
           <Property Name="ResubmitDate" Type="datetime" />
           <Property Name="NonCreditMarkSubmit" Type="bit" Nullable="false" />
+          <Property Name="TotalAttendanceMark" Type="float" />
+          <Property Name="TotalClassTestMark" Type="float" />
+          <Property Name="TotalMidMark" Type="float" />
+          <Property Name="TotalFinalMark" Type="float" />
         </EntityType>
         <EntityType Name="SemesterInfoes">
           <Key>
@@ -484,6 +490,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId">
+          <End Role="AccountsRoles" Type="Self.AccountsRoles" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountsRoles">
+              <PropertyRef Name="AccountsRoleId" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="AccountsRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId">
           <End Role="CourseForDepartments" Type="Self.CourseForDepartments" Multiplicity="1" />
           <End Role="CourseForStudentsAcademics" Type="Self.CourseForStudentsAcademics" Multiplicity="*" />
@@ -616,18 +634,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_Teachers_dbo_Accounts_AccountId">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
-          <End Role="Teachers" Type="Self.Teachers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="AccountId" />
-            </Principal>
-            <Dependent Role="Teachers">
-              <PropertyRef Name="AccountId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_Teachers_dbo_Departments_DepartmentId">
           <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
           <End Role="Teachers" Type="Self.Teachers" Multiplicity="*" />
@@ -695,6 +701,10 @@
             <End Role="AccountMetaProfessionals" EntitySet="AccountMetaProfessionals" />
             <End Role="AccountExtPublications" EntitySet="AccountExtPublications" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId" Association="Self.FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId">
+            <End Role="AccountsRoles" EntitySet="AccountsRoles" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" Association="Self.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId">
             <End Role="CourseForDepartments" EntitySet="CourseForDepartments" />
             <End Role="CourseForStudentsAcademics" EntitySet="CourseForStudentsAcademics" />
@@ -739,10 +749,6 @@
             <End Role="SemesterInfoes" EntitySet="SemesterInfoes" />
             <End Role="StudentIdentifications" EntitySet="StudentIdentifications" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Teachers_dbo_Accounts_AccountId" Association="Self.FK_dbo_Teachers_dbo_Accounts_AccountId">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Teachers" EntitySet="Teachers" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_Teachers_dbo_Departments_DepartmentId" Association="Self.FK_dbo_Teachers_dbo_Departments_DepartmentId">
             <End Role="Departments" EntitySet="Departments" />
             <End Role="Teachers" EntitySet="Teachers" />
@@ -764,17 +770,25 @@
           <EntitySet Name="AccountMetaInformations" EntityType="PauFacultyPortalModel.AccountMetaInformation" />
           <EntitySet Name="AccountMetaProfessionals" EntityType="PauFacultyPortalModel.AccountMetaProfessional" />
           <EntitySet Name="AccountReferenceLinktables" EntityType="PauFacultyPortalModel.AccountReferenceLinktable" />
+          <EntitySet Name="Accounts" EntityType="PauFacultyPortalModel.Account" />
+          <EntitySet Name="AccountsRoles" EntityType="PauFacultyPortalModel.AccountsRole" />
+          <EntitySet Name="CourseForDepartments" EntityType="PauFacultyPortalModel.CourseForDepartment" />
+          <EntitySet Name="CourseForStudentsAcademics" EntityType="PauFacultyPortalModel.CourseForStudentsAcademic" />
           <EntitySet Name="CourseStatus" EntityType="PauFacultyPortalModel.CourseStatu" />
           <EntitySet Name="Departments" EntityType="PauFacultyPortalModel.Department" />
           <EntitySet Name="GradingSystems" EntityType="PauFacultyPortalModel.GradingSystem" />
+          <EntitySet Name="LoginHistories" EntityType="PauFacultyPortalModel.LoginHistory" />
           <EntitySet Name="Notifications" EntityType="PauFacultyPortalModel.Notification" />
           <EntitySet Name="Schools" EntityType="PauFacultyPortalModel.School" />
           <EntitySet Name="Sections" EntityType="PauFacultyPortalModel.Section" />
           <EntitySet Name="SemesterInfoes" EntityType="PauFacultyPortalModel.SemesterInfo" />
           <EntitySet Name="Semesters" EntityType="PauFacultyPortalModel.Semester" />
+          <EntitySet Name="StudentIdentifications" EntityType="PauFacultyPortalModel.StudentIdentification" />
           <EntitySet Name="StudentInfoes" EntityType="PauFacultyPortalModel.StudentInfo" />
           <EntitySet Name="TeacherDesignations" EntityType="PauFacultyPortalModel.TeacherDesignation" />
           <EntitySet Name="Teachers" EntityType="PauFacultyPortalModel.Teacher" />
+          <EntitySet Name="UserActivities" EntityType="PauFacultyPortalModel.UserActivity" />
+          <EntitySet Name="UserActivityTypes" EntityType="PauFacultyPortalModel.UserActivityType" />
           <AssociationSet Name="FK_dbo_AccountExtEducations_dbo_AccountMetaProfessionals_AccountMetaProfessionalId" Association="PauFacultyPortalModel.FK_dbo_AccountExtEducations_dbo_AccountMetaProfessionals_AccountMetaProfessionalId">
             <End Role="AccountMetaProfessional" EntitySet="AccountMetaProfessionals" />
             <End Role="AccountExtEducation" EntitySet="AccountExtEducations" />
@@ -790,6 +804,26 @@
           <AssociationSet Name="FK_dbo_AccountExtPublications_dbo_AccountMetaProfessionals_AccountMetaProfessionalId" Association="PauFacultyPortalModel.FK_dbo_AccountExtPublications_dbo_AccountMetaProfessionals_AccountMetaProfessionalId">
             <End Role="AccountMetaProfessional" EntitySet="AccountMetaProfessionals" />
             <End Role="AccountExtPublication" EntitySet="AccountExtPublications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId" Association="PauFacultyPortalModel.FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId">
+            <End Role="AccountsRole" EntitySet="AccountsRoles" />
+            <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId">
+            <End Role="CourseForDepartment" EntitySet="CourseForDepartments" />
+            <End Role="CourseForStudentsAcademic" EntitySet="CourseForStudentsAcademics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId" Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId">
+            <End Role="CourseStatu" EntitySet="CourseStatus" />
+            <End Role="CourseForStudentsAcademic" EntitySet="CourseForStudentsAcademics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId">
+            <End Role="GradingSystem" EntitySet="GradingSystems" />
+            <End Role="CourseForStudentsAcademic" EntitySet="CourseForStudentsAcademics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId">
+            <End Role="Semester" EntitySet="Semesters" />
+            <End Role="CourseForStudentsAcademic" EntitySet="CourseForStudentsAcademics" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_Departments_dbo_Schools_SchoolId" Association="PauFacultyPortalModel.FK_dbo_Departments_dbo_Schools_SchoolId">
             <End Role="School" EntitySet="Schools" />
@@ -807,6 +841,10 @@
             <End Role="GradingSystem" EntitySet="GradingSystems" />
             <End Role="Section" EntitySet="Sections" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_StudentIdentifications_dbo_Schools_SchoolId" Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_Schools_SchoolId">
+            <End Role="School" EntitySet="Schools" />
+            <End Role="StudentIdentification" EntitySet="StudentIdentifications" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_Sections_dbo_Semesters_SemesterId" Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_Semesters_SemesterId">
             <End Role="Semester" EntitySet="Semesters" />
             <End Role="Section" EntitySet="Sections" />
@@ -815,54 +853,15 @@
             <End Role="Teacher" EntitySet="Teachers" />
             <End Role="Section" EntitySet="Sections" />
           </AssociationSet>
-          <EntitySet Name="Accounts" EntityType="PauFacultyPortalModel.Account" />
-          <AssociationSet Name="FK_dbo_Teachers_dbo_Accounts_AccountId" Association="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Teacher" EntitySet="Teachers" />
-          </AssociationSet>
-          <EntitySet Name="CourseForDepartments" EntityType="PauFacultyPortalModel.CourseForDepartment" />
-          <EntitySet Name="StudentIdentifications" EntityType="PauFacultyPortalModel.StudentIdentification" />
-          <AssociationSet Name="FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId" Association="PauFacultyPortalModel.FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="CourseForDepartment" EntitySet="CourseForDepartments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_Sections_dbo_CourseForDepartments_CourseForDepartmentId" Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_CourseForDepartments_CourseForDepartmentId">
-            <End Role="CourseForDepartment" EntitySet="CourseForDepartments" />
-            <End Role="Section" EntitySet="Sections" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_StudentIdentifications_dbo_Schools_SchoolId" Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_Schools_SchoolId">
-            <End Role="School" EntitySet="Schools" />
-            <End Role="StudentIdentification" EntitySet="StudentIdentifications" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId" Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId">
             <End Role="SemesterInfo" EntitySet="SemesterInfoes" />
             <End Role="StudentIdentification" EntitySet="StudentIdentifications" />
           </AssociationSet>
-          <EntitySet Name="LoginHistories" EntityType="PauFacultyPortalModel.LoginHistory" />
-          <EntitySet Name="UserActivities" EntityType="PauFacultyPortalModel.UserActivity" />
-          <EntitySet Name="UserActivityTypes" EntityType="PauFacultyPortalModel.UserActivityType" />
           <AssociationSet Name="FK_dbo_UserActivities_dbo_UserActivityTypes_UserActivityTypeId" Association="PauFacultyPortalModel.FK_dbo_UserActivities_dbo_UserActivityTypes_UserActivityTypeId">
             <End Role="UserActivityType" EntitySet="UserActivityTypes" />
             <End Role="UserActivity" EntitySet="UserActivities" />
           </AssociationSet>
-          <EntitySet Name="CourseForStudentsAcademics" EntityType="PauFacultyPortalModel.CourseForStudentsAcademic" />
-          <AssociationSet Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId">
-            <End Role="CourseForDepartment" EntitySet="CourseForDepartments" />
-            <End Role="CourseForStudentsAcademic" EntitySet="CourseForStudentsAcademics" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId" Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId">
-            <End Role="CourseStatu" EntitySet="CourseStatus" />
-            <End Role="CourseForStudentsAcademic" EntitySet="CourseForStudentsAcademics" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId">
-            <End Role="GradingSystem" EntitySet="GradingSystems" />
-            <End Role="CourseForStudentsAcademic" EntitySet="CourseForStudentsAcademics" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId">
-            <End Role="Semester" EntitySet="Semesters" />
-            <End Role="CourseForStudentsAcademic" EntitySet="CourseForStudentsAcademics" />
-          </AssociationSet>
-          </EntityContainer>
+        </EntityContainer>
         <EntityType Name="AccountExtEducation">
           <Key>
             <PropertyRef Name="AccountExtEducationId" />
@@ -978,6 +977,105 @@
           <Property Name="TelephoneNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="MobileNo" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TeleExchange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Designation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentSection" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LoginIdentity" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccountsRoleId" Type="Int32" Nullable="false" />
+          <Property Name="Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="AccountHash" Type="Guid" />
+          <Property Name="PartimeTeacher" Type="Boolean" Nullable="false" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Deactivate" Type="Boolean" Nullable="false" />
+          <Property Name="CauseOfDeactivate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TeporaryBlock" Type="Boolean" Nullable="false" />
+          <Property Name="TemporaryBlockExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="LastPsswordChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccountsRole" Relationship="PauFacultyPortalModel.FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId" FromRole="Account" ToRole="AccountsRole" />
+        </EntityType>
+        <EntityType Name="AccountsRole">
+          <Key>
+            <PropertyRef Name="AccountsRoleId" />
+          </Key>
+          <Property Name="AccountsRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Accounts" Relationship="PauFacultyPortalModel.FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId" FromRole="AccountsRole" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="CourseForDepartment">
+          <Key>
+            <PropertyRef Name="CourseForDepartmentId" />
+          </Key>
+          <Property Name="CourseForDepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SerializedSemesterId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="CourseType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CourseCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CourseName" Type="String" MaxLength="180" FixedLength="false" Unicode="true" />
+          <Property Name="PrerequisiteCourse" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Credit" Type="Double" Nullable="false" />
+          <Property Name="Deactivate" Type="Boolean" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GradingSystemId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EffectiveBatch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EndBatch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CourseForStudentsAcademics" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" FromRole="CourseForDepartment" ToRole="CourseForStudentsAcademic" />
+        </EntityType>
+        <EntityType Name="CourseForStudentsAcademic">
+          <Key>
+            <PropertyRef Name="CourseForStudentsAcademicId" />
+          </Key>
+          <Property Name="CourseForStudentsAcademicId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentIdentificationId" Type="Int32" Nullable="false" />
+          <Property Name="CourseForDepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="SemesterId" Type="Int32" Nullable="false" />
+          <Property Name="Attendance" Type="Double" Nullable="false" />
+          <Property Name="ClassTest" Type="Double" Nullable="false" />
+          <Property Name="Midterm" Type="Double" Nullable="false" />
+          <Property Name="FinalTerm" Type="Double" Nullable="false" />
+          <Property Name="TotalMark" Type="Double" Nullable="false" />
+          <Property Name="Grade" Type="Double" Nullable="false" />
+          <Property Name="TotalGrade" Type="Double" Nullable="false" />
+          <Property Name="LetterGrade" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CourseStatusId" Type="Int32" Nullable="false" />
+          <Property Name="PreviousCourseStatus" Type="Int32" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SectionId" Type="Int32" />
+          <Property Name="PaymentRegistrationId" Type="Int32" />
+          <Property Name="GradingSystemId" Type="Int32" />
+          <Property Name="ReferenceCourseId" Type="Int32" />
+          <Property Name="RetakeAdv" Type="Boolean" Nullable="false" />
+          <Property Name="ImpAdv" Type="Boolean" Nullable="false" />
+          <Property Name="EvaluationComplete" Type="Boolean" Nullable="false" />
+          <Property Name="DeclareMajor" Type="Boolean" Nullable="false" />
+          <Property Name="WithHelded" Type="Boolean" Nullable="false" />
+          <Property Name="ReportedCase" Type="Boolean" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ScrutinizedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstScrutinized" Type="Boolean" Nullable="false" />
+          <Property Name="SecondScrutinized" Type="Boolean" Nullable="false" />
+          <Property Name="SuspendedForProbation" Type="Boolean" Nullable="false" />
+          <Property Name="SpecialMarkSubmit" Type="Boolean" />
+          <Property Name="Entry_By" Type="Int32" />
+          <Property Name="Entry_Date" Type="DateTime" Precision="3" />
+          <Property Name="Modify_By" Type="Int32" />
+          <Property Name="Modified_Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CourseForDepartment" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" FromRole="CourseForStudentsAcademic" ToRole="CourseForDepartment" />
+          <NavigationProperty Name="CourseStatu" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId" FromRole="CourseForStudentsAcademic" ToRole="CourseStatu" />
+          <NavigationProperty Name="GradingSystem" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" FromRole="CourseForStudentsAcademic" ToRole="GradingSystem" />
+          <NavigationProperty Name="Semester" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" FromRole="CourseForStudentsAcademic" ToRole="Semester" />
+        </EntityType>
         <EntityType Name="CourseStatu">
           <Key>
             <PropertyRef Name="CourseStatusId" />
@@ -1010,7 +1108,6 @@
           <NavigationProperty Name="School" Relationship="PauFacultyPortalModel.FK_dbo_Departments_dbo_Schools_SchoolId" FromRole="Department" ToRole="School" />
           <NavigationProperty Name="Semesters" Relationship="PauFacultyPortalModel.FK_dbo_Semesters_dbo_Departments_DepartmentId" FromRole="Department" ToRole="Semester" />
           <NavigationProperty Name="Teachers" Relationship="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Departments_DepartmentId" FromRole="Department" ToRole="Teacher" />
-          <NavigationProperty Name="CourseForDepartments" Relationship="PauFacultyPortalModel.FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId" FromRole="Department" ToRole="CourseForDepartment" />
         </EntityType>
         <EntityType Name="GradingSystem">
           <Key>
@@ -1032,8 +1129,20 @@
           <Property Name="SpecFailGrade" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MinMarkToPass" Type="Double" Nullable="false" />
           <Property Name="ImpactOffResult" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Sections" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_GradingSystems_GradingSystemId" FromRole="GradingSystem" ToRole="Section" />
           <NavigationProperty Name="CourseForStudentsAcademics" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" FromRole="GradingSystem" ToRole="CourseForStudentsAcademic" />
+          <NavigationProperty Name="Sections" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_GradingSystems_GradingSystemId" FromRole="GradingSystem" ToRole="Section" />
+        </EntityType>
+        <EntityType Name="LoginHistory">
+          <Key>
+            <PropertyRef Name="LoginHistoryId" />
+          </Key>
+          <Property Name="LoginHistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Int32" Nullable="false" />
+          <Property Name="EntryTime" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="LastVisitedPage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PcAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Browser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1081,10 +1190,13 @@
           <Property Name="RevisedStat" Type="Boolean" Nullable="false" />
           <Property Name="ResubmitDate" Type="DateTime" Precision="3" />
           <Property Name="NonCreditMarkSubmit" Type="Boolean" Nullable="false" />
+          <Property Name="TotalAttendanceMark" Type="Double" />
+          <Property Name="TotalClassTestMark" Type="Double" />
+          <Property Name="TotalMidMark" Type="Double" />
+          <Property Name="TotalFinalMark" Type="Double" />
           <NavigationProperty Name="GradingSystem" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_GradingSystems_GradingSystemId" FromRole="Section" ToRole="GradingSystem" />
           <NavigationProperty Name="Semester" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_Semesters_SemesterId" FromRole="Section" ToRole="Semester" />
           <NavigationProperty Name="Teacher" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_Teachers_TeacherId" FromRole="Section" ToRole="Teacher" />
-          <NavigationProperty Name="CourseForDepartment" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_CourseForDepartments_CourseForDepartmentId" FromRole="Section" ToRole="CourseForDepartment" />
         </EntityType>
         <EntityType Name="SemesterInfo">
           <Key>
@@ -1116,9 +1228,40 @@
           <Property Name="AdmissionStartDate" Type="DateTime" Precision="3" />
           <Property Name="AdmissionEndDate" Type="DateTime" Precision="3" />
           <Property Name="PublishResult" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CourseForStudentsAcademics" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" FromRole="Semester" ToRole="CourseForStudentsAcademic" />
           <NavigationProperty Name="Department" Relationship="PauFacultyPortalModel.FK_dbo_Semesters_dbo_Departments_DepartmentId" FromRole="Semester" ToRole="Department" />
           <NavigationProperty Name="Sections" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_Semesters_SemesterId" FromRole="Semester" ToRole="Section" />
-          <NavigationProperty Name="CourseForStudentsAcademics" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" FromRole="Semester" ToRole="CourseForStudentsAcademic" />
+        </EntityType>
+        <EntityType Name="StudentIdentification">
+          <Key>
+            <PropertyRef Name="StudentIdentificationId" />
+          </Key>
+          <Property Name="StudentIdentificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SchoolId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="SemesterInfoId" Type="Int32" Nullable="false" />
+          <Property Name="StudentId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SemesterAndYear" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Validation" Type="Boolean" Nullable="false" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StudentInfoId" Type="Int32" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DiplomaStudent" Type="Boolean" Nullable="false" />
+          <Property Name="StudentPicture" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreditTransfer" Type="Boolean" Nullable="false" />
+          <Property Name="SemesterId" Type="Int32" Nullable="false" />
+          <Property Name="BlockStudent" Type="Boolean" Nullable="false" />
+          <Property Name="BlockReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BlockExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="EntryBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastPsswordChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SuspendedByProbation" Type="Boolean" Nullable="false" />
+          <Property Name="StudentGroupId" Type="Int32" Nullable="false" />
+          <Property Name="StudentGuid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AcademicRecordFile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="School" Relationship="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_Schools_SchoolId" FromRole="StudentIdentification" ToRole="School" />
+          <NavigationProperty Name="SemesterInfo" Relationship="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId" FromRole="StudentIdentification" ToRole="SemesterInfo" />
         </EntityType>
         <EntityType Name="StudentInfo">
           <Key>
@@ -1169,7 +1312,28 @@
           <Property Name="EntryBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Department" Relationship="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Departments_DepartmentId" FromRole="Teacher" ToRole="Department" />
           <NavigationProperty Name="Sections" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_Teachers_TeacherId" FromRole="Teacher" ToRole="Section" />
-          <NavigationProperty Name="Account" Relationship="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId" FromRole="Teacher" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="UserActivity">
+          <Key>
+            <PropertyRef Name="UserActivityId" />
+          </Key>
+          <Property Name="UserActivityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserActivityTypeId" Type="Int32" Nullable="false" />
+          <Property Name="AccountId" Type="Int32" Nullable="false" />
+          <Property Name="Activity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StudentId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ActivityTime" Type="DateTime" Precision="3" />
+          <Property Name="Seen" Type="Boolean" Nullable="false" />
+          <Property Name="ComputerIp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserActivityType" Relationship="PauFacultyPortalModel.FK_dbo_UserActivities_dbo_UserActivityTypes_UserActivityTypeId" FromRole="UserActivity" ToRole="UserActivityType" />
+        </EntityType>
+        <EntityType Name="UserActivityType">
+          <Key>
+            <PropertyRef Name="UserActivityTypeId" />
+          </Key>
+          <Property Name="UserActivityTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActivityType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserActivities" Relationship="PauFacultyPortalModel.FK_dbo_UserActivities_dbo_UserActivityTypes_UserActivityTypeId" FromRole="UserActivityType" ToRole="UserActivity" />
         </EntityType>
         <Association Name="FK_dbo_AccountExtEducations_dbo_AccountMetaProfessionals_AccountMetaProfessionalId">
           <End Type="PauFacultyPortalModel.AccountMetaProfessional" Role="AccountMetaProfessional" Multiplicity="1" />
@@ -1216,6 +1380,66 @@
             </Principal>
             <Dependent Role="AccountExtPublication">
               <PropertyRef Name="AccountMetaProfessionalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId">
+          <End Type="PauFacultyPortalModel.AccountsRole" Role="AccountsRole" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.Account" Role="Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountsRole">
+              <PropertyRef Name="AccountsRoleId" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="AccountsRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId">
+          <End Type="PauFacultyPortalModel.CourseForDepartment" Role="CourseForDepartment" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.CourseForStudentsAcademic" Role="CourseForStudentsAcademic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseForDepartment">
+              <PropertyRef Name="CourseForDepartmentId" />
+            </Principal>
+            <Dependent Role="CourseForStudentsAcademic">
+              <PropertyRef Name="CourseForDepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId">
+          <End Type="PauFacultyPortalModel.CourseStatu" Role="CourseStatu" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.CourseForStudentsAcademic" Role="CourseForStudentsAcademic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseStatu">
+              <PropertyRef Name="CourseStatusId" />
+            </Principal>
+            <Dependent Role="CourseForStudentsAcademic">
+              <PropertyRef Name="CourseStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId">
+          <End Type="PauFacultyPortalModel.GradingSystem" Role="GradingSystem" Multiplicity="0..1" />
+          <End Type="PauFacultyPortalModel.CourseForStudentsAcademic" Role="CourseForStudentsAcademic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GradingSystem">
+              <PropertyRef Name="GradingSystemId" />
+            </Principal>
+            <Dependent Role="CourseForStudentsAcademic">
+              <PropertyRef Name="GradingSystemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId">
+          <End Type="PauFacultyPortalModel.Semester" Role="Semester" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.CourseForStudentsAcademic" Role="CourseForStudentsAcademic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="SemesterId" />
+            </Principal>
+            <Dependent Role="CourseForStudentsAcademic">
+              <PropertyRef Name="SemesterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1267,6 +1491,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_StudentIdentifications_dbo_Schools_SchoolId">
+          <End Type="PauFacultyPortalModel.School" Role="School" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.StudentIdentification" Role="StudentIdentification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="School">
+              <PropertyRef Name="SchoolId" />
+            </Principal>
+            <Dependent Role="StudentIdentification">
+              <PropertyRef Name="SchoolId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Sections_dbo_Semesters_SemesterId">
           <End Type="PauFacultyPortalModel.Semester" Role="Semester" Multiplicity="1" />
           <End Type="PauFacultyPortalModel.Section" Role="Section" Multiplicity="*" />
@@ -1291,134 +1527,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Account">
-          <Key>
-            <PropertyRef Name="AccountId" />
-          </Key>
-          <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TeleExchange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Designation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DepartmentSection" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LoginIdentity" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AccountsRoleId" Type="Int32" Nullable="false" />
-          <Property Name="Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="AccountHash" Type="Guid" />
-          <Property Name="PartimeTeacher" Type="Boolean" Nullable="false" />
-          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Deactivate" Type="Boolean" Nullable="false" />
-          <Property Name="CauseOfDeactivate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TeporaryBlock" Type="Boolean" Nullable="false" />
-          <Property Name="TemporaryBlockExpireDate" Type="DateTime" Precision="3" />
-          <Property Name="LastPsswordChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Teachers" Relationship="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId" FromRole="Account" ToRole="Teacher" />
-        </EntityType>
-        <Association Name="FK_dbo_Teachers_dbo_Accounts_AccountId">
-          <End Type="PauFacultyPortalModel.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="PauFacultyPortalModel.Teacher" Role="Teacher" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="AccountId" />
-            </Principal>
-            <Dependent Role="Teacher">
-              <PropertyRef Name="AccountId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="CourseForDepartment">
-          <Key>
-            <PropertyRef Name="CourseForDepartmentId" />
-          </Key>
-          <Property Name="CourseForDepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SerializedSemesterId" Type="Int32" Nullable="false" />
-          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
-          <Property Name="CourseType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CourseCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CourseName" Type="String" MaxLength="180" FixedLength="false" Unicode="true" />
-          <Property Name="PrerequisiteCourse" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Credit" Type="Double" Nullable="false" />
-          <Property Name="Deactivate" Type="Boolean" Nullable="false" />
-          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="GradingSystemId" Type="Int32" Nullable="false" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EffectiveBatch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EndBatch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Department" Relationship="PauFacultyPortalModel.FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId" FromRole="CourseForDepartment" ToRole="Department" />
-          <NavigationProperty Name="Sections" Relationship="PauFacultyPortalModel.FK_dbo_Sections_dbo_CourseForDepartments_CourseForDepartmentId" FromRole="CourseForDepartment" ToRole="Section" />
-          <NavigationProperty Name="CourseForStudentsAcademics" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" FromRole="CourseForDepartment" ToRole="CourseForStudentsAcademic" />
-        </EntityType>
-        <EntityType Name="StudentIdentification">
-          <Key>
-            <PropertyRef Name="StudentIdentificationId" />
-          </Key>
-          <Property Name="StudentIdentificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SchoolId" Type="Int32" Nullable="false" />
-          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
-          <Property Name="SemesterInfoId" Type="Int32" Nullable="false" />
-          <Property Name="StudentId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="SemesterAndYear" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Validation" Type="Boolean" Nullable="false" />
-          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="StudentInfoId" Type="Int32" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DiplomaStudent" Type="Boolean" Nullable="false" />
-          <Property Name="StudentPicture" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreditTransfer" Type="Boolean" Nullable="false" />
-          <Property Name="SemesterId" Type="Int32" Nullable="false" />
-          <Property Name="BlockStudent" Type="Boolean" Nullable="false" />
-          <Property Name="BlockReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BlockExpireDate" Type="DateTime" Precision="3" />
-          <Property Name="EntryBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LastPsswordChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SuspendedByProbation" Type="Boolean" Nullable="false" />
-          <Property Name="StudentGroupId" Type="Int32" Nullable="false" />
-          <Property Name="StudentGuid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AcademicRecordFile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="School" Relationship="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_Schools_SchoolId" FromRole="StudentIdentification" ToRole="School" />
-          <NavigationProperty Name="SemesterInfo" Relationship="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId" FromRole="StudentIdentification" ToRole="SemesterInfo" />
-        </EntityType>
-        <Association Name="FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId">
-          <End Type="PauFacultyPortalModel.Department" Role="Department" Multiplicity="1" />
-          <End Type="PauFacultyPortalModel.CourseForDepartment" Role="CourseForDepartment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentId" />
-            </Principal>
-            <Dependent Role="CourseForDepartment">
-              <PropertyRef Name="DepartmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Sections_dbo_CourseForDepartments_CourseForDepartmentId">
-          <End Type="PauFacultyPortalModel.CourseForDepartment" Role="CourseForDepartment" Multiplicity="1" />
-          <End Type="PauFacultyPortalModel.Section" Role="Section" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CourseForDepartment">
-              <PropertyRef Name="CourseForDepartmentId" />
-            </Principal>
-            <Dependent Role="Section">
-              <PropertyRef Name="CourseForDepartmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_StudentIdentifications_dbo_Schools_SchoolId">
-          <End Type="PauFacultyPortalModel.School" Role="School" Multiplicity="1" />
-          <End Type="PauFacultyPortalModel.StudentIdentification" Role="StudentIdentification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="School">
-              <PropertyRef Name="SchoolId" />
-            </Principal>
-            <Dependent Role="StudentIdentification">
-              <PropertyRef Name="SchoolId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId">
           <End Type="PauFacultyPortalModel.SemesterInfo" Role="SemesterInfo" Multiplicity="1" />
           <End Type="PauFacultyPortalModel.StudentIdentification" Role="StudentIdentification" Multiplicity="*" />
@@ -1431,40 +1539,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="LoginHistory">
-          <Key>
-            <PropertyRef Name="LoginHistoryId" />
-          </Key>
-          <Property Name="LoginHistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AccountId" Type="Int32" Nullable="false" />
-          <Property Name="EntryTime" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="LastVisitedPage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PcAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DeviceType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Browser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="UserActivity">
-          <Key>
-            <PropertyRef Name="UserActivityId" />
-          </Key>
-          <Property Name="UserActivityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserActivityTypeId" Type="Int32" Nullable="false" />
-          <Property Name="AccountId" Type="Int32" Nullable="false" />
-          <Property Name="Activity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="StudentId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ActivityTime" Type="DateTime" Precision="3" />
-          <Property Name="Seen" Type="Boolean" Nullable="false" />
-          <Property Name="ComputerIp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserActivityType" Relationship="PauFacultyPortalModel.FK_dbo_UserActivities_dbo_UserActivityTypes_UserActivityTypeId" FromRole="UserActivity" ToRole="UserActivityType" />
-        </EntityType>
-        <EntityType Name="UserActivityType">
-          <Key>
-            <PropertyRef Name="UserActivityTypeId" />
-          </Key>
-          <Property Name="UserActivityTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ActivityType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserActivities" Relationship="PauFacultyPortalModel.FK_dbo_UserActivities_dbo_UserActivityTypes_UserActivityTypeId" FromRole="UserActivityType" ToRole="UserActivity" />
-        </EntityType>
         <Association Name="FK_dbo_UserActivities_dbo_UserActivityTypes_UserActivityTypeId">
           <End Type="PauFacultyPortalModel.UserActivityType" Role="UserActivityType" Multiplicity="1" />
           <End Type="PauFacultyPortalModel.UserActivity" Role="UserActivity" Multiplicity="*" />
@@ -1474,96 +1548,6 @@
             </Principal>
             <Dependent Role="UserActivity">
               <PropertyRef Name="UserActivityTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="CourseForStudentsAcademic">
-          <Key>
-            <PropertyRef Name="CourseForStudentsAcademicId" />
-          </Key>
-          <Property Name="CourseForStudentsAcademicId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StudentIdentificationId" Type="Int32" Nullable="false" />
-          <Property Name="CourseForDepartmentId" Type="Int32" Nullable="false" />
-          <Property Name="SemesterId" Type="Int32" Nullable="false" />
-          <Property Name="Attendance" Type="Double" Nullable="false" />
-          <Property Name="ClassTest" Type="Double" Nullable="false" />
-          <Property Name="Midterm" Type="Double" Nullable="false" />
-          <Property Name="FinalTerm" Type="Double" Nullable="false" />
-          <Property Name="TotalMark" Type="Double" Nullable="false" />
-          <Property Name="Grade" Type="Double" Nullable="false" />
-          <Property Name="TotalGrade" Type="Double" Nullable="false" />
-          <Property Name="LetterGrade" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CourseStatusId" Type="Int32" Nullable="false" />
-          <Property Name="PreviousCourseStatus" Type="Int32" />
-          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SectionId" Type="Int32" />
-          <Property Name="PaymentRegistrationId" Type="Int32" />
-          <Property Name="GradingSystemId" Type="Int32" />
-          <Property Name="ReferenceCourseId" Type="Int32" />
-          <Property Name="RetakeAdv" Type="Boolean" Nullable="false" />
-          <Property Name="ImpAdv" Type="Boolean" Nullable="false" />
-          <Property Name="EvaluationComplete" Type="Boolean" Nullable="false" />
-          <Property Name="DeclareMajor" Type="Boolean" Nullable="false" />
-          <Property Name="WithHelded" Type="Boolean" Nullable="false" />
-          <Property Name="ReportedCase" Type="Boolean" Nullable="false" />
-          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ScrutinizedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FirstScrutinized" Type="Boolean" Nullable="false" />
-          <Property Name="SecondScrutinized" Type="Boolean" Nullable="false" />
-          <Property Name="SuspendedForProbation" Type="Boolean" Nullable="false" />
-          <Property Name="SpecialMarkSubmit" Type="Boolean" />
-          <Property Name="Modify_By" Type="Int32" />
-          <Property Name="Modified_Date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CourseForDepartment" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" FromRole="CourseForStudentsAcademic" ToRole="CourseForDepartment" />
-          <NavigationProperty Name="CourseStatu" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId" FromRole="CourseForStudentsAcademic" ToRole="CourseStatu" />
-          <NavigationProperty Name="GradingSystem" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" FromRole="CourseForStudentsAcademic" ToRole="GradingSystem" />
-          <NavigationProperty Name="Semester" Relationship="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" FromRole="CourseForStudentsAcademic" ToRole="Semester" />
-        </EntityType>
-        <Association Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId">
-          <End Type="PauFacultyPortalModel.CourseForDepartment" Role="CourseForDepartment" Multiplicity="1" />
-          <End Type="PauFacultyPortalModel.CourseForStudentsAcademic" Role="CourseForStudentsAcademic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CourseForDepartment">
-              <PropertyRef Name="CourseForDepartmentId" />
-            </Principal>
-            <Dependent Role="CourseForStudentsAcademic">
-              <PropertyRef Name="CourseForDepartmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId">
-          <End Type="PauFacultyPortalModel.CourseStatu" Role="CourseStatu" Multiplicity="1" />
-          <End Type="PauFacultyPortalModel.CourseForStudentsAcademic" Role="CourseForStudentsAcademic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CourseStatu">
-              <PropertyRef Name="CourseStatusId" />
-            </Principal>
-            <Dependent Role="CourseForStudentsAcademic">
-              <PropertyRef Name="CourseStatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId">
-          <End Type="PauFacultyPortalModel.GradingSystem" Role="GradingSystem" Multiplicity="0..1" />
-          <End Type="PauFacultyPortalModel.CourseForStudentsAcademic" Role="CourseForStudentsAcademic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GradingSystem">
-              <PropertyRef Name="GradingSystemId" />
-            </Principal>
-            <Dependent Role="CourseForStudentsAcademic">
-              <PropertyRef Name="GradingSystemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId">
-          <End Type="PauFacultyPortalModel.Semester" Role="Semester" Multiplicity="1" />
-          <End Type="PauFacultyPortalModel.CourseForStudentsAcademic" Role="CourseForStudentsAcademic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Semester">
-              <PropertyRef Name="SemesterId" />
-            </Principal>
-            <Dependent Role="CourseForStudentsAcademic">
-              <PropertyRef Name="SemesterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1687,6 +1671,102 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="LastPsswordChange" ColumnName="LastPsswordChange" />
+                <ScalarProperty Name="TemporaryBlockExpireDate" ColumnName="TemporaryBlockExpireDate" />
+                <ScalarProperty Name="TeporaryBlock" ColumnName="TeporaryBlock" />
+                <ScalarProperty Name="CauseOfDeactivate" ColumnName="CauseOfDeactivate" />
+                <ScalarProperty Name="Deactivate" ColumnName="Deactivate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="PartimeTeacher" ColumnName="PartimeTeacher" />
+                <ScalarProperty Name="AccountHash" ColumnName="AccountHash" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Pic" ColumnName="Pic" />
+                <ScalarProperty Name="AccountsRoleId" ColumnName="AccountsRoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginIdentity" ColumnName="LoginIdentity" />
+                <ScalarProperty Name="DepartmentSection" ColumnName="DepartmentSection" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="TeleExchange" ColumnName="TeleExchange" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountsRoles">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.AccountsRole">
+              <MappingFragment StoreEntitySet="AccountsRoles">
+                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+                <ScalarProperty Name="AccountsRoleId" ColumnName="AccountsRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseForDepartments">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.CourseForDepartment">
+              <MappingFragment StoreEntitySet="CourseForDepartments">
+                <ScalarProperty Name="EndBatch" ColumnName="EndBatch" />
+                <ScalarProperty Name="EffectiveBatch" ColumnName="EffectiveBatch" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="GradingSystemId" ColumnName="GradingSystemId" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Deactivate" ColumnName="Deactivate" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="PrerequisiteCourse" ColumnName="PrerequisiteCourse" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CourseCode" ColumnName="CourseCode" />
+                <ScalarProperty Name="CourseType" ColumnName="CourseType" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="SerializedSemesterId" ColumnName="SerializedSemesterId" />
+                <ScalarProperty Name="CourseForDepartmentId" ColumnName="CourseForDepartmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseForStudentsAcademics">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.CourseForStudentsAcademic">
+              <MappingFragment StoreEntitySet="CourseForStudentsAcademics">
+                <ScalarProperty Name="Modified_Date" ColumnName="Modified_Date" />
+                <ScalarProperty Name="Modify_By" ColumnName="Modify_By" />
+                <ScalarProperty Name="Entry_Date" ColumnName="Entry_Date" />
+                <ScalarProperty Name="Entry_By" ColumnName="Entry_By" />
+                <ScalarProperty Name="SpecialMarkSubmit" ColumnName="SpecialMarkSubmit" />
+                <ScalarProperty Name="SuspendedForProbation" ColumnName="SuspendedForProbation" />
+                <ScalarProperty Name="SecondScrutinized" ColumnName="SecondScrutinized" />
+                <ScalarProperty Name="FirstScrutinized" ColumnName="FirstScrutinized" />
+                <ScalarProperty Name="ScrutinizedBy" ColumnName="ScrutinizedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ReportedCase" ColumnName="ReportedCase" />
+                <ScalarProperty Name="WithHelded" ColumnName="WithHelded" />
+                <ScalarProperty Name="DeclareMajor" ColumnName="DeclareMajor" />
+                <ScalarProperty Name="EvaluationComplete" ColumnName="EvaluationComplete" />
+                <ScalarProperty Name="ImpAdv" ColumnName="ImpAdv" />
+                <ScalarProperty Name="RetakeAdv" ColumnName="RetakeAdv" />
+                <ScalarProperty Name="ReferenceCourseId" ColumnName="ReferenceCourseId" />
+                <ScalarProperty Name="GradingSystemId" ColumnName="GradingSystemId" />
+                <ScalarProperty Name="PaymentRegistrationId" ColumnName="PaymentRegistrationId" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="PreviousCourseStatus" ColumnName="PreviousCourseStatus" />
+                <ScalarProperty Name="CourseStatusId" ColumnName="CourseStatusId" />
+                <ScalarProperty Name="LetterGrade" ColumnName="LetterGrade" />
+                <ScalarProperty Name="TotalGrade" ColumnName="TotalGrade" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="TotalMark" ColumnName="TotalMark" />
+                <ScalarProperty Name="FinalTerm" ColumnName="FinalTerm" />
+                <ScalarProperty Name="Midterm" ColumnName="Midterm" />
+                <ScalarProperty Name="ClassTest" ColumnName="ClassTest" />
+                <ScalarProperty Name="Attendance" ColumnName="Attendance" />
+                <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
+                <ScalarProperty Name="CourseForDepartmentId" ColumnName="CourseForDepartmentId" />
+                <ScalarProperty Name="StudentIdentificationId" ColumnName="StudentIdentificationId" />
+                <ScalarProperty Name="CourseForStudentsAcademicId" ColumnName="CourseForStudentsAcademicId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CourseStatus">
             <EntityTypeMapping TypeName="PauFacultyPortalModel.CourseStatu">
               <MappingFragment StoreEntitySet="CourseStatus">
@@ -1740,6 +1820,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LoginHistories">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.LoginHistory">
+              <MappingFragment StoreEntitySet="LoginHistories">
+                <ScalarProperty Name="Browser" ColumnName="Browser" />
+                <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
+                <ScalarProperty Name="PcAddress" ColumnName="PcAddress" />
+                <ScalarProperty Name="LastVisitedPage" ColumnName="LastVisitedPage" />
+                <ScalarProperty Name="EntryTime" ColumnName="EntryTime" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="LoginHistoryId" ColumnName="LoginHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Notifications">
             <EntityTypeMapping TypeName="PauFacultyPortalModel.Notification">
               <MappingFragment StoreEntitySet="Notifications">
@@ -1766,6 +1859,10 @@
           <EntitySetMapping Name="Sections">
             <EntityTypeMapping TypeName="PauFacultyPortalModel.Section">
               <MappingFragment StoreEntitySet="Sections">
+                <ScalarProperty Name="TotalFinalMark" ColumnName="TotalFinalMark" />
+                <ScalarProperty Name="TotalMidMark" ColumnName="TotalMidMark" />
+                <ScalarProperty Name="TotalClassTestMark" ColumnName="TotalClassTestMark" />
+                <ScalarProperty Name="TotalAttendanceMark" ColumnName="TotalAttendanceMark" />
                 <ScalarProperty Name="NonCreditMarkSubmit" ColumnName="NonCreditMarkSubmit" />
                 <ScalarProperty Name="ResubmitDate" ColumnName="ResubmitDate" />
                 <ScalarProperty Name="RevisedStat" ColumnName="RevisedStat" />
@@ -1820,6 +1917,36 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="StudentIdentifications">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.StudentIdentification">
+              <MappingFragment StoreEntitySet="StudentIdentifications">
+                <ScalarProperty Name="AcademicRecordFile" ColumnName="AcademicRecordFile" />
+                <ScalarProperty Name="StudentGuid" ColumnName="StudentGuid" />
+                <ScalarProperty Name="StudentGroupId" ColumnName="StudentGroupId" />
+                <ScalarProperty Name="SuspendedByProbation" ColumnName="SuspendedByProbation" />
+                <ScalarProperty Name="LastPsswordChange" ColumnName="LastPsswordChange" />
+                <ScalarProperty Name="EntryBy" ColumnName="EntryBy" />
+                <ScalarProperty Name="BlockExpireDate" ColumnName="BlockExpireDate" />
+                <ScalarProperty Name="BlockReason" ColumnName="BlockReason" />
+                <ScalarProperty Name="BlockStudent" ColumnName="BlockStudent" />
+                <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
+                <ScalarProperty Name="CreditTransfer" ColumnName="CreditTransfer" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="StudentPicture" ColumnName="StudentPicture" />
+                <ScalarProperty Name="DiplomaStudent" ColumnName="DiplomaStudent" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="StudentInfoId" ColumnName="StudentInfoId" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="Validation" ColumnName="Validation" />
+                <ScalarProperty Name="SemesterAndYear" ColumnName="SemesterAndYear" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="SemesterInfoId" ColumnName="SemesterInfoId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
+                <ScalarProperty Name="StudentIdentificationId" ColumnName="StudentIdentificationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="StudentInfoes">
             <EntityTypeMapping TypeName="PauFacultyPortalModel.StudentInfo">
               <MappingFragment StoreEntitySet="StudentInfoes">
@@ -1871,96 +1998,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Accounts">
-            <EntityTypeMapping TypeName="PauFacultyPortalModel.Account">
-              <MappingFragment StoreEntitySet="Accounts">
-                <ScalarProperty Name="LastPsswordChange" ColumnName="LastPsswordChange" />
-                <ScalarProperty Name="TemporaryBlockExpireDate" ColumnName="TemporaryBlockExpireDate" />
-                <ScalarProperty Name="TeporaryBlock" ColumnName="TeporaryBlock" />
-                <ScalarProperty Name="CauseOfDeactivate" ColumnName="CauseOfDeactivate" />
-                <ScalarProperty Name="Deactivate" ColumnName="Deactivate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
-                <ScalarProperty Name="PartimeTeacher" ColumnName="PartimeTeacher" />
-                <ScalarProperty Name="AccountHash" ColumnName="AccountHash" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Pic" ColumnName="Pic" />
-                <ScalarProperty Name="AccountsRoleId" ColumnName="AccountsRoleId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="LoginIdentity" ColumnName="LoginIdentity" />
-                <ScalarProperty Name="DepartmentSection" ColumnName="DepartmentSection" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="TeleExchange" ColumnName="TeleExchange" />
-                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CourseForDepartments">
-            <EntityTypeMapping TypeName="PauFacultyPortalModel.CourseForDepartment">
-              <MappingFragment StoreEntitySet="CourseForDepartments">
-                <ScalarProperty Name="EndBatch" ColumnName="EndBatch" />
-                <ScalarProperty Name="EffectiveBatch" ColumnName="EffectiveBatch" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="GradingSystemId" ColumnName="GradingSystemId" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="Deactivate" ColumnName="Deactivate" />
-                <ScalarProperty Name="Credit" ColumnName="Credit" />
-                <ScalarProperty Name="PrerequisiteCourse" ColumnName="PrerequisiteCourse" />
-                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
-                <ScalarProperty Name="CourseCode" ColumnName="CourseCode" />
-                <ScalarProperty Name="CourseType" ColumnName="CourseType" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="SerializedSemesterId" ColumnName="SerializedSemesterId" />
-                <ScalarProperty Name="CourseForDepartmentId" ColumnName="CourseForDepartmentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StudentIdentifications">
-            <EntityTypeMapping TypeName="PauFacultyPortalModel.StudentIdentification">
-              <MappingFragment StoreEntitySet="StudentIdentifications">
-                <ScalarProperty Name="AcademicRecordFile" ColumnName="AcademicRecordFile" />
-                <ScalarProperty Name="StudentGuid" ColumnName="StudentGuid" />
-                <ScalarProperty Name="StudentGroupId" ColumnName="StudentGroupId" />
-                <ScalarProperty Name="SuspendedByProbation" ColumnName="SuspendedByProbation" />
-                <ScalarProperty Name="LastPsswordChange" ColumnName="LastPsswordChange" />
-                <ScalarProperty Name="EntryBy" ColumnName="EntryBy" />
-                <ScalarProperty Name="BlockExpireDate" ColumnName="BlockExpireDate" />
-                <ScalarProperty Name="BlockReason" ColumnName="BlockReason" />
-                <ScalarProperty Name="BlockStudent" ColumnName="BlockStudent" />
-                <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
-                <ScalarProperty Name="CreditTransfer" ColumnName="CreditTransfer" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="StudentPicture" ColumnName="StudentPicture" />
-                <ScalarProperty Name="DiplomaStudent" ColumnName="DiplomaStudent" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="StudentInfoId" ColumnName="StudentInfoId" />
-                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
-                <ScalarProperty Name="Validation" ColumnName="Validation" />
-                <ScalarProperty Name="SemesterAndYear" ColumnName="SemesterAndYear" />
-                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
-                <ScalarProperty Name="SemesterInfoId" ColumnName="SemesterInfoId" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
-                <ScalarProperty Name="StudentIdentificationId" ColumnName="StudentIdentificationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LoginHistories">
-            <EntityTypeMapping TypeName="PauFacultyPortalModel.LoginHistory">
-              <MappingFragment StoreEntitySet="LoginHistories">
-                <ScalarProperty Name="Browser" ColumnName="Browser" />
-                <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
-                <ScalarProperty Name="PcAddress" ColumnName="PcAddress" />
-                <ScalarProperty Name="LastVisitedPage" ColumnName="LastVisitedPage" />
-                <ScalarProperty Name="EntryTime" ColumnName="EntryTime" />
-                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-                <ScalarProperty Name="LoginHistoryId" ColumnName="LoginHistoryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserActivities">
             <EntityTypeMapping TypeName="PauFacultyPortalModel.UserActivity">
               <MappingFragment StoreEntitySet="UserActivities">
@@ -1980,45 +2017,6 @@
               <MappingFragment StoreEntitySet="UserActivityTypes">
                 <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
                 <ScalarProperty Name="UserActivityTypeId" ColumnName="UserActivityTypeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CourseForStudentsAcademics">
-            <EntityTypeMapping TypeName="PauFacultyPortalModel.CourseForStudentsAcademic">
-              <MappingFragment StoreEntitySet="CourseForStudentsAcademics">
-                <ScalarProperty Name="Modified_Date" ColumnName="Modified_Date" />
-                <ScalarProperty Name="Modify_By" ColumnName="Modify_By" />
-                <ScalarProperty Name="SpecialMarkSubmit" ColumnName="SpecialMarkSubmit" />
-                <ScalarProperty Name="SuspendedForProbation" ColumnName="SuspendedForProbation" />
-                <ScalarProperty Name="SecondScrutinized" ColumnName="SecondScrutinized" />
-                <ScalarProperty Name="FirstScrutinized" ColumnName="FirstScrutinized" />
-                <ScalarProperty Name="ScrutinizedBy" ColumnName="ScrutinizedBy" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="ReportedCase" ColumnName="ReportedCase" />
-                <ScalarProperty Name="WithHelded" ColumnName="WithHelded" />
-                <ScalarProperty Name="DeclareMajor" ColumnName="DeclareMajor" />
-                <ScalarProperty Name="EvaluationComplete" ColumnName="EvaluationComplete" />
-                <ScalarProperty Name="ImpAdv" ColumnName="ImpAdv" />
-                <ScalarProperty Name="RetakeAdv" ColumnName="RetakeAdv" />
-                <ScalarProperty Name="ReferenceCourseId" ColumnName="ReferenceCourseId" />
-                <ScalarProperty Name="GradingSystemId" ColumnName="GradingSystemId" />
-                <ScalarProperty Name="PaymentRegistrationId" ColumnName="PaymentRegistrationId" />
-                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
-                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
-                <ScalarProperty Name="PreviousCourseStatus" ColumnName="PreviousCourseStatus" />
-                <ScalarProperty Name="CourseStatusId" ColumnName="CourseStatusId" />
-                <ScalarProperty Name="LetterGrade" ColumnName="LetterGrade" />
-                <ScalarProperty Name="TotalGrade" ColumnName="TotalGrade" />
-                <ScalarProperty Name="Grade" ColumnName="Grade" />
-                <ScalarProperty Name="TotalMark" ColumnName="TotalMark" />
-                <ScalarProperty Name="FinalTerm" ColumnName="FinalTerm" />
-                <ScalarProperty Name="Midterm" ColumnName="Midterm" />
-                <ScalarProperty Name="ClassTest" ColumnName="ClassTest" />
-                <ScalarProperty Name="Attendance" ColumnName="Attendance" />
-                <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
-                <ScalarProperty Name="CourseForDepartmentId" ColumnName="CourseForDepartmentId" />
-                <ScalarProperty Name="StudentIdentificationId" ColumnName="StudentIdentificationId" />
-                <ScalarProperty Name="CourseForStudentsAcademicId" ColumnName="CourseForStudentsAcademicId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -17,7 +17,6 @@
         <EntityTypeShape EntityType="PauFacultyPortalModel.GradingSystem" Width="1.5" PointX="8.25" PointY="16.75" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.Notification" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.School" Width="1.5" PointX="0.75" PointY="16.375" />
-        <EntityTypeShape EntityType="PauFacultyPortalModel.Section" Width="1.5" PointX="10.5" PointY="25" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.SemesterInfo" Width="1.5" PointX="0.75" PointY="13.5" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.Semester" Width="1.5" PointX="5.25" PointY="27.75" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.StudentInfo" Width="1.5" PointX="2.75" PointY="4.75" />
@@ -30,15 +29,9 @@
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Departments_dbo_Schools_SchoolId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Semesters_dbo_Departments_DepartmentId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Departments_DepartmentId" />
-        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_GradingSystems_GradingSystemId" />
-        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_Semesters_SemesterId" />
-        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_Teachers_TeacherId" />
-        <EntityTypeShape EntityType="PauFacultyPortalModel.Account" Width="1.5" PointX="7.375" PointY="1.125" />
-        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Accounts_AccountId" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.CourseForDepartment" Width="1.5" PointX="5.25" PointY="22.25" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.StudentIdentification" Width="1.5" PointX="3" PointY="12.875" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForDepartments_dbo_Departments_DepartmentId" />
-        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_CourseForDepartments_CourseForDepartmentId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_Schools_SchoolId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId" />
         <EntityTypeShape EntityType="PauFacultyPortalModel.LoginHistory" Width="1.5" PointX="5.375" PointY="7.75" />
@@ -50,6 +43,30 @@
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" />
         <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.Section" Width="1.5" PointX="10.5" PointY="21.625" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_GradingSystems_GradingSystemId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_Semesters_SemesterId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_Teachers_TeacherId" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.Account" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="PauFacultyPortalModel.AccountsRole" Width="1.5" PointX="0.75" PointY="2.875" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_AccountExtEducations_dbo_AccountMetaProfessionals_AccountMetaProfessionalId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_AccountExtProfessionalActivities_dbo_AccountMetaProfessionals_AccountMetaProfessionalId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_AccountExtProjects_dbo_AccountMetaProfessionals_AccountMetaProfessionalId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_AccountExtPublications_dbo_AccountMetaProfessionals_AccountMetaProfessionalId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseForDepartments_CourseForDepartmentId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_CourseStatus_CourseStatusId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_GradingSystems_GradingSystemId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_CourseForStudentsAcademics_dbo_Semesters_SemesterId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Departments_dbo_Schools_SchoolId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Semesters_dbo_Departments_DepartmentId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Teachers_dbo_Departments_DepartmentId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_GradingSystems_GradingSystemId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_Schools_SchoolId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_Semesters_SemesterId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_Sections_dbo_Teachers_TeacherId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId" />
+        <AssociationConnector Association="PauFacultyPortalModel.FK_dbo_UserActivities_dbo_UserActivityTypes_UserActivityTypeId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

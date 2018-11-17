@@ -33,10 +33,13 @@ namespace PauFacultyPortal.Models
         public bool RevisedStat { get; set; }
         public Nullable<System.DateTime> ResubmitDate { get; set; }
         public bool NonCreditMarkSubmit { get; set; }
+        public Nullable<double> TotalAttendanceMark { get; set; }
+        public Nullable<double> TotalClassTestMark { get; set; }
+        public Nullable<double> TotalMidMark { get; set; }
+        public Nullable<double> TotalFinalMark { get; set; }
     
         public virtual GradingSystem GradingSystem { get; set; }
         public virtual Semester Semester { get; set; }
         public virtual Teacher Teacher { get; set; }
-        public virtual CourseForDepartment CourseForDepartment { get; set; }
     }
 }

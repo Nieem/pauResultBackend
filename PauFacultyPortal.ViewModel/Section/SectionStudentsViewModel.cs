@@ -16,15 +16,17 @@ namespace PauFacultyPortal.ViewModel.Section
         public string StudentID { get; set; }
         public string StudentName { get; set; }
 
-        //[Required(ErrorMessage = "LetterGrade is required")]
-        public string LetterGrade { get; set; }
-
-        //[Required(ErrorMessage = "Grade is required")]
+        public double Attendance { get; set; }
+        public double ClassTest { get; set; }
+        public double Midterm { get; set; }
+        public double FinalTerm { get; set; }
+        public double TotalMark { get; set; }
         public double Grade { get; set; }
+       // public double TotalGrade { get; set; }
 
         //[Required(ErrorMessage = "ConfirmLetterGrade is required")]
         //[Compare("LetterGrade",ErrorMessage = "LetterGrade and ConfirmLetterGrade is Mismatch")]
-        public string ConfirmLetterGrade { get; set; }
+        public string LetterGrade { get; set; }
 
         //[Required(ErrorMessage = "ConfirmGrade is required")]
         //[Compare("Grade", ErrorMessage = "Grade and ConfirmGrade is Mismatch")]
@@ -33,7 +35,7 @@ namespace PauFacultyPortal.ViewModel.Section
         public bool HighLight { get; set; }
 
        public bool? SpecialMarkSubmit { get; set; }
-        public bool? FinalTerm { get; set; }
+        public bool? SemesterFinalTerm { get; set; }
         public DateTime? SpecialGradeuploadDeadLine { get; set; }
         public bool? ConfirmSubmitByFaculty { get; set; }
         public DateTime? ExpireDateTime { get; set; }

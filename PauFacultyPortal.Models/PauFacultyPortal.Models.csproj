@@ -75,6 +75,9 @@
     <Compile Include="AccountReferenceLinktable.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AccountsRole.cs">
+      <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CourseForDepartment.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>

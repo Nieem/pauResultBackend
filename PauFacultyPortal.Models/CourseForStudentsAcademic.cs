@@ -45,6 +45,8 @@ namespace PauFacultyPortal.Models
         public bool SecondScrutinized { get; set; }
         public bool SuspendedForProbation { get; set; }
         public Nullable<bool> SpecialMarkSubmit { get; set; }
+        public Nullable<int> Entry_By { get; set; }
+        public Nullable<System.DateTime> Entry_Date { get; set; }
         public Nullable<int> Modify_By { get; set; }
         public Nullable<System.DateTime> Modified_Date { get; set; }
     

@@ -17,7 +17,6 @@ namespace PauFacultyPortal.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CourseForDepartment()
         {
-            this.Sections = new HashSet<Section>();
             this.CourseForStudentsAcademics = new HashSet<CourseForStudentsAcademic>();
         }
     
@@ -36,9 +35,6 @@ namespace PauFacultyPortal.Models
         public string EffectiveBatch { get; set; }
         public string EndBatch { get; set; }
     
-        public virtual Department Department { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Section> Sections { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
     }

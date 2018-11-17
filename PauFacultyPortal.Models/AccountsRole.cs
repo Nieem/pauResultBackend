@@ -12,23 +12,18 @@ namespace PauFacultyPortal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Teacher
+    public partial class AccountsRole
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Teacher()
+        public AccountsRole()
         {
-            this.Sections = new HashSet<Section>();
+            this.Accounts = new HashSet<Account>();
         }
     
-        public int TeacherId { get; set; }
-        public Nullable<int> AccountId { get; set; }
-        public int DepartmentId { get; set; }
-        public string LoginId { get; set; }
-        public Nullable<System.DateTime> EntryDate { get; set; }
-        public string EntryBy { get; set; }
+        public int AccountsRoleId { get; set; }
+        public string AccountType { get; set; }
     
-        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Section> Sections { get; set; }
+        public virtual ICollection<Account> Accounts { get; set; }
     }
 }

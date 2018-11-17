@@ -77,6 +77,20 @@ namespace PauFacultyPortal.Service.Section
             return modelList;
         }
 
+        // created: 15/11/2018
+        //aa
+        public bool UpdateTeacherTotalMark(SectionListViewModel osection)
+        {
+            var sectionlist = _db.Sections.Where(s => s.SectionId == osection.SectionCode).FirstOrDefault();
+
+            sectionlist.TotalAttendanceMark = osection.TotalAttendanceMark;
+            sectionlist.TotalClassTestMark = osection.TotalClassTestMark;
+            sectionlist.TotalFinalMark = osection.TotalFinalMark;
+            sectionlist.TotalMidMark = osection.TotalMidMark;
+
+            return _db.SaveChanges() > 0;
+
+        }
         // change date: 27 aug 2018 AA
         public bool UpdateStuentResult(SectionStudentsViewModel student)
         {
@@ -251,24 +265,27 @@ namespace PauFacultyPortal.Service.Section
                                   {
                                       SectionID = SectionID,
                                       StudentID = stdInfo.StudentId,
-                                      StudentName = stdInfo.StudentName,
+                                      StudentName = stdInfo.StudentName,                                
+                                      Attendance = crsAcademic.Attendance,
+                                      ClassTest = crsAcademic.ClassTest,
+                                      Midterm = crsAcademic.Midterm,
+                                      FinalTerm = crsAcademic.FinalTerm,
+                                      TotalMark = crsAcademic.TotalMark,
                                       LetterGrade = crsAcademic.LetterGrade,
                                       Grade = crsAcademic.Grade,
-                                      ConfirmLetterGrade = crsAcademic.LetterGrade,
+                                      TotalGrade = crsAcademic.TotalGrade,
                                       ConfirmGrade = crsAcademic.Grade,
                                       HightLight = sec.HighLight,
                                       SpecialMarkSubmit = crsAcademic.SpecialMarkSubmit,
                                       ConfirmSubmitByFaculty = sec.ConfirmSubmitByFaculty,
                                       ExpireDateTime = sec.ExpireDateTime,
-                                      FinalTerm = sem.FinalTerm,
+                                      SemesterFinalTerm = sem.FinalTerm,
                                       SpecialGradeuploadDeadLine = sem.SpecialGradeuploadDeadLine,
                                       CourseCode = crs.CourseCode,
                                       CourseName = crs.CourseName,
                                       SemesterName= sem.SemesterNYear,
                                       SemesterID = sem.SemesterId
                                       
-
-
                                   }).OrderByDescending(x => x.StudentID);
 
 
@@ -279,13 +296,18 @@ namespace PauFacultyPortal.Service.Section
                             SectionID = item.SectionID,
                             StudentID = item.StudentID,
                             StudentName = item.StudentName,
-                            LetterGrade = item.LetterGrade,
+                            Attendance = item.Attendance,
+                            ClassTest = item.ClassTest,
+                            Midterm = item.Midterm,
+                            FinalTerm = item.FinalTerm,
+                            TotalMark = item.TotalMark,                       
                             Grade = item.Grade,
-                            ConfirmLetterGrade = item.ConfirmLetterGrade,
+                            LetterGrade = item.LetterGrade,
+                            TotalGrade = item.TotalGrade,
                             ConfirmGrade = item.ConfirmGrade,
                             HighLight = item.HightLight,
                             SpecialMarkSubmit = item.SpecialMarkSubmit,
-                            FinalTerm = item.FinalTerm,
+                            SemesterFinalTerm = item.SemesterFinalTerm,
                             SpecialGradeuploadDeadLine = item.SpecialGradeuploadDeadLine,
                             ConfirmSubmitByFaculty = item.ConfirmSubmitByFaculty,
                             ExpireDateTime = item.ExpireDateTime,
