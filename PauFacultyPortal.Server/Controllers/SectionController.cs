@@ -10,11 +10,13 @@ using System.Web.Http;
 
 namespace PauFacultyPortal.Server.Controllers
 {
+    [RoutePrefix("api")]
     public class SectionController : ApiController
     {
 
         SectionService service = new SectionService();
 
+        [Route("Section/Get")]
         [HttpGet]
         public HttpResponseMessage Get(int SemesterID)
         {
@@ -32,6 +34,7 @@ namespace PauFacultyPortal.Server.Controllers
 
         }
 
+        [Route("Section/SectionStudent")]
         [HttpGet]
         public HttpResponseMessage GetSectionStudent(int SectionID)
         {
@@ -65,8 +68,8 @@ namespace PauFacultyPortal.Server.Controllers
         //    }
         //}
 
-       
-       [HttpPut]
+        [Route("Section/SectionUpdateByTeacher")]
+        [HttpPut]
         public HttpResponseMessage SectionUpdateByTeacher([FromBody] SectionListViewModel section)
         {
             try
@@ -82,29 +85,29 @@ namespace PauFacultyPortal.Server.Controllers
         }
 
 
-        // this method will be modified byb Rasel
-        //    [HttpPut]
-        //public HttpResponseMessage UpdateStudentData([FromBody]SectionStudentsViewModel students)
-        //{
+        [Route("Section/UpdateStudentData")]
+        [HttpPut]
+        public HttpResponseMessage UpdateStudentData([FromBody]SectionStudentsViewModel students)
+        {
 
-        //    try
-        //    {
-        //        if (students != null && students.FinalUpdate != null)
-        //        {
-        //            return students.FinalUpdate == false ? UpdateStudents(students) : FinalSubmit(students);
-        //        }
-        //        else
-        //        {
-        //            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Request Information Not Found");
-        //        }
+            try
+            {
+                if (students != null && students.FinalUpdate != null)
+                {
+                    return students.FinalUpdate == false ? UpdateStudents(students) : FinalSubmit(students);
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Request Information Not Found");
+                }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
+            }
+            catch (Exception ex)
+            {
 
-        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
-        //    }
-        //}
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
 
 
         private HttpResponseMessage UpdateStudents(SectionStudentsViewModel students)
