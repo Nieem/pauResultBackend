@@ -78,6 +78,9 @@
     <Compile Include="AccountsRole.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="BloodGroup.cs">
+      <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CourseForDepartment.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
@@ -90,10 +93,16 @@
     <Compile Include="Department.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Gender.cs">
+      <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GradingSystem.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="LoginHistory.cs">
+      <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MaritalStatu.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Notification.cs">
@@ -125,6 +134,12 @@
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SemesterInfo.cs">
+      <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAcademicInfo.cs">
+      <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudentAttatchedFileCategory.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="StudentIdentification.cs">

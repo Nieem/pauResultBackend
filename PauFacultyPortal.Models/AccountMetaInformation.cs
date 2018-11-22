@@ -28,5 +28,9 @@ namespace PauFacultyPortal.Models
         public Nullable<System.DateTime> JoiningDateTime { get; set; }
         public Nullable<System.DateTime> EntryDate { get; set; }
         public string EntryBy { get; set; }
+    
+        public virtual BloodGroup BloodGroup { get; set; }
+        public virtual Gender Gender { get; set; }
+        public virtual MaritalStatu MaritalStatu { get; set; }
     }
 }

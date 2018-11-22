@@ -14,7 +14,6 @@ namespace PauFacultyPortal.Service.Auth
     {
         //PauFacultyPortalEntities _db = new PauFacultyPortalEntities();
 
-
         public List<UserViewModel> GetUserList()
         {
             List<UserViewModel> list = new List<UserViewModel>();
@@ -38,14 +37,11 @@ namespace PauFacultyPortal.Service.Auth
                         Password = item.Password,
                         Name = item.Name,
                         Email = item.Email
-
                     };
 
                     list.Add(model);
                 }
             }
-
-
 
             return list;
         }
@@ -87,8 +83,6 @@ namespace PauFacultyPortal.Service.Auth
         //            var user = from act in db.Accounts.Where(x => x.AccountsRoleId == 5 && x.Deactivate == false &&
         //                       x.Email == email && x.LoginIdentity == loginId && x.Password == data.OldPassword)
         //                       select act;
-
-
         //            result = new UserViewModel()
         //            {
         //                Email = user.FirstOrDefault().Email,
@@ -99,8 +93,6 @@ namespace PauFacultyPortal.Service.Auth
 
         //            };
         //        }
-
-
         //    }
         //    return result;
         //}
@@ -117,7 +109,6 @@ namespace PauFacultyPortal.Service.Auth
                                x.Email == email && x.LoginIdentity == loginId)
                                select act;
 
-
                     result = new UserViewModel()
                     {
                         Email = user.FirstOrDefault().Email,
@@ -128,10 +119,7 @@ namespace PauFacultyPortal.Service.Auth
 
                     };
                 }
-
-
             }
-
 
             return result;
 
@@ -148,7 +136,6 @@ namespace PauFacultyPortal.Service.Auth
             string emailTo = "sydul.hassan@primeasia.edu.bd";
             //string emailTo = checkUser.Email;
 
-
             MailMessage mail = new MailMessage();
             string host = "smtp.gmail.com";
             int port = 587;
@@ -161,13 +148,10 @@ namespace PauFacultyPortal.Service.Auth
             server.EnableSsl = true;
             server.Send(mail);
 
-
-
         }
 
         public UserViewModel GetUserInfo(string Identity, string Password)
         {
-
             UserViewModel model = new UserViewModel();
 
             if (!string.IsNullOrEmpty(Identity) && !string.IsNullOrEmpty(Password))
@@ -184,10 +168,7 @@ namespace PauFacultyPortal.Service.Auth
                                       Email = act.Email,
                                       UserType = act.AccountsRoleId == 5 ? "Teacher" : "Advisor"
 
-
                                   }).FirstOrDefault() :(Identity.Length == 9?
-
-
 
                                   (from Sident in db.StudentIdentifications
                                    join  std in db.StudentInfoes 
@@ -203,13 +184,8 @@ namespace PauFacultyPortal.Service.Auth
                                        Email = std.EmailAddress,
                                        UserType = "Student"
 
-
-                                   }).FirstOrDefault()
-
-
-                                  : null);
+                                   }).FirstOrDefault() : null);
                                     
-                  
 
                     model = result!=null ? new UserViewModel()
                     {
@@ -227,8 +203,6 @@ namespace PauFacultyPortal.Service.Auth
 
             return model;
         }
-
-
 
     }
 }

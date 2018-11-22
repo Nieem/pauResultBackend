@@ -145,6 +145,13 @@
           <Property Name="AccountsRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AccountType" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="BloodGroups">
+          <Key>
+            <PropertyRef Name="BloodGroupsId" />
+          </Key>
+          <Property Name="BloodGroupsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="CourseForDepartments">
           <Key>
             <PropertyRef Name="CourseForDepartmentId" />
@@ -233,6 +240,13 @@
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="RequiredCredit" Type="float" Nullable="false" />
         </EntityType>
+        <EntityType Name="Genders">
+          <Key>
+            <PropertyRef Name="GenderId" />
+          </Key>
+          <Property Name="GenderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GenderName" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="GradingSystems">
           <Key>
             <PropertyRef Name="GradingSystemId" />
@@ -265,6 +279,13 @@
           <Property Name="PcAddress" Type="nvarchar(max)" />
           <Property Name="DeviceType" Type="nvarchar(max)" />
           <Property Name="Browser" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MaritalStatus">
+          <Key>
+            <PropertyRef Name="MaritalStatusId" />
+          </Key>
+          <Property Name="MaritalStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaritalStat" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Notifications">
           <Key>
@@ -344,6 +365,31 @@
           <Property Name="AdmissionStartDate" Type="datetime" />
           <Property Name="AdmissionEndDate" Type="datetime" />
           <Property Name="PublishResult" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentAcademicInfoes">
+          <Key>
+            <PropertyRef Name="StudentAcademicInfoId" />
+          </Key>
+          <Property Name="StudentAcademicInfoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentId" Type="nvarchar" MaxLength="20" />
+          <Property Name="NameOfExamination" Type="nvarchar" MaxLength="45" />
+          <Property Name="StartingSession" Type="nvarchar(max)" />
+          <Property Name="UniversityBoard" Type="nvarchar" MaxLength="45" />
+          <Property Name="PassingYear" Type="nvarchar(max)" />
+          <Property Name="Result" Type="nvarchar(max)" />
+          <Property Name="Group" Type="nvarchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="StudentAttatchedFileCategories">
+          <Key>
+            <PropertyRef Name="StudentAttatchedFileCategoryId" />
+          </Key>
+          <Property Name="StudentAttatchedFileCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="CategoryName" Type="nvarchar(max)" />
+          <Property Name="VisibleStudent" Type="bit" Nullable="false" />
+          <Property Name="VisibleCustom" Type="bit" Nullable="false" />
+          <Property Name="VisibleAdmin" Type="bit" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="StudentIdentifications">
           <Key>
@@ -487,6 +533,42 @@
             </Principal>
             <Dependent Role="AccountExtPublications">
               <PropertyRef Name="AccountMetaProfessionalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AccountMetaInformations_dbo_BloodGroups_BloodGroupsId">
+          <End Role="BloodGroups" Type="Self.BloodGroups" Multiplicity="1" />
+          <End Role="AccountMetaInformations" Type="Self.AccountMetaInformations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BloodGroups">
+              <PropertyRef Name="BloodGroupsId" />
+            </Principal>
+            <Dependent Role="AccountMetaInformations">
+              <PropertyRef Name="BloodGroupsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AccountMetaInformations_dbo_Genders_GenderId">
+          <End Role="Genders" Type="Self.Genders" Multiplicity="1" />
+          <End Role="AccountMetaInformations" Type="Self.AccountMetaInformations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="GenderId" />
+            </Principal>
+            <Dependent Role="AccountMetaInformations">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AccountMetaInformations_dbo_MaritalStatus_MaritalStatusId">
+          <End Role="MaritalStatus" Type="Self.MaritalStatus" Multiplicity="1" />
+          <End Role="AccountMetaInformations" Type="Self.AccountMetaInformations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaritalStatus">
+              <PropertyRef Name="MaritalStatusId" />
+            </Principal>
+            <Dependent Role="AccountMetaInformations">
+              <PropertyRef Name="MaritalStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -634,6 +716,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_StudentInfoes_dbo_BloodGroups_BloodGroupsId">
+          <End Role="BloodGroups" Type="Self.BloodGroups" Multiplicity="1" />
+          <End Role="StudentInfoes" Type="Self.StudentInfoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BloodGroups">
+              <PropertyRef Name="BloodGroupsId" />
+            </Principal>
+            <Dependent Role="StudentInfoes">
+              <PropertyRef Name="BloodGroupsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_StudentInfoes_dbo_Genders_GenderId">
+          <End Role="Genders" Type="Self.Genders" Multiplicity="1" />
+          <End Role="StudentInfoes" Type="Self.StudentInfoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genders">
+              <PropertyRef Name="GenderId" />
+            </Principal>
+            <Dependent Role="StudentInfoes">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_StudentInfoes_dbo_MaritalStatus_MaritalStatusId">
+          <End Role="MaritalStatus" Type="Self.MaritalStatus" Multiplicity="1" />
+          <End Role="StudentInfoes" Type="Self.StudentInfoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaritalStatus">
+              <PropertyRef Name="MaritalStatusId" />
+            </Principal>
+            <Dependent Role="StudentInfoes">
+              <PropertyRef Name="MaritalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Teachers_dbo_Departments_DepartmentId">
           <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
           <End Role="Teachers" Type="Self.Teachers" Multiplicity="*" />
@@ -668,17 +786,22 @@
           <EntitySet Name="AccountReferenceLinktable" EntityType="Self.AccountReferenceLinktable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AccountsRoles" EntityType="Self.AccountsRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BloodGroups" EntityType="Self.BloodGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseForDepartments" EntityType="Self.CourseForDepartments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseForStudentsAcademics" EntityType="Self.CourseForStudentsAcademics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseStatus" EntityType="Self.CourseStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GradingSystems" EntityType="Self.GradingSystems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginHistories" EntityType="Self.LoginHistories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaritalStatus" EntityType="Self.MaritalStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Schools" EntityType="Self.Schools" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sections" EntityType="Self.Sections" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SemesterInfoes" EntityType="Self.SemesterInfoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semesters" EntityType="Self.Semesters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentAcademicInfoes" EntityType="Self.StudentAcademicInfoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentAttatchedFileCategories" EntityType="Self.StudentAttatchedFileCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentIdentifications" EntityType="Self.StudentIdentifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentInfoes" EntityType="Self.StudentInfoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TeacherDesignations" EntityType="Self.TeacherDesignations" Schema="dbo" store:Type="Tables" />
@@ -700,6 +823,18 @@
           <AssociationSet Name="FK_dbo_AccountExtPublications_dbo_AccountMetaProfessionals_AccountMetaProfessionalId" Association="Self.FK_dbo_AccountExtPublications_dbo_AccountMetaProfessionals_AccountMetaProfessionalId">
             <End Role="AccountMetaProfessionals" EntitySet="AccountMetaProfessionals" />
             <End Role="AccountExtPublications" EntitySet="AccountExtPublications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AccountMetaInformations_dbo_BloodGroups_BloodGroupsId" Association="Self.FK_dbo_AccountMetaInformations_dbo_BloodGroups_BloodGroupsId">
+            <End Role="BloodGroups" EntitySet="BloodGroups" />
+            <End Role="AccountMetaInformations" EntitySet="AccountMetaInformations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AccountMetaInformations_dbo_Genders_GenderId" Association="Self.FK_dbo_AccountMetaInformations_dbo_Genders_GenderId">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="AccountMetaInformations" EntitySet="AccountMetaInformations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AccountMetaInformations_dbo_MaritalStatus_MaritalStatusId" Association="Self.FK_dbo_AccountMetaInformations_dbo_MaritalStatus_MaritalStatusId">
+            <End Role="MaritalStatus" EntitySet="MaritalStatus" />
+            <End Role="AccountMetaInformations" EntitySet="AccountMetaInformations" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId" Association="Self.FK_dbo_Accounts_dbo_AccountsRoles_AccountsRoleId">
             <End Role="AccountsRoles" EntitySet="AccountsRoles" />
@@ -748,6 +883,18 @@
           <AssociationSet Name="FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId" Association="Self.FK_dbo_StudentIdentifications_dbo_SemesterInfoes_SemesterInfoId">
             <End Role="SemesterInfoes" EntitySet="SemesterInfoes" />
             <End Role="StudentIdentifications" EntitySet="StudentIdentifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StudentInfoes_dbo_BloodGroups_BloodGroupsId" Association="Self.FK_dbo_StudentInfoes_dbo_BloodGroups_BloodGroupsId">
+            <End Role="BloodGroups" EntitySet="BloodGroups" />
+            <End Role="StudentInfoes" EntitySet="StudentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StudentInfoes_dbo_Genders_GenderId" Association="Self.FK_dbo_StudentInfoes_dbo_Genders_GenderId">
+            <End Role="Genders" EntitySet="Genders" />
+            <End Role="StudentInfoes" EntitySet="StudentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StudentInfoes_dbo_MaritalStatus_MaritalStatusId" Association="Self.FK_dbo_StudentInfoes_dbo_MaritalStatus_MaritalStatusId">
+            <End Role="MaritalStatus" EntitySet="MaritalStatus" />
+            <End Role="StudentInfoes" EntitySet="StudentInfoes" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_Teachers_dbo_Departments_DepartmentId" Association="Self.FK_dbo_Teachers_dbo_Departments_DepartmentId">
             <End Role="Departments" EntitySet="Departments" />
@@ -861,6 +1008,35 @@
             <End Role="UserActivityType" EntitySet="UserActivityTypes" />
             <End Role="UserActivity" EntitySet="UserActivities" />
           </AssociationSet>
+          <EntitySet Name="StudentAttatchedFileCategories" EntityType="PauFacultyPortalModel.StudentAttatchedFileCategory" />
+          <EntitySet Name="StudentAcademicInfoes" EntityType="PauFacultyPortalModel.StudentAcademicInfo" />
+          <EntitySet Name="BloodGroups" EntityType="PauFacultyPortalModel.BloodGroup" />
+          <EntitySet Name="Genders" EntityType="PauFacultyPortalModel.Gender" />
+          <EntitySet Name="MaritalStatus" EntityType="PauFacultyPortalModel.MaritalStatu" />
+          <AssociationSet Name="FK_dbo_AccountMetaInformations_dbo_BloodGroups_BloodGroupsId" Association="PauFacultyPortalModel.FK_dbo_AccountMetaInformations_dbo_BloodGroups_BloodGroupsId">
+            <End Role="BloodGroup" EntitySet="BloodGroups" />
+            <End Role="AccountMetaInformation" EntitySet="AccountMetaInformations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AccountMetaInformations_dbo_Genders_GenderId" Association="PauFacultyPortalModel.FK_dbo_AccountMetaInformations_dbo_Genders_GenderId">
+            <End Role="Gender" EntitySet="Genders" />
+            <End Role="AccountMetaInformation" EntitySet="AccountMetaInformations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AccountMetaInformations_dbo_MaritalStatus_MaritalStatusId" Association="PauFacultyPortalModel.FK_dbo_AccountMetaInformations_dbo_MaritalStatus_MaritalStatusId">
+            <End Role="MaritalStatu" EntitySet="MaritalStatus" />
+            <End Role="AccountMetaInformation" EntitySet="AccountMetaInformations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StudentInfoes_dbo_BloodGroups_BloodGroupsId" Association="PauFacultyPortalModel.FK_dbo_StudentInfoes_dbo_BloodGroups_BloodGroupsId">
+            <End Role="BloodGroup" EntitySet="BloodGroups" />
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StudentInfoes_dbo_Genders_GenderId" Association="PauFacultyPortalModel.FK_dbo_StudentInfoes_dbo_Genders_GenderId">
+            <End Role="Gender" EntitySet="Genders" />
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_StudentInfoes_dbo_MaritalStatus_MaritalStatusId" Association="PauFacultyPortalModel.FK_dbo_StudentInfoes_dbo_MaritalStatus_MaritalStatusId">
+            <End Role="MaritalStatu" EntitySet="MaritalStatus" />
+            <End Role="StudentInfo" EntitySet="StudentInfoes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountExtEducation">
           <Key>
@@ -944,6 +1120,9 @@
           <Property Name="JoiningDateTime" Type="DateTime" Precision="3" />
           <Property Name="EntryDate" Type="DateTime" Precision="3" />
           <Property Name="EntryBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BloodGroup" Relationship="PauFacultyPortalModel.FK_dbo_AccountMetaInformations_dbo_BloodGroups_BloodGroupsId" FromRole="AccountMetaInformation" ToRole="BloodGroup" />
+          <NavigationProperty Name="Gender" Relationship="PauFacultyPortalModel.FK_dbo_AccountMetaInformations_dbo_Genders_GenderId" FromRole="AccountMetaInformation" ToRole="Gender" />
+          <NavigationProperty Name="MaritalStatu" Relationship="PauFacultyPortalModel.FK_dbo_AccountMetaInformations_dbo_MaritalStatus_MaritalStatusId" FromRole="AccountMetaInformation" ToRole="MaritalStatu" />
         </EntityType>
         <EntityType Name="AccountMetaProfessional">
           <Key>
@@ -1292,6 +1471,9 @@
           <Property Name="ParmanentDistrict" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ParmanentPostalCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EntryTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BloodGroup" Relationship="PauFacultyPortalModel.FK_dbo_StudentInfoes_dbo_BloodGroups_BloodGroupsId" FromRole="StudentInfo" ToRole="BloodGroup" />
+          <NavigationProperty Name="Gender" Relationship="PauFacultyPortalModel.FK_dbo_StudentInfoes_dbo_Genders_GenderId" FromRole="StudentInfo" ToRole="Gender" />
+          <NavigationProperty Name="MaritalStatu" Relationship="PauFacultyPortalModel.FK_dbo_StudentInfoes_dbo_MaritalStatus_MaritalStatusId" FromRole="StudentInfo" ToRole="MaritalStatu" />
         </EntityType>
         <EntityType Name="TeacherDesignation">
           <Key>
@@ -1548,6 +1730,130 @@
             </Principal>
             <Dependent Role="UserActivity">
               <PropertyRef Name="UserActivityTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StudentAttatchedFileCategory">
+          <Key>
+            <PropertyRef Name="StudentAttatchedFileCategoryId" />
+          </Key>
+          <Property Name="StudentAttatchedFileCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VisibleStudent" Type="Boolean" Nullable="false" />
+          <Property Name="VisibleCustom" Type="Boolean" Nullable="false" />
+          <Property Name="VisibleAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StudentAcademicInfo">
+          <Key>
+            <PropertyRef Name="StudentAcademicInfoId" />
+          </Key>
+          <Property Name="StudentAcademicInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NameOfExamination" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="StartingSession" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UniversityBoard" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="PassingYear" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Result" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Group" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BloodGroup">
+          <Key>
+            <PropertyRef Name="BloodGroupsId" />
+          </Key>
+          <Property Name="BloodGroupsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccountMetaInformations" Relationship="PauFacultyPortalModel.FK_dbo_AccountMetaInformations_dbo_BloodGroups_BloodGroupsId" FromRole="BloodGroup" ToRole="AccountMetaInformation" />
+          <NavigationProperty Name="StudentInfoes" Relationship="PauFacultyPortalModel.FK_dbo_StudentInfoes_dbo_BloodGroups_BloodGroupsId" FromRole="BloodGroup" ToRole="StudentInfo" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="GenderId" />
+          </Key>
+          <Property Name="GenderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GenderName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccountMetaInformations" Relationship="PauFacultyPortalModel.FK_dbo_AccountMetaInformations_dbo_Genders_GenderId" FromRole="Gender" ToRole="AccountMetaInformation" />
+          <NavigationProperty Name="StudentInfoes" Relationship="PauFacultyPortalModel.FK_dbo_StudentInfoes_dbo_Genders_GenderId" FromRole="Gender" ToRole="StudentInfo" />
+        </EntityType>
+        <EntityType Name="MaritalStatu">
+          <Key>
+            <PropertyRef Name="MaritalStatusId" />
+          </Key>
+          <Property Name="MaritalStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaritalStat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccountMetaInformations" Relationship="PauFacultyPortalModel.FK_dbo_AccountMetaInformations_dbo_MaritalStatus_MaritalStatusId" FromRole="MaritalStatu" ToRole="AccountMetaInformation" />
+          <NavigationProperty Name="StudentInfoes" Relationship="PauFacultyPortalModel.FK_dbo_StudentInfoes_dbo_MaritalStatus_MaritalStatusId" FromRole="MaritalStatu" ToRole="StudentInfo" />
+        </EntityType>
+        <Association Name="FK_dbo_AccountMetaInformations_dbo_BloodGroups_BloodGroupsId">
+          <End Type="PauFacultyPortalModel.BloodGroup" Role="BloodGroup" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.AccountMetaInformation" Role="AccountMetaInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BloodGroup">
+              <PropertyRef Name="BloodGroupsId" />
+            </Principal>
+            <Dependent Role="AccountMetaInformation">
+              <PropertyRef Name="BloodGroupsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AccountMetaInformations_dbo_Genders_GenderId">
+          <End Type="PauFacultyPortalModel.Gender" Role="Gender" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.AccountMetaInformation" Role="AccountMetaInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="GenderId" />
+            </Principal>
+            <Dependent Role="AccountMetaInformation">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AccountMetaInformations_dbo_MaritalStatus_MaritalStatusId">
+          <End Type="PauFacultyPortalModel.MaritalStatu" Role="MaritalStatu" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.AccountMetaInformation" Role="AccountMetaInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaritalStatu">
+              <PropertyRef Name="MaritalStatusId" />
+            </Principal>
+            <Dependent Role="AccountMetaInformation">
+              <PropertyRef Name="MaritalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_StudentInfoes_dbo_BloodGroups_BloodGroupsId">
+          <End Type="PauFacultyPortalModel.BloodGroup" Role="BloodGroup" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.StudentInfo" Role="StudentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BloodGroup">
+              <PropertyRef Name="BloodGroupsId" />
+            </Principal>
+            <Dependent Role="StudentInfo">
+              <PropertyRef Name="BloodGroupsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_StudentInfoes_dbo_Genders_GenderId">
+          <End Type="PauFacultyPortalModel.Gender" Role="Gender" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.StudentInfo" Role="StudentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="GenderId" />
+            </Principal>
+            <Dependent Role="StudentInfo">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_StudentInfoes_dbo_MaritalStatus_MaritalStatusId">
+          <End Type="PauFacultyPortalModel.MaritalStatu" Role="MaritalStatu" Multiplicity="1" />
+          <End Type="PauFacultyPortalModel.StudentInfo" Role="StudentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaritalStatu">
+              <PropertyRef Name="MaritalStatusId" />
+            </Principal>
+            <Dependent Role="StudentInfo">
+              <PropertyRef Name="MaritalStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2017,6 +2323,57 @@
               <MappingFragment StoreEntitySet="UserActivityTypes">
                 <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
                 <ScalarProperty Name="UserActivityTypeId" ColumnName="UserActivityTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentAttatchedFileCategories">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.StudentAttatchedFileCategory">
+              <MappingFragment StoreEntitySet="StudentAttatchedFileCategories">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="VisibleAdmin" ColumnName="VisibleAdmin" />
+                <ScalarProperty Name="VisibleCustom" ColumnName="VisibleCustom" />
+                <ScalarProperty Name="VisibleStudent" ColumnName="VisibleStudent" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="StudentAttatchedFileCategoryId" ColumnName="StudentAttatchedFileCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentAcademicInfoes">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.StudentAcademicInfo">
+              <MappingFragment StoreEntitySet="StudentAcademicInfoes">
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="PassingYear" ColumnName="PassingYear" />
+                <ScalarProperty Name="UniversityBoard" ColumnName="UniversityBoard" />
+                <ScalarProperty Name="StartingSession" ColumnName="StartingSession" />
+                <ScalarProperty Name="NameOfExamination" ColumnName="NameOfExamination" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="StudentAcademicInfoId" ColumnName="StudentAcademicInfoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BloodGroups">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.BloodGroup">
+              <MappingFragment StoreEntitySet="BloodGroups">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BloodGroupsId" ColumnName="BloodGroupsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genders">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.Gender">
+              <MappingFragment StoreEntitySet="Genders">
+                <ScalarProperty Name="GenderName" ColumnName="GenderName" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaritalStatus">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.MaritalStatu">
+              <MappingFragment StoreEntitySet="MaritalStatus">
+                <ScalarProperty Name="MaritalStat" ColumnName="MaritalStat" />
+                <ScalarProperty Name="MaritalStatusId" ColumnName="MaritalStatusId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

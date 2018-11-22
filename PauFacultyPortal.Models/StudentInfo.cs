@@ -39,5 +39,9 @@ namespace PauFacultyPortal.Models
         public string ParmanentDistrict { get; set; }
         public string ParmanentPostalCode { get; set; }
         public Nullable<System.DateTime> EntryTime { get; set; }
+    
+        public virtual BloodGroup BloodGroup { get; set; }
+        public virtual Gender Gender { get; set; }
+        public virtual MaritalStatu MaritalStatu { get; set; }
     }
 }

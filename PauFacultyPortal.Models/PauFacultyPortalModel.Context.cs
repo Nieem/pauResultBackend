@@ -51,5 +51,10 @@ namespace PauFacultyPortal.Models
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<UserActivity> UserActivities { get; set; }
         public virtual DbSet<UserActivityType> UserActivityTypes { get; set; }
+        public virtual DbSet<StudentAttatchedFileCategory> StudentAttatchedFileCategories { get; set; }
+        public virtual DbSet<StudentAcademicInfo> StudentAcademicInfoes { get; set; }
+        public virtual DbSet<BloodGroup> BloodGroups { get; set; }
+        public virtual DbSet<Gender> Genders { get; set; }
+        public virtual DbSet<MaritalStatu> MaritalStatus { get; set; }
     }
 }

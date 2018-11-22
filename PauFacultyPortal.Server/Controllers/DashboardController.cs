@@ -22,7 +22,8 @@ namespace PauFacultyPortal.Server.Controllers
             try
             {
                 var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
-                List<DashboardViewModel> models = loginId == null ? null : service.GetDashboardProfileInfo(loginId);
+                List<DashboardViewModel> models = loginId == null ? null : (loginId.Length == 6 ? service.GetTeacherProfileInfo(loginId): service.GetStudentProfileInfo(loginId));
+                // GetTeacherProfileInfo   GetStudentProfileInfo     // GetDashboardProfileInfo
                 return models != null ? Request.CreateResponse(HttpStatusCode.OK, models) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
                     "No data found");
             }

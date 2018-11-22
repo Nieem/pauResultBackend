@@ -56,6 +56,7 @@
     <Compile Include="Dashboard\DashboardViewModel.cs" />
     <Compile Include="Dashboard\LinechartViewModel.cs" />
     <Compile Include="Dashboard\NotificationViewModel.cs" />
+    <Compile Include="Dashboard\StudentAcademicInfoModel.cs" />
     <Compile Include="Login_History\LoginHistoriesViewModel.cs" />
     <Compile Include="Login_History\UserActivitiesViewModel.cs" />
     <Compile Include="Profile\ProfileEducationViewModel.cs" />
