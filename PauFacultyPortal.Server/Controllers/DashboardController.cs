@@ -12,18 +12,19 @@ using System.Net;
 
 namespace PauFacultyPortal.Server.Controllers
 {
+    [RoutePrefix("api")]
     public class DashboardController : ApiController
     {
         DashboardService service = new DashboardService();
 
+        [Route("Dashboard/Get")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
             try
             {
                 var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
-                List<DashboardViewModel> models = loginId == null ? null : (loginId.Length == 6 ? service.GetTeacherProfileInfo(loginId): service.GetStudentProfileInfo(loginId));
-                // GetTeacherProfileInfo   GetStudentProfileInfo     // GetDashboardProfileInfo
+                List<DashboardViewModel> models = loginId == null ? null : service.GetTeacherProfileInfo(loginId);
                 return models != null ? Request.CreateResponse(HttpStatusCode.OK, models) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
                     "No data found");
             }
@@ -35,7 +36,25 @@ namespace PauFacultyPortal.Server.Controllers
 
         }
 
+        [Route("Dashboard/StudentDashboard")]
+        [HttpGet]
+        public HttpResponseMessage GetStudentDashboard()
+        {
+            try
+            {
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+                List<StudentDashBoardViewModel> models = loginId == null ? null : service.GetStudentProfileInfo(loginId);
+                return models != null ? Request.CreateResponse(HttpStatusCode.OK, models) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                    "No data found");
+            }
+            catch (Exception ex)
+            {
 
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        [Route("Dashboard/BarChartData")]
         [HttpGet]
         public HttpResponseMessage GetBarChartData(bool barChart)
         {
@@ -56,7 +75,7 @@ namespace PauFacultyPortal.Server.Controllers
 
         }
 
-
+        [Route("Dashboard/LineChartData")]
         [HttpGet]
         public HttpResponseMessage GetLineChartData(bool lineChart)
         {

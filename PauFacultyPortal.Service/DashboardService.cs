@@ -12,10 +12,11 @@ namespace PauFacultyPortal.Service
     public class DashboardService
     {
         PauFacultyPortalEntities _db = new PauFacultyPortalEntities();
+
         public List<DashboardViewModel> GetTeacherProfileInfo(string userId)
         {
             List<DashboardViewModel> list = new List<DashboardViewModel>();
-            if (!string.IsNullOrEmpty(userId))
+            if (!string.IsNullOrEmpty(userId) && (userId.Length== 6))
             {
                 var accountList = _db.Accounts.Where(x => x.LoginIdentity == userId).FirstOrDefault();
                 string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + accountList.LoginIdentity.ToString() + ".jpg";
@@ -205,11 +206,11 @@ namespace PauFacultyPortal.Service
             return list;
         }
 
-        public List<DashboardViewModel> GetStudentProfileInfo(string userId)
+        public List<StudentDashBoardViewModel> GetStudentProfileInfo(string userId)
         {
-            List<DashboardViewModel> studentlist = new List<DashboardViewModel>();
+            List<StudentDashBoardViewModel> studentlist = new List<StudentDashBoardViewModel>();
 
-            if (!string.IsNullOrEmpty(userId))
+            if (!string.IsNullOrEmpty(userId) && (userId.Length == 9))
             {
                 string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + userId.ToString() + ".jpg&type=1";
 
@@ -222,7 +223,7 @@ namespace PauFacultyPortal.Service
                                 //StudentAttatchedFileCategories
                                 select new
                                 {
-                                    StudentInfoId  = si.StudentInfoId,
+                                    StudentInfoId = si.StudentInfoId,
                                     StudentId = s.StudentId,
                                     StudentName = si.StudentName,
                                     FathersName = si.FathersName,
@@ -232,9 +233,9 @@ namespace PauFacultyPortal.Service
                                     PhoneNo = si.PhoneNo,
                                     MobileNo = si.MobileNo,
                                     DateOfBirth = si.DateOfBirth,
-                                  //  BloodGroupsId = si.BloodGroupsId,
-                                  //  MaritalStatusId = si.MaritalStatusId,
-                                  //  GenderId = si.GenderId,
+                                    //  BloodGroupsId = si.BloodGroupsId,
+                                    //  MaritalStatusId = si.MaritalStatusId,
+                                    //  GenderId = si.GenderId,
                                     Nationality = si.Nationality,
                                     SkillInOtherfield = si.SkillInOtherfield,
                                     LocalGuardianName = si.LocalGuardianName,
@@ -246,23 +247,23 @@ namespace PauFacultyPortal.Service
                                     PresentPostalCode = si.PresentPostalCode,
                                     ParmanentDistrict = si.ParmanentDistrict,
                                     ParmanentPostalCode = si.ParmanentPostalCode,
-                                   StudentIdentificationId = s.StudentIdentificationId,
-                                  SchoolId = s.SchoolId,
-                                  DepartmentId =s.DepartmentId,
-                                  SemesterInfoId = s.SemesterInfo, 
-                                  SemesterAndYear = s.SemesterAndYear,
-                                  Password =s.Password,
-                                  DiplomaStudent = s.DiplomaStudent,
-                                  StudentPicture = userpic,
-                                  CreditTransfer = s.CreditTransfer,
-                                  SemesterId =s.SemesterId,
-                                  BlockStudent =s.BlockExpireDate,
-                                  BloodGroupsId = b.Name,
-                                  GenderId = g.GenderName,
-                                  MaritalStatusId = m.MaritalStat
+                                    StudentIdentificationId = s.StudentIdentificationId,
+                                    SchoolId = s.SchoolId,
+                                    DepartmentId = s.DepartmentId,
+                                    SemesterInfoId = s.SemesterInfo,
+                                    SemesterAndYear = s.SemesterAndYear,
+                                    Password = s.Password,
+                                    DiplomaStudent = s.DiplomaStudent,
+                                    StudentPicture = userpic,
+                                    CreditTransfer = s.CreditTransfer,
+                                    SemesterId = s.SemesterId,
+                                    BlockStudent = s.BlockExpireDate,
+                                    BloodGroupsId = b.Name,
+                                    GenderId = g.GenderName,
+                                    MaritalStatusId = m.MaritalStat
                                 }).FirstOrDefault();
                 List<StudentAcademicInfoModel> academiclist = new List<StudentAcademicInfoModel>();
-                var stAcademicdata =  _db.StudentAcademicInfoes.Where(a=>a.StudentId == userId).ToList();
+                var stAcademicdata = _db.StudentAcademicInfoes.Where(a => a.StudentId == userId).ToList();
                 foreach (var aci in stAcademicdata)
                 {
                     var stdData = new StudentAcademicInfoModel()
@@ -279,7 +280,7 @@ namespace PauFacultyPortal.Service
                     academiclist.Add(stdData);
                 }
 
-                DashboardViewModel stdDashboard = new DashboardViewModel()
+                StudentDashBoardViewModel stdDashboard = new StudentDashBoardViewModel()
                 {
                     StudentInfoId = students.StudentInfoId,
                     StudentId = students.StudentId,
@@ -309,100 +310,207 @@ namespace PauFacultyPortal.Service
                     StudentIdentificationId = students.StudentIdentificationId,
                     SchoolId = students.SchoolId,
                     DepartmentId = students.DepartmentId,
-               //     SemesterInfoId = students.SemesterInfo,
+                    //     SemesterInfoId = students.SemesterInfo,
                     SemesterAndYear = students.SemesterAndYear,
                     Password = students.Password,
                     DiplomaStudent = students.DiplomaStudent,
                     StudentPicture = userpic,
                     CreditTransfer = students.CreditTransfer,
                     SemesterId = students.SemesterId,
-                 //   BlockStudent = students.BlockExpireDate,
-                    StudentAcademicData = academiclist
+                    //   BlockStudent = students.BlockExpireDate,
+                    StudentAcademicData = academiclist,
+                    EarnCredit= GetStudentTotalCredit(students.StudentIdentificationId),
+                    CourseComplete = GetStudentTotalCourse(students.StudentIdentificationId),
+                    CGPA= GetStudentCGPA(students.StudentIdentificationId)
                 };
                 studentlist.Add(stdDashboard);
-        }
+            }
             return studentlist;
         }
 
-    public List<BarChartViewModel> GetBarChartData(string loginId, bool barChartStatus)
-    {
-
-        List<BarChartViewModel> barChartList = new List<BarChartViewModel>();
-        if (barChartStatus)
+        private double GetStudentCGPA(int studentIdentificationId)
         {
+            double cgpaCal = 0.0, totalCredit = 0.0, totalGrade = 0.0;
 
-            var barChart = (from sec in _db.Sections
-                            join crd in _db.CourseForDepartments on sec.CourseForDepartmentId equals crd.CourseForDepartmentId
-                            join sem in _db.Semesters on sec.SemesterId equals sem.SemesterId
-                            join tc in _db.Teachers on sec.TeacherId equals tc.TeacherId
-                            where tc.LoginId == loginId
-                            select new
-                            {
-                                sem.SemesterNYear,
-                            });
-            var barChartData = barChart.GroupBy(x => new { x.SemesterNYear })
-                                 .Select(res => new
-                                 {
-                                     SemesterNYear = res.FirstOrDefault().SemesterNYear,
-                                     totalCourse = res.Count()
-                                 });
+            int p = 0;
+            string semester = String.Empty;
+            var x = 0.00;
+            var y = 0.00;
+            var z = 0.00;
+            var earnedCredit = 0.0;
+            var takenCredits = 0.0;
+            var semesterEarnCredit = 0.0;
+            var SemesterEarnResult = 0.0;
+            var semterX = 0.0;
+            var semterY = 0.0;
 
 
-            foreach (var item in barChartData.ToList())
+            var GetAllCourseByStudent = _db.CourseForStudentsAcademics.OrderBy(a => a.SemesterId).Where(s => s.StudentIdentificationId == studentIdentificationId);
+
+
+            foreach (var item2 in GetAllCourseByStudent
+                    .Select(a => new { SemNYr = a.Semester.SemesterNYear, SemID = a.Semester.SemesterId }).Distinct()
+                    .OrderBy(a => a.SemID).Select(a => a.SemNYr))
             {
-                var barChartModel = new BarChartViewModel()
-                {
-                    SemesterNYear = item.SemesterNYear,
-                    totalCourse = item.totalCourse
-                };
+                semester = item2;
+                semesterEarnCredit = 0.0;
+                SemesterEarnResult = 0.0;
+                semterX = 0.0;
+                semterY = 0.0;
 
-                barChartList.Add(barChartModel);
+                foreach (var item in GetAllCourseByStudent.Where(s => s.Semester.SemesterNYear.Equals(item2)))
+                {
+
+                    var creditVal = item.CourseForDepartment.Credit;
+                    takenCredits += creditVal;
+                    if (item.CourseStatusId == 2)
+                    {
+                        x = x + creditVal;
+                        y = y + item.TotalGrade;
+                        semterX = semterX + creditVal;
+                        semterY = semterY + item.TotalGrade;
+
+                        if (item.LetterGrade != "F")
+                        {
+                            earnedCredit += creditVal;
+                            semesterEarnCredit += creditVal;
+                        }
+
+                    }
+                    else
+                    {
+                        semterX = semterX + 0;
+                        semterY = semterY + 0;
+                        x = x + 0;
+                        y = y + 0;
+                    }
+
+                    
+                    SemesterEarnResult = Math.Round(semterY / semterX, 2, MidpointRounding.AwayFromZero);
+
+                }
+                totalCredit += x;
+                totalGrade += y;
+                var res = Math.Round(y / x, 2, MidpointRounding.AwayFromZero);
+
+
+                z = res;
+                cgpaCal = totalGrade / totalCredit;
+
             }
+
+
+            return z;
+
         }
 
-        return barChartList;
+        private double GetStudentTotalCourse(int studentIdentificationId)
+        {
+            double result = _db.CourseForStudentsAcademics.Where(x => x.StudentIdentificationId== studentIdentificationId && 
+                            x.CourseStatusId == 2 && x.LetterGrade != "F").Count();
+            return result;
+        }
 
-    }
+        private double GetStudentTotalCredit(int studentIdentificationId)
+        {
+            var query = (from stdResult in _db.CourseForStudentsAcademics
+                         join crsDep in _db.CourseForDepartments
+                         on stdResult.CourseForDepartmentId equals crsDep.CourseForDepartmentId
+                         where stdResult.StudentIdentificationId == studentIdentificationId &&
+                         stdResult.CourseStatusId == 2 && stdResult.LetterGrade != "F"
+                         select new
+                         {
+                             stdId = stdResult.StudentIdentificationId,
+                             credit = crsDep.Credit
+                         }).ToList();
 
+            double result = query.Count() == 0 ? 0.0 : query.GroupBy(x => x.stdId)
+                                .Select(res => new
+                                {
+                                    totalCredit = Convert.ToDouble(res.Sum(y => y.credit).ToString())
+                                }).FirstOrDefault().totalCredit;
+            return result;
+        }
 
-    public List<LinechartViewModel> GetLineChartData(string loginId, bool lineChart)
-    {
-
-        List<LinechartViewModel> LinechartList = new List<LinechartViewModel>();
-        if (lineChart)
+        public List<BarChartViewModel> GetBarChartData(string loginId, bool barChartStatus)
         {
 
-            var allchartData = (from cs in _db.CourseForStudentsAcademics
-                                join st in _db.Sections on cs.SectionId equals st.SectionId
-                                join tc in _db.Teachers on st.TeacherId equals tc.TeacherId
-                                join sm in _db.Semesters on cs.SemesterId equals sm.SemesterId
+            List<BarChartViewModel> barChartList = new List<BarChartViewModel>();
+            if (barChartStatus)
+            {
+
+                var barChart = (from sec in _db.Sections
+                                join crd in _db.CourseForDepartments on sec.CourseForDepartmentId equals crd.CourseForDepartmentId
+                                join sem in _db.Semesters on sec.SemesterId equals sem.SemesterId
+                                join tc in _db.Teachers on sec.TeacherId equals tc.TeacherId
                                 where tc.LoginId == loginId
                                 select new
                                 {
-                                    sm.SemesterNYear,
+                                    sem.SemesterNYear,
                                 });
-            var chartdatas = allchartData.GroupBy(x => new { x.SemesterNYear })
-                                  .Select(res => new
-                                  {
-                                      SemesterNYear = res.FirstOrDefault().SemesterNYear,
-                                      totalStudents = res.Count()
-                                  });
+                var barChartData = barChart.GroupBy(x => new { x.SemesterNYear })
+                                     .Select(res => new
+                                     {
+                                         SemesterNYear = res.FirstOrDefault().SemesterNYear,
+                                         totalCourse = res.Count()
+                                     });
 
-            foreach (var item in chartdatas.ToList())
-            {
-                LinechartViewModel Linechartmodel = new LinechartViewModel()
+
+                foreach (var item in barChartData.ToList())
                 {
-                    SemesterNYear = item.SemesterNYear,
-                    totalStudents = item.totalStudents
-                };
-                LinechartList.Add(Linechartmodel);
+                    var barChartModel = new BarChartViewModel()
+                    {
+                        SemesterNYear = item.SemesterNYear,
+                        totalCourse = item.totalCourse
+                    };
+
+                    barChartList.Add(barChartModel);
+                }
             }
 
-        }
-        return LinechartList;
+            return barChartList;
 
+        }
+
+
+        public List<LinechartViewModel> GetLineChartData(string loginId, bool lineChart)
+        {
+
+            List<LinechartViewModel> LinechartList = new List<LinechartViewModel>();
+            if (lineChart)
+            {
+
+                var allchartData = (from cs in _db.CourseForStudentsAcademics
+                                    join st in _db.Sections on cs.SectionId equals st.SectionId
+                                    join tc in _db.Teachers on st.TeacherId equals tc.TeacherId
+                                    join sm in _db.Semesters on cs.SemesterId equals sm.SemesterId
+                                    where tc.LoginId == loginId
+                                    select new
+                                    {
+                                        sm.SemesterNYear,
+                                    });
+                var chartdatas = allchartData.GroupBy(x => new { x.SemesterNYear })
+                                      .Select(res => new
+                                      {
+                                          SemesterNYear = res.FirstOrDefault().SemesterNYear,
+                                          totalStudents = res.Count()
+                                      });
+
+                foreach (var item in chartdatas.ToList())
+                {
+                    LinechartViewModel Linechartmodel = new LinechartViewModel()
+                    {
+                        SemesterNYear = item.SemesterNYear,
+                        totalStudents = item.totalStudents
+                    };
+                    LinechartList.Add(Linechartmodel);
+                }
+
+            }
+            return LinechartList;
+
+        }
     }
-}
 }
 
 //----------------------------------------
