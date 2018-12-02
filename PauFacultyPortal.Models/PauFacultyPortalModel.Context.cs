@@ -56,5 +56,6 @@ namespace PauFacultyPortal.Models
         public virtual DbSet<BloodGroup> BloodGroups { get; set; }
         public virtual DbSet<Gender> Genders { get; set; }
         public virtual DbSet<MaritalStatu> MaritalStatus { get; set; }
+        public virtual DbSet<SerializedSemester> SerializedSemesters { get; set; }
     }
 }

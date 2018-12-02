@@ -136,6 +136,9 @@
     <Compile Include="SemesterInfo.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SerializedSemester.cs">
+      <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="StudentAcademicInfo.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>

@@ -11,20 +11,21 @@ namespace PauFacultyPortal.ViewModel.Dashboard
 
         // ----------------------  Student ----------------------------------------
         public Nullable<int> StudentInfoId { get; set; }
-        public string StudentId { set; get; }
+      
+        public string StudentId { get; set; }
         public int StudentIdentificationId { set; get; }
+        //studentIdentificationid
         public int SchoolId { get; set; }
-        public int SemesterInfoId { get; set; }
-        public string SemesterAndYear { get; set; }
+      //  public int SemesterInfoId { get; set; }
+        public string SemesterNYear { get; set; }
+        public int SerializedSemesterId { get; set; }
+        public string SemesterName { get; set; }
         public string Password { get; set; }
         public bool DiplomaStudent { get; set; }
         public string StudentPicture { get; set; }
-        //  public string Remark { get; set; }
         public bool CreditTransfer { get; set; }
         public bool BlockStudent { get; set; }
-        //    public string BlockReason { get; set; }
         public Nullable<System.DateTime> BlockExpireDate { get; set; }
-        //    public string EntryBy { get; set; }
 
         public string StudentName { get; set; }
         public string FathersName { get; set; }

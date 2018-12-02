@@ -54,6 +54,23 @@ namespace PauFacultyPortal.Server.Controllers
             }
         }
 
+        [Route("Dashboard/GetcourseListbyCurriculum")]
+        [HttpGet]
+        public HttpResponseMessage GetcourseListbyCurriculum()
+        {
+            try
+            {
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+                var courseData = service.GetCourselistByCuriculum(loginId);
+                return courseData != null ? Request.CreateResponse(HttpStatusCode.OK,courseData): Request.CreateErrorResponse(HttpStatusCode.NotFound, "No Data Found");
+            }
+            catch (Exception Ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, Ex);
+            }
+        }
+
+
         [Route("Dashboard/BarChartData")]
         [HttpGet]
         public HttpResponseMessage GetBarChartData(bool barChart)
