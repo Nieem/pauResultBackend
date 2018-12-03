@@ -19,9 +19,5 @@ namespace PauFacultyPortal.ViewModel.Dashboard
         public double TotalCGPA { get; set; }
 
         public List<CourseWiseResultViewModel> CourseWiseResult { get; set; }
-
-
-
-
     }
 }

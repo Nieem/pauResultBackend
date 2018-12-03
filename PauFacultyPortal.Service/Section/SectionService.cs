@@ -114,6 +114,7 @@ namespace PauFacultyPortal.Service.Section
 
             entity.Grade = Gradepoint;
             entity.LetterGrade = student.LetterGrade;
+           
             entity.TotalGrade = totalGrade;
             entity.CourseStatusId = CourseStatus;
             //entity.SectionId = student.SectionID;
@@ -303,6 +304,7 @@ namespace PauFacultyPortal.Service.Section
                             TotalMark = item.TotalMark,                       
                             Grade = item.Grade,
                             LetterGrade = item.LetterGrade,
+                            ConfirmLetterGrade = item.LetterGrade,
                             TotalGrade = item.TotalGrade,
                             ConfirmGrade = item.ConfirmGrade,
                             HighLight = item.HightLight,

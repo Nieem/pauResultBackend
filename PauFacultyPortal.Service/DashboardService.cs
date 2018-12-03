@@ -337,6 +337,124 @@ namespace PauFacultyPortal.Service
             return _db.StudentIdentifications.Where(s => s.StudentId ==  loginID);
         }
 
+        public List<StudentGradeBySemesterViewModel> GetStudentGradesBySemester(string loginId)
+        {
+            List<StudentGradeBySemesterViewModel> list = new List<StudentGradeBySemesterViewModel>();
+
+            int Identity = _db.StudentIdentifications.Where(std => std.StudentId == loginId).FirstOrDefault().StudentIdentificationId;
+
+            double cgpaCal = 0.0, totalCredit = 0.0, totalGrade = 0.0;
+
+            int p = 0;
+            string semester = String.Empty;
+            var x = 0.00;
+            var y = 0.00;
+            var z = 0.00;
+            var earnedCredit = 0.0;
+            var takenCredits = 0.0;
+            var semesterEarnCredit = 0.0;
+            var SemesterEarnResult = 0.0;
+            var semterX = 0.0;
+            var semterY = 0.0;
+
+
+            var GetAllCourseByStudent = _db.CourseForStudentsAcademics.OrderBy(a => a.SemesterId).Where(s => s.StudentIdentificationId == Identity);
+
+            var semList = GetAllCourseByStudent
+                    .Select(a => new { SemNYr = a.Semester.SemesterNYear, SemID = a.Semester.SemesterId }).Distinct()
+                    .OrderBy(a => a.SemID).Select(a => a.SemNYr).ToList();
+
+
+
+
+            foreach (var item2 in semList)
+            {
+                StudentGradeBySemesterViewModel model = new StudentGradeBySemesterViewModel();
+                List<CourseWiseResultViewModel> courseList = new List<CourseWiseResultViewModel>();
+
+                model.SemesterName = item2;
+
+                semester = item2;
+                semesterEarnCredit = 0.0;
+                SemesterEarnResult = 0.0;
+                semterX = 0.0;
+                semterY = 0.0;
+
+
+
+                foreach (var item in GetAllCourseByStudent.Where(s => s.Semester.SemesterNYear.Equals(item2)))
+                {
+
+                    CourseWiseResultViewModel crsModel = new CourseWiseResultViewModel();
+                    var creditVal = item.CourseForDepartment.Credit;
+                    takenCredits += creditVal;
+                    if (item.CourseStatusId == 2)
+                    {
+                        x = x + creditVal;
+                        y = y + item.TotalGrade;
+                        semterX = semterX + creditVal;
+                        semterY = semterY + item.TotalGrade;
+
+                        if (item.LetterGrade != "F")
+                        {
+                            earnedCredit += creditVal;
+                            semesterEarnCredit += creditVal;
+                        }
+
+                    }
+                    else
+                    {
+                        semterX = semterX + 0;
+                        semterY = semterY + 0;
+                        x = x + 0;
+                        y = y + 0;
+                    }
+
+
+                    SemesterEarnResult = Math.Round(semterY / semterX, 2, MidpointRounding.AwayFromZero);
+                    crsModel.CourseCode = _db.CourseForDepartments
+                                          .Where(crscd => crscd.CourseForDepartmentId == item.CourseForDepartmentId)
+                                          .FirstOrDefault().CourseCode;
+                    crsModel.CourseName = _db.CourseForDepartments
+                                          .Where(crscd => crscd.CourseForDepartmentId == item.CourseForDepartmentId)
+                                          .FirstOrDefault().CourseName;
+
+                    crsModel.Credits = creditVal;
+
+                    crsModel.Grade = item.LetterGrade;
+                    crsModel.GP = item.Grade;
+                    crsModel.TGP = item.TotalGrade;
+                    crsModel.ECR = string.Empty;
+                    crsModel.SCGPA = string.Empty;
+                    crsModel.CGPA = string.Empty;
+                    crsModel.Status = _db.CourseStatus
+                                          .Where(aa => aa.CourseStatusId == item.CourseStatusId)
+                                          .FirstOrDefault().ShortName;
+                    courseList.Add(crsModel);
+                    model.CourseWiseResult = courseList;
+
+                }
+                totalCredit += x;
+                totalGrade += y;
+                model.TotalCredits = totalCredit;
+
+                var res = Math.Round(y / x, 2, MidpointRounding.AwayFromZero);
+
+
+                z = res;
+                cgpaCal = totalGrade / totalCredit;
+
+                model.TotalTGP = totalGrade;
+                model.TotalECR = semesterEarnCredit;
+                model.TotalSGPA = cgpaCal;
+                model.TotalCGPA = z;
+                list.Add(model);
+
+            }
+
+            return list;
+        }
+
         public List<StudentReportByCurriculumViewModel> GetCourselistByCuriculum(string loginId)
         {
             int studentIdentificationid = GetStudentIdentificationData(loginId).FirstOrDefault().StudentIdentificationId;
@@ -393,7 +511,7 @@ namespace PauFacultyPortal.Service
         {
             double cgpaCal = 0.0, totalCredit = 0.0, totalGrade = 0.0;
 
-            int p = 0;
+            //int p = 0;
             string semester = String.Empty;
             var x = 0.00;
             var y = 0.00;
