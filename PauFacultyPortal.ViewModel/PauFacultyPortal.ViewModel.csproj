@@ -53,11 +53,13 @@
     <Compile Include="Auth\UserPasswordResetViewModel.cs" />
     <Compile Include="Auth\UserViewModel.cs" />
     <Compile Include="Dashboard\BarChartViewModel.cs" />
+    <Compile Include="Dashboard\CourseWiseResultViewModel.cs" />
     <Compile Include="Dashboard\DashboardViewModel.cs" />
     <Compile Include="Dashboard\LinechartViewModel.cs" />
     <Compile Include="Dashboard\NotificationViewModel.cs" />
     <Compile Include="Dashboard\StudentAcademicInfoModel.cs" />
     <Compile Include="Dashboard\StudentDashBoardViewModel.cs" />
+    <Compile Include="Dashboard\StudentGradeBySemesterViewModel.cs" />
     <Compile Include="Login_History\LoginHistoriesViewModel.cs" />
     <Compile Include="Login_History\UserActivitiesViewModel.cs" />
     <Compile Include="Profile\ProfileEducationViewModel.cs" />
