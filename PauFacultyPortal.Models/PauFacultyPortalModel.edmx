@@ -366,6 +366,13 @@
           <Property Name="AdmissionEndDate" Type="datetime" />
           <Property Name="PublishResult" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="SerializedSemesters">
+          <Key>
+            <PropertyRef Name="SerializedSemesterId" />
+          </Key>
+          <Property Name="SerializedSemesterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SemesterName" Type="nvarchar" MaxLength="20" />
+        </EntityType>
         <EntityType Name="StudentAcademicInfoes">
           <Key>
             <PropertyRef Name="StudentAcademicInfoId" />
@@ -800,6 +807,7 @@
           <EntitySet Name="Sections" EntityType="Self.Sections" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SemesterInfoes" EntityType="Self.SemesterInfoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semesters" EntityType="Self.Semesters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SerializedSemesters" EntityType="Self.SerializedSemesters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentAcademicInfoes" EntityType="Self.StudentAcademicInfoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentAttatchedFileCategories" EntityType="Self.StudentAttatchedFileCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentIdentifications" EntityType="Self.StudentIdentifications" Schema="dbo" store:Type="Tables" />
@@ -1037,6 +1045,7 @@
             <End Role="MaritalStatu" EntitySet="MaritalStatus" />
             <End Role="StudentInfo" EntitySet="StudentInfoes" />
           </AssociationSet>
+          <EntitySet Name="SerializedSemesters" EntityType="PauFacultyPortalModel.SerializedSemester" />
         </EntityContainer>
         <EntityType Name="AccountExtEducation">
           <Key>
@@ -1857,6 +1866,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SerializedSemester">
+          <Key>
+            <PropertyRef Name="SerializedSemesterId" />
+          </Key>
+          <Property Name="SerializedSemesterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SemesterName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2374,6 +2390,14 @@
               <MappingFragment StoreEntitySet="MaritalStatus">
                 <ScalarProperty Name="MaritalStat" ColumnName="MaritalStat" />
                 <ScalarProperty Name="MaritalStatusId" ColumnName="MaritalStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SerializedSemesters">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.SerializedSemester">
+              <MappingFragment StoreEntitySet="SerializedSemesters">
+                <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
+                <ScalarProperty Name="SerializedSemesterId" ColumnName="SerializedSemesterId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -34,8 +34,11 @@ namespace PauFacultyPortal.Models
         public string Remarks { get; set; }
         public string EffectiveBatch { get; set; }
         public string EndBatch { get; set; }
-    
+        public string SemesterName { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseForStudentsAcademic> CourseForStudentsAcademics { get; set; }
+    
+
     }
 }

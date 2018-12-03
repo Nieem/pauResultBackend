@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PauFacultyPortal.Models;
 using PauFacultyPortal.ViewModel.Dashboard;
-
+using System.Dynamic;
 
 namespace PauFacultyPortal.Service
 {
@@ -257,7 +257,7 @@ namespace PauFacultyPortal.Service
                                     StudentPicture = userpic,
                                     CreditTransfer = s.CreditTransfer,
                                     SemesterId = s.SemesterId,
-                                    BlockStudent = s.BlockExpireDate,
+                                    BlockStudent = s.BlockStudent,
                                     BloodGroupsId = b.Name,
                                     GenderId = g.GenderName,
                                     MaritalStatusId = m.MaritalStat
@@ -311,13 +311,13 @@ namespace PauFacultyPortal.Service
                     SchoolId = students.SchoolId,
                     DepartmentId = students.DepartmentId,
                     //     SemesterInfoId = students.SemesterInfo,
-                    SemesterAndYear = students.SemesterAndYear,
+                    SemesterNYear = students.SemesterAndYear,
                     Password = students.Password,
                     DiplomaStudent = students.DiplomaStudent,
                     StudentPicture = userpic,
                     CreditTransfer = students.CreditTransfer,
                     SemesterId = students.SemesterId,
-                    //   BlockStudent = students.BlockExpireDate,
+                    //   BlockStudent = students.BlockStudent,
                     StudentAcademicData = academiclist,
                     EarnCredit= GetStudentTotalCredit(students.StudentIdentificationId),
                     CourseComplete = GetStudentTotalCourse(students.StudentIdentificationId),
@@ -327,6 +327,67 @@ namespace PauFacultyPortal.Service
             }
             return studentlist;
         }
+
+        public IQueryable<CourseForStudentsAcademic> GetAllCourseForStudentsAcademics()
+        {
+            return _db.CourseForStudentsAcademics.OrderBy(s => s.StudentIdentificationId);
+        }
+        public IQueryable<StudentIdentification> GetStudentIdentificationData(string loginID)
+        {
+            return _db.StudentIdentifications.Where(s => s.StudentId ==  loginID);
+        }
+
+        public List<StudentReportByCurriculumViewModel> GetCourselistByCuriculum(string loginId)
+        {
+            int studentIdentificationid = GetStudentIdentificationData(loginId).FirstOrDefault().StudentIdentificationId;
+            var studentData = _db.StudentIdentifications.Where(d => d.StudentIdentificationId == studentIdentificationid).FirstOrDefault();
+            var takenCourses = GetAllCourseForStudentsAcademics().Where(s => s.StudentIdentificationId == studentIdentificationid);
+            var studentWiseCourseList = _db.CourseForDepartments.Where(d => d.DepartmentId == studentData.DepartmentId).OrderBy(d=>d.SerializedSemesterId);
+           
+            var data = new List<StudentReportByCurriculumViewModel>();
+            
+            foreach (var courselist in studentWiseCourseList)
+            {
+                string semestername = _db.SerializedSemesters.Where(ss => ss.SerializedSemesterId == courselist.SerializedSemesterId).FirstOrDefault().SemesterName;
+                if (takenCourses.Count(s => s.CourseForDepartmentId == courselist.CourseForDepartmentId) > 0)
+                {        
+                    CourseForDepartment courselist1 = courselist;
+                   
+                    foreach ( var courseForStudentsAcademic in takenCourses.Where(s => s.CourseForDepartmentId == courselist1.CourseForDepartmentId))
+                     {
+                        StudentReportByCurriculumViewModel courses = new StudentReportByCurriculumViewModel();
+                        courses.StudentId = studentData.StudentId;                      
+                       // courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
+                        courses.CourseCode = courselist.CourseCode;
+                        courses.CourseName = courselist.CourseName;
+                        courses.Credit = courselist.Credit;
+                        courses.Prerequisit = courselist.PrerequisiteCourse;
+                        courses.Status = courseForStudentsAcademic.CourseStatu.Status;
+                        courses.Grade = courseForStudentsAcademic.LetterGrade;
+                        courses.SemesterNYear = courseForStudentsAcademic.Semester.SemesterNYear;
+                        courses.SemesterName = semestername;      
+                        data.Add(courses);
+                    }
+                }
+                else
+                {
+                    StudentReportByCurriculumViewModel courses = new StudentReportByCurriculumViewModel();
+                    courses.StudentId = studentData.StudentId;
+                  //  courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
+                    courses.CourseCode = courselist.CourseCode;
+                    courses.CourseName = courselist.CourseName;
+                    courses.Credit = courselist.Credit;
+                    courses.Prerequisit = courselist.PrerequisiteCourse;
+                    courses.Status = "";
+                    courses.Grade = "";
+                    courses.SemesterNYear = "";
+                    courses.SemesterName = semestername;
+                    data.Add(courses);
+                }
+            }
+                return data;
+        }
+
 
         private double GetStudentCGPA(int studentIdentificationId)
         {
@@ -529,3 +590,18 @@ namespace PauFacultyPortal.Service
 //    };
 //    allchartData.Add(linchart);
 //}
+//var studentWiseCourseList = (from cd in _db.CourseForDepartments
+//                             join ss in _db.SerializedSemesters on cd.SerializedSemesterId equals ss.SerializedSemesterId
+//                             where cd.DepartmentId == studentData.DepartmentId
+//                             select new
+//                             {
+//                                 cd.CourseForDepartmentId,
+//                                 cd.SerializedSemesterId,
+//                                 cd.DepartmentId,
+//                                 cd.CourseType,
+//                                 cd.CourseCode,
+//                                 cd.CourseName,
+//                                 cd.Credit,
+//                                 cd.PrerequisiteCourse,
+//                                 ss.SemesterName
+//                             }).ToList();
