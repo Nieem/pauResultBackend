@@ -240,6 +240,29 @@
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="RequiredCredit" Type="float" Nullable="false" />
         </EntityType>
+        <EntityType Name="DocumentAddings">
+          <Key>
+            <PropertyRef Name="DocumentAddingId" />
+          </Key>
+          <Property Name="DocumentAddingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentId" Type="nvarchar(max)" />
+          <Property Name="SscCertificate" Type="bit" Nullable="false" />
+          <Property Name="SscMarkSheet" Type="bit" Nullable="false" />
+          <Property Name="HscCertificate" Type="bit" Nullable="false" />
+          <Property Name="HscMarkSheet" Type="bit" Nullable="false" />
+          <Property Name="DiplomaCertificate" Type="bit" Nullable="false" />
+          <Property Name="DiplomaMarkSheet" Type="bit" Nullable="false" />
+          <Property Name="Gce5Olavel" Type="bit" Nullable="false" />
+          <Property Name="Gce5Alavel" Type="bit" Nullable="false" />
+          <Property Name="BaBsCertificate" Type="bit" Nullable="false" />
+          <Property Name="BaBsMarkSheet" Type="bit" Nullable="false" />
+          <Property Name="MaMsCertificate" Type="bit" Nullable="false" />
+          <Property Name="MaMsMarkSheet" Type="bit" Nullable="false" />
+          <Property Name="TwoLettersofRecommendation" Type="bit" Nullable="false" />
+          <Property Name="TwoStampSizePhotoGraph" Type="bit" Nullable="false" />
+          <Property Name="SscTestimonial" Type="bit" Nullable="false" />
+          <Property Name="HscTestimonial" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Genders">
           <Key>
             <PropertyRef Name="GenderId" />
@@ -798,6 +821,7 @@
           <EntitySet Name="CourseForStudentsAcademics" EntityType="Self.CourseForStudentsAcademics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseStatus" EntityType="Self.CourseStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentAddings" EntityType="Self.DocumentAddings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GradingSystems" EntityType="Self.GradingSystems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginHistories" EntityType="Self.LoginHistories" Schema="dbo" store:Type="Tables" />
@@ -1046,6 +1070,7 @@
             <End Role="StudentInfo" EntitySet="StudentInfoes" />
           </AssociationSet>
           <EntitySet Name="SerializedSemesters" EntityType="PauFacultyPortalModel.SerializedSemester" />
+          <EntitySet Name="DocumentAddings" EntityType="PauFacultyPortalModel.DocumentAdding" />
         </EntityContainer>
         <EntityType Name="AccountExtEducation">
           <Key>
@@ -1873,6 +1898,29 @@
           <Property Name="SerializedSemesterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SemesterName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="DocumentAdding">
+          <Key>
+            <PropertyRef Name="DocumentAddingId" />
+          </Key>
+          <Property Name="DocumentAddingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SscCertificate" Type="Boolean" Nullable="false" />
+          <Property Name="SscMarkSheet" Type="Boolean" Nullable="false" />
+          <Property Name="HscCertificate" Type="Boolean" Nullable="false" />
+          <Property Name="HscMarkSheet" Type="Boolean" Nullable="false" />
+          <Property Name="DiplomaCertificate" Type="Boolean" Nullable="false" />
+          <Property Name="DiplomaMarkSheet" Type="Boolean" Nullable="false" />
+          <Property Name="Gce5Olavel" Type="Boolean" Nullable="false" />
+          <Property Name="Gce5Alavel" Type="Boolean" Nullable="false" />
+          <Property Name="BaBsCertificate" Type="Boolean" Nullable="false" />
+          <Property Name="BaBsMarkSheet" Type="Boolean" Nullable="false" />
+          <Property Name="MaMsCertificate" Type="Boolean" Nullable="false" />
+          <Property Name="MaMsMarkSheet" Type="Boolean" Nullable="false" />
+          <Property Name="TwoLettersofRecommendation" Type="Boolean" Nullable="false" />
+          <Property Name="TwoStampSizePhotoGraph" Type="Boolean" Nullable="false" />
+          <Property Name="SscTestimonial" Type="Boolean" Nullable="false" />
+          <Property Name="HscTestimonial" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2398,6 +2446,30 @@
               <MappingFragment StoreEntitySet="SerializedSemesters">
                 <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
                 <ScalarProperty Name="SerializedSemesterId" ColumnName="SerializedSemesterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentAddings">
+            <EntityTypeMapping TypeName="PauFacultyPortalModel.DocumentAdding">
+              <MappingFragment StoreEntitySet="DocumentAddings">
+                <ScalarProperty Name="HscTestimonial" ColumnName="HscTestimonial" />
+                <ScalarProperty Name="SscTestimonial" ColumnName="SscTestimonial" />
+                <ScalarProperty Name="TwoStampSizePhotoGraph" ColumnName="TwoStampSizePhotoGraph" />
+                <ScalarProperty Name="TwoLettersofRecommendation" ColumnName="TwoLettersofRecommendation" />
+                <ScalarProperty Name="MaMsMarkSheet" ColumnName="MaMsMarkSheet" />
+                <ScalarProperty Name="MaMsCertificate" ColumnName="MaMsCertificate" />
+                <ScalarProperty Name="BaBsMarkSheet" ColumnName="BaBsMarkSheet" />
+                <ScalarProperty Name="BaBsCertificate" ColumnName="BaBsCertificate" />
+                <ScalarProperty Name="Gce5Alavel" ColumnName="Gce5Alavel" />
+                <ScalarProperty Name="Gce5Olavel" ColumnName="Gce5Olavel" />
+                <ScalarProperty Name="DiplomaMarkSheet" ColumnName="DiplomaMarkSheet" />
+                <ScalarProperty Name="DiplomaCertificate" ColumnName="DiplomaCertificate" />
+                <ScalarProperty Name="HscMarkSheet" ColumnName="HscMarkSheet" />
+                <ScalarProperty Name="HscCertificate" ColumnName="HscCertificate" />
+                <ScalarProperty Name="SscMarkSheet" ColumnName="SscMarkSheet" />
+                <ScalarProperty Name="SscCertificate" ColumnName="SscCertificate" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="DocumentAddingId" ColumnName="DocumentAddingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

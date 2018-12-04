@@ -93,6 +93,9 @@
     <Compile Include="Department.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DocumentAdding.cs">
+      <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Gender.cs">
       <DependentUpon>PauFacultyPortalModel.tt</DependentUpon>
     </Compile>

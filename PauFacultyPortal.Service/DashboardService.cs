@@ -590,18 +590,3 @@ namespace PauFacultyPortal.Service
 //    };
 //    allchartData.Add(linchart);
 //}
-//var studentWiseCourseList = (from cd in _db.CourseForDepartments
-//                             join ss in _db.SerializedSemesters on cd.SerializedSemesterId equals ss.SerializedSemesterId
-//                             where cd.DepartmentId == studentData.DepartmentId
-//                             select new
-//                             {
-//                                 cd.CourseForDepartmentId,
-//                                 cd.SerializedSemesterId,
-//                                 cd.DepartmentId,
-//                                 cd.CourseType,
-//                                 cd.CourseCode,
-//                                 cd.CourseName,
-//                                 cd.Credit,
-//                                 cd.PrerequisiteCourse,
-//                                 ss.SemesterName
-//                             }).ToList();
