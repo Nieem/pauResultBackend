@@ -16,7 +16,7 @@ namespace PauFacultyPortal.Service
         public List<DashboardViewModel> GetTeacherProfileInfo(string userId)
         {
             List<DashboardViewModel> list = new List<DashboardViewModel>();
-            if (!string.IsNullOrEmpty(userId) && (userId.Length== 6))
+            if (!string.IsNullOrEmpty(userId) && (userId.Length == 6))
             {
                 var accountList = _db.Accounts.Where(x => x.LoginIdentity == userId).FirstOrDefault();
                 string userpic = "http://123.136.27.58/umsapi/api/ProfileImageTransferService?imageName=" + accountList.LoginIdentity.ToString() + ".jpg";
@@ -220,6 +220,7 @@ namespace PauFacultyPortal.Service
                                 join b in _db.BloodGroups on si.BloodGroupsId equals b.BloodGroupsId
                                 join g in _db.Genders on si.GenderId equals g.GenderId
                                 join m in _db.MaritalStatus on si.MaritalStatusId equals m.MaritalStatusId
+                                join d in _db.Departments on s.DepartmentId equals d.DepartmentId
                                 //StudentAttatchedFileCategories
                                 select new
                                 {
@@ -250,6 +251,7 @@ namespace PauFacultyPortal.Service
                                     StudentIdentificationId = s.StudentIdentificationId,
                                     SchoolId = s.SchoolId,
                                     DepartmentId = s.DepartmentId,
+                                    DepartmentName = d.DepartmentName,
                                     SemesterInfoId = s.SemesterInfo,
                                     SemesterAndYear = s.SemesterAndYear,
                                     Password = s.Password,
@@ -278,6 +280,32 @@ namespace PauFacultyPortal.Service
                         Group = aci.Group
                     };
                     academiclist.Add(stdData);
+                }
+
+                List<StudentDocumentsViewModel> documentList = new List<StudentDocumentsViewModel>();
+                var StudentDocuments = _db.DocumentAddings.Where(dc => dc.StudentId == userId);
+                foreach (var document in StudentDocuments)
+                {
+                    var dct = new StudentDocumentsViewModel() {
+
+                        StudentId = document.StudentId,
+                        SscCertificate = document.SscCertificate,
+                        SscMarkSheet = document.SscMarkSheet,
+                        HscCertificate = document.HscCertificate,
+                        HscMarkSheet = document.HscMarkSheet,
+                        DiplomaCertificate = document.DiplomaCertificate,
+                        DiplomaMarkSheet = document.DiplomaMarkSheet,
+                        Gce5Olavel = document.Gce5Olavel,
+                        Gce5Alavel = document.Gce5Alavel,
+                        BaBsCertificate = document.BaBsCertificate,
+                        BaBsMarkSheet = document.BaBsMarkSheet,
+                        MaMsCertificate = document.MaMsCertificate,
+                        MaMsMarkSheet = document.MaMsMarkSheet,
+                        TwoLettersofRecommendation = document.TwoLettersofRecommendation,
+                        TwoStampSizePhotoGraph = document.TwoStampSizePhotoGraph,
+                        SscTestimonial = document.SscTestimonial,
+                        HscTestimonial = document.HscTestimonial,
+                    };
                 }
 
                 StudentDashBoardViewModel stdDashboard = new StudentDashBoardViewModel()
@@ -310,6 +338,7 @@ namespace PauFacultyPortal.Service
                     StudentIdentificationId = students.StudentIdentificationId,
                     SchoolId = students.SchoolId,
                     DepartmentId = students.DepartmentId,
+                    DepartmentName = students.DepartmentName,
                     //     SemesterInfoId = students.SemesterInfo,
                     SemesterNYear = students.SemesterAndYear,
                     Password = students.Password,
@@ -319,9 +348,10 @@ namespace PauFacultyPortal.Service
                     SemesterId = students.SemesterId,
                     //   BlockStudent = students.BlockStudent,
                     StudentAcademicData = academiclist,
-                    EarnCredit= GetStudentTotalCredit(students.StudentIdentificationId),
+                    StudentDocuments = documentList,
+                    EarnCredit = GetStudentTotalCredit(students.StudentIdentificationId),
                     CourseComplete = GetStudentTotalCourse(students.StudentIdentificationId),
-                    CGPA= GetStudentCGPA(students.StudentIdentificationId)
+                    CGPA = GetStudentCGPA(students.StudentIdentificationId)
                 };
                 studentlist.Add(stdDashboard);
             }
@@ -334,7 +364,7 @@ namespace PauFacultyPortal.Service
         }
         public IQueryable<StudentIdentification> GetStudentIdentificationData(string loginID)
         {
-            return _db.StudentIdentifications.Where(s => s.StudentId ==  loginID);
+            return _db.StudentIdentifications.Where(s => s.StudentId == loginID);
         }
 
         public List<StudentGradeBySemesterViewModel> GetStudentGradesBySemester(string loginId)
@@ -460,22 +490,22 @@ namespace PauFacultyPortal.Service
             int studentIdentificationid = GetStudentIdentificationData(loginId).FirstOrDefault().StudentIdentificationId;
             var studentData = _db.StudentIdentifications.Where(d => d.StudentIdentificationId == studentIdentificationid).FirstOrDefault();
             var takenCourses = GetAllCourseForStudentsAcademics().Where(s => s.StudentIdentificationId == studentIdentificationid);
-            var studentWiseCourseList = _db.CourseForDepartments.Where(d => d.DepartmentId == studentData.DepartmentId).OrderBy(d=>d.SerializedSemesterId);
-           
+            var studentWiseCourseList = _db.CourseForDepartments.Where(d => d.DepartmentId == studentData.DepartmentId).OrderBy(d => d.SerializedSemesterId);
+
             var data = new List<StudentReportByCurriculumViewModel>();
-            
+
             foreach (var courselist in studentWiseCourseList)
             {
                 string semestername = _db.SerializedSemesters.Where(ss => ss.SerializedSemesterId == courselist.SerializedSemesterId).FirstOrDefault().SemesterName;
                 if (takenCourses.Count(s => s.CourseForDepartmentId == courselist.CourseForDepartmentId) > 0)
-                {        
+                {
                     CourseForDepartment courselist1 = courselist;
-                   
-                    foreach ( var courseForStudentsAcademic in takenCourses.Where(s => s.CourseForDepartmentId == courselist1.CourseForDepartmentId))
-                     {
+
+                    foreach (var courseForStudentsAcademic in takenCourses.Where(s => s.CourseForDepartmentId == courselist1.CourseForDepartmentId))
+                    {
                         StudentReportByCurriculumViewModel courses = new StudentReportByCurriculumViewModel();
-                        courses.StudentId = studentData.StudentId;                      
-                       // courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
+                        courses.StudentId = studentData.StudentId;
+                        // courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
                         courses.CourseCode = courselist.CourseCode;
                         courses.CourseName = courselist.CourseName;
                         courses.Credit = courselist.Credit;
@@ -483,7 +513,7 @@ namespace PauFacultyPortal.Service
                         courses.Status = courseForStudentsAcademic.CourseStatu.Status;
                         courses.Grade = courseForStudentsAcademic.LetterGrade;
                         courses.SemesterNYear = courseForStudentsAcademic.Semester.SemesterNYear;
-                        courses.SemesterName = semestername;      
+                        courses.SemesterName = semestername;
                         data.Add(courses);
                     }
                 }
@@ -491,7 +521,7 @@ namespace PauFacultyPortal.Service
                 {
                     StudentReportByCurriculumViewModel courses = new StudentReportByCurriculumViewModel();
                     courses.StudentId = studentData.StudentId;
-                  //  courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
+                    //  courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
                     courses.CourseCode = courselist.CourseCode;
                     courses.CourseName = courselist.CourseName;
                     courses.Credit = courselist.Credit;
@@ -503,7 +533,7 @@ namespace PauFacultyPortal.Service
                     data.Add(courses);
                 }
             }
-                return data;
+            return data;
         }
 
 
@@ -564,7 +594,7 @@ namespace PauFacultyPortal.Service
                         y = y + 0;
                     }
 
-                    
+
                     SemesterEarnResult = Math.Round(semterY / semterX, 2, MidpointRounding.AwayFromZero);
 
                 }
@@ -585,7 +615,7 @@ namespace PauFacultyPortal.Service
 
         private double GetStudentTotalCourse(int studentIdentificationId)
         {
-            double result = _db.CourseForStudentsAcademics.Where(x => x.StudentIdentificationId== studentIdentificationId && 
+            double result = _db.CourseForStudentsAcademics.Where(x => x.StudentIdentificationId == studentIdentificationId &&
                             x.CourseStatusId == 2 && x.LetterGrade != "F").Count();
             return result;
         }

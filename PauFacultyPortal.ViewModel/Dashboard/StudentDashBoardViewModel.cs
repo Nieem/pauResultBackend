@@ -50,6 +50,7 @@ namespace PauFacultyPortal.ViewModel.Dashboard
         public string LocalGuardianContact { get; set; }
         public string PhoneNo { set; get; }
         public int DepartmentId { set; get; }
+        public string DepartmentName { get; set; }
         public int SemesterId { set; get; }
 
         public double EarnCredit { get; set; }
@@ -57,5 +58,7 @@ namespace PauFacultyPortal.ViewModel.Dashboard
         public double CGPA { get; set; }
 
         public List<StudentAcademicInfoModel> StudentAcademicData { get; set; }
+
+        public List<StudentDocumentsViewModel> StudentDocuments { get; set; }
     }
 }
