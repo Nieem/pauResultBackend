@@ -306,6 +306,8 @@ namespace PauFacultyPortal.Service
                         SscTestimonial = document.SscTestimonial,
                         HscTestimonial = document.HscTestimonial,
                     };
+
+                    documentList.Add(dct);
                 }
 
                 StudentDashBoardViewModel stdDashboard = new StudentDashBoardViewModel()
