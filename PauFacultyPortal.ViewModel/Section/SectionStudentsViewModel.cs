@@ -31,6 +31,7 @@ namespace PauFacultyPortal.ViewModel.Section
         //[Required(ErrorMessage = "ConfirmGrade is required")]
         //[Compare("Grade", ErrorMessage = "Grade and ConfirmGrade is Mismatch")]
         public double ConfirmGrade { get; set; }
+        public string ConfirmLetterGrade { get; set; }
 
         public bool HighLight { get; set; }
 

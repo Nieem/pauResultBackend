@@ -54,6 +54,25 @@ namespace PauFacultyPortal.Server.Controllers
             }
         }
 
+
+        [Route("Dashboard/StudentGradeBySemester")]
+        [HttpGet]
+        public HttpResponseMessage GetStudentGradeBySemester()
+        {
+            try
+            {
+                var loginId = ((ClaimsIdentity)User.Identity).FindFirst("LoginID").Value;
+                List<StudentGradeBySemesterViewModel> models = loginId == null ? null : service.GetStudentGradesBySemester(loginId);
+                return models != null ? Request.CreateResponse(HttpStatusCode.OK, models) : Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                    "No data found");
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
         [Route("Dashboard/GetcourseListbyCurriculum")]
         [HttpGet]
         public HttpResponseMessage GetcourseListbyCurriculum()
