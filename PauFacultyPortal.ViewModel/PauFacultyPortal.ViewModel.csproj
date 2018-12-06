@@ -53,6 +53,7 @@
     <Compile Include="Auth\UserPasswordResetViewModel.cs" />
     <Compile Include="Auth\UserViewModel.cs" />
     <Compile Include="Dashboard\BarChartViewModel.cs" />
+    <Compile Include="Dashboard\CourseWiseResultHeaderViewModel.cs" />
     <Compile Include="Dashboard\CourseWiseResultViewModel.cs" />
     <Compile Include="Dashboard\DashboardViewModel.cs" />
     <Compile Include="Dashboard\LinechartViewModel.cs" />

@@ -372,6 +372,7 @@ namespace PauFacultyPortal.Service
         public List<StudentGradeBySemesterViewModel> GetStudentGradesBySemester(string loginId)
         {
             List<StudentGradeBySemesterViewModel> list = new List<StudentGradeBySemesterViewModel>();
+            
 
             int Identity = _db.StudentIdentifications.Where(std => std.StudentId == loginId).FirstOrDefault().StudentIdentificationId;
 
@@ -401,10 +402,12 @@ namespace PauFacultyPortal.Service
 
             foreach (var item2 in semList)
             {
+                CourseWiseResultHeaderViewModel listItem = new CourseWiseResultHeaderViewModel();
                 StudentGradeBySemesterViewModel model = new StudentGradeBySemesterViewModel();
+                List<CourseWiseResultHeaderViewModel> courseWiseResultList = new List<CourseWiseResultHeaderViewModel>();
                 List<CourseWiseResultViewModel> courseList = new List<CourseWiseResultViewModel>();
 
-                model.SemesterName = item2;
+                listItem.SemesterName = item2;
 
                 semester = item2;
                 semesterEarnCredit = 0.0;
@@ -468,7 +471,7 @@ namespace PauFacultyPortal.Service
                 }
                 totalCredit += x;
                 totalGrade += y;
-                model.TotalCredits = totalCredit;
+                listItem.TotalCredits = totalCredit;
 
                 var res = Math.Round(y / x, 2, MidpointRounding.AwayFromZero);
 
@@ -476,12 +479,14 @@ namespace PauFacultyPortal.Service
                 z = res;
                 cgpaCal = totalGrade / totalCredit;
 
-                model.TotalTGP = totalGrade;
-                model.TotalECR = semesterEarnCredit;
-                model.TotalSGPA = cgpaCal;
-                model.TotalCGPA = z;
+                listItem.TotalTGP = totalGrade;
+                listItem.TotalECR = semesterEarnCredit;
+                listItem.TotalSGPA = cgpaCal;
+                listItem.TotalCGPA = z;
+                courseWiseResultList.Add(listItem);
+                model.courseWiseResultHeaders = courseWiseResultList;
                 list.Add(model);
-
+                
             }
 
             return list;
