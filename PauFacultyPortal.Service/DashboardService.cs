@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PauFacultyPortal.Models;
 using PauFacultyPortal.ViewModel.Dashboard;
 using System.Dynamic;
+using PauFacultyPortal.ViewModel;
 
 namespace PauFacultyPortal.Service
 {
@@ -369,10 +370,10 @@ namespace PauFacultyPortal.Service
             return _db.StudentIdentifications.Where(s => s.StudentId == loginID);
         }
 
-        public List<StudentGradeBySemesterViewModel> GetStudentGradesBySemester(string loginId)
+        public ResponseModel GetStudentGradesBySemester(string loginId)
         {
             List<StudentGradeBySemesterViewModel> list = new List<StudentGradeBySemesterViewModel>();
-            
+            ResponseModel response = new ResponseModel();
 
             int Identity = _db.StudentIdentifications.Where(std => std.StudentId == loginId).FirstOrDefault().StudentIdentificationId;
 
@@ -489,7 +490,9 @@ namespace PauFacultyPortal.Service
                 
             }
 
-            return list;
+            
+            response.Data = list;
+            return response;
         }
 
         public List<StudentReportByCurriculumViewModel> GetCourselistByCuriculum(string loginId)
