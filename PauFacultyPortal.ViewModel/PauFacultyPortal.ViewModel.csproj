@@ -60,6 +60,7 @@
     <Compile Include="Dashboard\NotificationViewModel.cs" />
     <Compile Include="Dashboard\StudentAcademicInfoModel.cs" />
     <Compile Include="Dashboard\StudentCurriculumFinalViewModel.cs" />
+    <Compile Include="Dashboard\StudentCurriculumListViewModel.cs" />
     <Compile Include="Dashboard\StudentDashBoardViewModel.cs" />
     <Compile Include="Dashboard\StudentDocumentsViewModel.cs" />
     <Compile Include="Dashboard\StudentGradeBySemesterViewModel.cs" />
