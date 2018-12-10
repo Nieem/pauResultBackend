@@ -495,57 +495,103 @@ namespace PauFacultyPortal.Service
             return list;
         }
 
+
+       
+
         public List<StudentReportByCurriculumViewModel> GetCourselistByCuriculum(string loginId)
         {
             int studentIdentificationid = GetStudentIdentificationData(loginId).FirstOrDefault().StudentIdentificationId;
             var studentData = _db.StudentIdentifications.Where(d => d.StudentIdentificationId == studentIdentificationid).FirstOrDefault();
-            var takenCourses = GetAllCourseForStudentsAcademics().Where(s => s.StudentIdentificationId == studentIdentificationid);
-            var studentWiseCourseList = _db.CourseForDepartments.Where(d => d.DepartmentId == studentData.DepartmentId).OrderBy(d => d.SerializedSemesterId);
+            var departmentId = _db.StudentIdentifications.Where(s => s.StudentId == loginId).FirstOrDefault().DepartmentId;
+            // var takenCourses = GetAllCourseForStudentsAcademics().Where(s => s.StudentIdentificationId == studentIdentificationid);
+            var takenCourses = (from tsc in _db.CourseForStudentsAcademics
+                               where tsc.StudentIdentificationId == studentIdentificationid
+                               select new
+                               {
+                                   studentID = loginId,
+                                   studentIdentificationid = tsc.StudentIdentificationId,
+                                   semesterId= tsc.SemesterId,
+                                   semesterNYear = _db.Semesters.Where(x=>x.SemesterId== tsc.SemesterId).FirstOrDefault().SemesterNYear,
+                                   courseCode = _db.CourseForDepartments.Where(xx=>xx.CourseForDepartmentId == tsc.CourseForDepartmentId).FirstOrDefault().CourseCode,
+                                   courseName= _db.CourseForDepartments.Where(xx => xx.CourseForDepartmentId == tsc.CourseForDepartmentId).FirstOrDefault().CourseName,
+                                   statusId =tsc.CourseStatusId,
+                                   letterGrade = tsc.LetterGrade,
+                                   serializedSemesterId = _db.CourseForDepartments
+                                                            .Where(xx => xx.CourseForDepartmentId == tsc.CourseForDepartmentId)
+                                                            .FirstOrDefault().SerializedSemesterId
+
+
+                               }).OrderBy(dd=>dd.serializedSemesterId).ToList();
+
+
+            var departmentalCourses = (from dcrs in _db.CourseForDepartments
+                                      where  dcrs.DepartmentId == studentData.DepartmentId 
+                                      && dcrs.Deactivate == false
+                                      select new
+                                      {
+                                          studentID = loginId,
+                                          studentIdentificationid = studentData.StudentIdentificationId,
+                                          semesterId = -1,
+                                          semesterNYear = "",
+                                          courseCode = dcrs.CourseCode,
+                                          courseName = dcrs.CourseName,
+                                          statusId = -1,
+                                          letterGrade = "",
+                                          serializedSemesterId = dcrs.SerializedSemesterId
+
+
+                                      }).OrderBy(dd => dd.serializedSemesterId).ToList();
+
+
+
+
+            //var studentWiseCourseList = _db.CourseForDepartments.Where(d => d.DepartmentId == studentData.DepartmentId).OrderBy(d => d.SerializedSemesterId);
 
             var data = new List<StudentReportByCurriculumViewModel>();
 
-            foreach (var courselist in studentWiseCourseList)
-            {
-                var semestername = _db.SerializedSemesters.Where(ss => ss.SerializedSemesterId == courselist.SerializedSemesterId).FirstOrDefault();
-                if (takenCourses.Count(s => s.CourseForDepartmentId == courselist.CourseForDepartmentId) > 0)
-                {
-                    CourseForDepartment courselist1 = courselist;
+            //foreach (var courselist in studentWiseCourseList)
+            //{
+            //    var semestername = _db.SerializedSemesters.Where(ss => ss.SerializedSemesterId == courselist.SerializedSemesterId).FirstOrDefault();
+            //    if (takenCourses.Count(s => s.CourseForDepartmentId == courselist.CourseForDepartmentId) > 0)
+            //    {
+            //        CourseForDepartment courselist1 = courselist;
 
-                    foreach (var courseForStudentsAcademic in takenCourses.Where(s => s.CourseForDepartmentId == courselist1.CourseForDepartmentId))
-                    {
-                        StudentReportByCurriculumViewModel courses = new StudentReportByCurriculumViewModel();
-                        StudentCurriculumListViewModel studentCurriculumModel = new StudentCurriculumListViewModel();
-                        studentCurriculumModel.StudentId = studentData.StudentId;
-                        studentCurriculumModel.StudentIdentificationId = studentData.StudentIdentificationId;
-                        // courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
-                        studentCurriculumModel.CourseCode = courselist.CourseCode;
-                        studentCurriculumModel.CourseName = courselist.CourseName;
-                        studentCurriculumModel.Credit = courselist.Credit;
-                        studentCurriculumModel.Prerequisit = courselist.PrerequisiteCourse;
-                        studentCurriculumModel.Status = courseForStudentsAcademic.CourseStatu.Status;
-                        studentCurriculumModel.Grade = courseForStudentsAcademic.LetterGrade;
-                        studentCurriculumModel.SemesterNYear = courseForStudentsAcademic.Semester.SemesterNYear;
-                        courses.SerializedSemesterId = semestername.SerializedSemesterId;
-                        //data.
-                        data.Add(courses);
-                    }
-                }
-                else
-                {
-                    StudentReportByCurriculumViewModel courses = new StudentReportByCurriculumViewModel();
-                    //courses.StudentId = studentData.StudentId;
-                    ////  courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
-                    //courses.CourseCode = courselist.CourseCode;
-                    //courses.CourseName = courselist.CourseName;
-                    //courses.Credit = courselist.Credit;
-                    //courses.Prerequisit = courselist.PrerequisiteCourse;
-                    //courses.Status = "";
-                    //courses.Grade = "";
-                    //courses.SemesterNYear = "";
-                    //courses.SemesterName = semestername;
-                    data.Add(courses);
-                }
-            }
+            //        foreach (var courseForStudentsAcademic in takenCourses.Where(s => s.CourseForDepartmentId == courselist1.CourseForDepartmentId))
+            //        {
+            //            StudentReportByCurriculumViewModel courses = new StudentReportByCurriculumViewModel();
+            //            StudentCurriculumListViewModel studentCurriculumModel = new StudentCurriculumListViewModel();
+            //            studentCurriculumModel.StudentId = studentData.StudentId;
+            //            studentCurriculumModel.StudentIdentificationId = studentData.StudentIdentificationId;
+            //            // courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
+            //            studentCurriculumModel.CourseCode = courselist.CourseCode;
+            //            studentCurriculumModel.CourseName = courselist.CourseName;
+            //            studentCurriculumModel.Credit = courselist.Credit;
+            //            studentCurriculumModel.Prerequisit = courselist.PrerequisiteCourse;
+            //            studentCurriculumModel.Status = courseForStudentsAcademic.CourseStatu.Status;
+            //            studentCurriculumModel.Grade = courseForStudentsAcademic.LetterGrade;
+            //            studentCurriculumModel.SemesterNYear = courseForStudentsAcademic.Semester.SemesterNYear;
+            //            courses.SerializedSemesterId = semestername.SerializedSemesterId;
+            //            //data.
+            //            data.Add(courses);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        StudentReportByCurriculumViewModel courses = new StudentReportByCurriculumViewModel();
+            //        //courses.StudentId = studentData.StudentId;
+            //        ////  courses.CourseForDepartmentId = courselist.CourseForDepartmentId;
+            //        //courses.CourseCode = courselist.CourseCode;
+            //        //courses.CourseName = courselist.CourseName;
+            //        //courses.Credit = courselist.Credit;
+            //        //courses.Prerequisit = courselist.PrerequisiteCourse;
+            //        //courses.Status = "";
+            //        //courses.Grade = "";
+            //        //courses.SemesterNYear = "";
+            //        //courses.SemesterName = semestername;
+            //        data.Add(courses);
+            //    }
+            //}
+
             return data;
         }
 

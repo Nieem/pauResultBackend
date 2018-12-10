@@ -19,6 +19,6 @@ namespace PauFacultyPortal.ViewModel.Dashboard
         public string Prerequisit { get; set; }
         public string Status { get; set; }
         public string Grade { get; set; }
-        public double CGPA { get; set; }
+        
     }
 }
