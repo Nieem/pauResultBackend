@@ -781,6 +781,7 @@ namespace PauFacultyPortal.Service
             //    }
             //}
 
+            data = data.OrderBy(x => x.SerializedSemesterId).ToList();
             return data;
         }
 
