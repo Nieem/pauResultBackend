@@ -9,7 +9,8 @@ namespace PauFacultyPortal.ViewModel.Dashboard
     public class StudentReportByCurriculumViewModel
     {
         public int SerializedSemesterId { get; set; }
-        public List<StudentCurriculumListViewModel> StudentCurriculumList { get; set; }
+        public string SerializedSemesterName { get; set; }
+        public List<StudentCurriculumListViewModel> studentCurriculumLists { get; set; }
 
     }
 }

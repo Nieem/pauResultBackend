@@ -287,7 +287,8 @@ namespace PauFacultyPortal.Service
                 var StudentDocuments = _db.DocumentAddings.Where(dc => dc.StudentId == userId);
                 foreach (var document in StudentDocuments)
                 {
-                    var dct = new StudentDocumentsViewModel() {
+                    var dct = new StudentDocumentsViewModel()
+                    {
 
                         StudentId = document.StudentId,
                         SscCertificate = document.SscCertificate,
@@ -372,25 +373,147 @@ namespace PauFacultyPortal.Service
 
         public List<StudentGradeBySemesterViewModel> GetStudentGradesBySemester(string loginId)
         {
+            //List<StudentGradeBySemesterViewModel> list = new List<StudentGradeBySemesterViewModel>();
+            //// ResponseModel response = new ResponseModel();
+
+            //int Identity = _db.StudentIdentifications.Where(std => std.StudentId == loginId).FirstOrDefault().StudentIdentificationId;
+
+            //double cgpaCal = 0.0, totalCredit = 0.0, totalGrade = 0.0;
+
+            //int p = 0;
+            //string semester = String.Empty;
+            //var x = 0.00;
+            //var y = 0.00;
+            //var z = 0.00;
+            //var earnedCredit = 0.0;
+            //var takenCredits = 0.0;
+            //var semesterEarnCredit = 0.0;
+            //var SemesterEarnResult = 0.0;
+            //var semterX = 0.0;
+            //var semterY = 0.0;
+
+
+            //var GetAllCourseByStudent = _db.CourseForStudentsAcademics.OrderBy(a => a.SemesterId).Where(s => s.StudentIdentificationId == Identity);
+
+            //var semList = GetAllCourseByStudent
+            //        .Select(a => new { SemNYr = a.Semester.SemesterNYear, SemID = a.Semester.SemesterId }).Distinct()
+            //        .OrderBy(a => a.SemID).Select(a => a.SemNYr).ToList();
+
+
+
+
+            //foreach (var item2 in semList)
+            //{
+            //    CourseWiseResultHeaderViewModel listItem = new CourseWiseResultHeaderViewModel();
+            //    StudentGradeBySemesterViewModel model = new StudentGradeBySemesterViewModel();
+            //    List<CourseWiseResultHeaderViewModel> courseWiseResultList = new List<CourseWiseResultHeaderViewModel>();
+            //    List<CourseWiseResultViewModel> courseList = new List<CourseWiseResultViewModel>();
+
+            //    listItem.SemesterName = item2;
+
+            //    semester = item2;
+            //    semesterEarnCredit = 0.0;
+            //    SemesterEarnResult = 0.0;
+            //    semterX = 0.0;
+            //    semterY = 0.0;
+
+
+
+            //    foreach (var item in GetAllCourseByStudent.Where(s => s.Semester.SemesterNYear.Equals(item2)))
+            //    {
+
+            //        CourseWiseResultViewModel crsModel = new CourseWiseResultViewModel();
+            //        var creditVal = item.CourseForDepartment.Credit;
+            //        takenCredits += creditVal;
+            //        if (item.CourseStatusId == 2)
+            //        {
+            //            x = x + creditVal;
+            //            y = y + item.TotalGrade;
+            //            semterX = semterX + creditVal;
+            //            semterY = semterY + item.TotalGrade;
+
+            //            if (item.LetterGrade != "F")
+            //            {
+            //                earnedCredit += creditVal;
+            //                semesterEarnCredit += creditVal;
+            //            }
+
+            //        }
+            //        else
+            //        {
+            //            semterX = semterX + 0;
+            //            semterY = semterY + 0;
+            //            x = x + 0;
+            //            y = y + 0;
+            //        }
+
+
+            //        SemesterEarnResult = Math.Round(semterY / semterX, 2, MidpointRounding.AwayFromZero);
+            //        crsModel.CourseCode = _db.CourseForDepartments
+            //                              .Where(crscd => crscd.CourseForDepartmentId == item.CourseForDepartmentId)
+            //                              .FirstOrDefault().CourseCode;
+            //        crsModel.CourseName = _db.CourseForDepartments
+            //                              .Where(crscd => crscd.CourseForDepartmentId == item.CourseForDepartmentId)
+            //                              .FirstOrDefault().CourseName;
+
+            //        crsModel.Credits = creditVal;
+
+            //        crsModel.Grade = item.LetterGrade;
+            //        crsModel.GP = item.Grade;
+            //        crsModel.TGP = item.TotalGrade;
+            //        crsModel.ECR = string.Empty;
+            //        crsModel.SCGPA = string.Empty;
+            //        crsModel.CGPA = string.Empty;
+            //        crsModel.Status = _db.CourseStatus
+            //                              .Where(aa => aa.CourseStatusId == item.CourseStatusId)
+            //                              .FirstOrDefault().ShortName;
+            //        courseList.Add(crsModel);
+            //        model.CourseWiseResult = courseList;
+
+            //    }
+            //    totalCredit += x;
+            //    totalGrade += y;
+            //    listItem.TotalCredits = totalCredit;
+
+            //    var res = Math.Round(y / x, 2, MidpointRounding.AwayFromZero);
+
+
+            //    z = res;
+            //    cgpaCal = totalGrade / totalCredit;
+
+            //    listItem.TotalTGP = totalGrade;
+            //    listItem.TotalECR = semesterEarnCredit;
+            //    listItem.TotalSGPA = cgpaCal;
+            //    listItem.TotalCGPA = z;
+            //    courseWiseResultList.Add(listItem);
+            //    model.courseWiseResultHeaders = courseWiseResultList;
+            //    list.Add(model);
+
+            //}
+
+
+            ////response.Data = list;
+            //return list;
+
             List<StudentGradeBySemesterViewModel> list = new List<StudentGradeBySemesterViewModel>();
-           // ResponseModel response = new ResponseModel();
+            // ResponseModel response = new ResponseModel();
 
             int Identity = _db.StudentIdentifications.Where(std => std.StudentId == loginId).FirstOrDefault().StudentIdentificationId;
 
-            double cgpaCal = 0.0, totalCredit = 0.0, totalGrade = 0.0;
-
+            double cgpaCal = 0.0, totalCredit = 0.0;
+            double totalGrade = 0.0;
             int p = 0;
             string semester = String.Empty;
             var x = 0.00;
-            var y = 0.00;
+            //var y = 0.00;
             var z = 0.00;
             var earnedCredit = 0.0;
-            var takenCredits = 0.0;
+
             var semesterEarnCredit = 0.0;
             var SemesterEarnResult = 0.0;
             var semterX = 0.0;
             var semterY = 0.0;
-
+            double tgp = 0.0;
 
             var GetAllCourseByStudent = _db.CourseForStudentsAcademics.OrderBy(a => a.SemesterId).Where(s => s.StudentIdentificationId == Identity);
 
@@ -415,8 +538,9 @@ namespace PauFacultyPortal.Service
                 SemesterEarnResult = 0.0;
                 semterX = 0.0;
                 semterY = 0.0;
-
-
+                var takenCredits = 0.0;
+                double stotalgrade = 0.0;
+                var y = 0.00;
 
                 foreach (var item in GetAllCourseByStudent.Where(s => s.Semester.SemesterNYear.Equals(item2)))
                 {
@@ -428,6 +552,7 @@ namespace PauFacultyPortal.Service
                     {
                         x = x + creditVal;
                         y = y + item.TotalGrade;
+                        tgp = tgp + item.TotalGrade;
                         semterX = semterX + creditVal;
                         semterY = semterY + item.TotalGrade;
 
@@ -444,6 +569,7 @@ namespace PauFacultyPortal.Service
                         semterY = semterY + 0;
                         x = x + 0;
                         y = y + 0;
+                        tgp = tgp + 0;
                     }
 
 
@@ -470,33 +596,38 @@ namespace PauFacultyPortal.Service
                     model.CourseWiseResult = courseList;
 
                 }
-                totalCredit += x;
-                totalGrade += y;
+                //tgp = y;
+                totalCredit = takenCredits;
+                // earnedCredit += x;
+                //  totalGrade += tgp;
+                // totalGrade += totalGrade;
+
+                stotalgrade += y;
                 listItem.TotalCredits = totalCredit;
 
-                var res = Math.Round(y / x, 2, MidpointRounding.AwayFromZero);
+                var res = Math.Round(tgp / x, 2, MidpointRounding.AwayFromZero);
 
 
                 z = res;
-                cgpaCal = totalGrade / totalCredit;
+                cgpaCal = Math.Round(stotalgrade / totalCredit, 2, MidpointRounding.AwayFromZero);
 
-                listItem.TotalTGP = totalGrade;
+                listItem.TotalTGP = stotalgrade;
                 listItem.TotalECR = semesterEarnCredit;
                 listItem.TotalSGPA = cgpaCal;
                 listItem.TotalCGPA = z;
                 courseWiseResultList.Add(listItem);
                 model.courseWiseResultHeaders = courseWiseResultList;
                 list.Add(model);
-                
+
             }
 
-            
+
             //response.Data = list;
             return list;
         }
 
 
-       
+
 
         public List<StudentReportByCurriculumViewModel> GetCourselistByCuriculum(string loginId)
         {
@@ -505,49 +636,107 @@ namespace PauFacultyPortal.Service
             var departmentId = _db.StudentIdentifications.Where(s => s.StudentId == loginId).FirstOrDefault().DepartmentId;
             // var takenCourses = GetAllCourseForStudentsAcademics().Where(s => s.StudentIdentificationId == studentIdentificationid);
             var takenCourses = (from tsc in _db.CourseForStudentsAcademics
-                               where tsc.StudentIdentificationId == studentIdentificationid
-                               select new
-                               {
-                                   studentID = loginId,
-                                   studentIdentificationid = tsc.StudentIdentificationId,
-                                   semesterId= tsc.SemesterId,
-                                   semesterNYear = _db.Semesters.Where(x=>x.SemesterId== tsc.SemesterId).FirstOrDefault().SemesterNYear,
-                                   courseCode = _db.CourseForDepartments.Where(xx=>xx.CourseForDepartmentId == tsc.CourseForDepartmentId).FirstOrDefault().CourseCode,
-                                   courseName= _db.CourseForDepartments.Where(xx => xx.CourseForDepartmentId == tsc.CourseForDepartmentId).FirstOrDefault().CourseName,
-                                   statusId =tsc.CourseStatusId,
-                                   letterGrade = tsc.LetterGrade,
-                                   serializedSemesterId = _db.CourseForDepartments
-                                                            .Where(xx => xx.CourseForDepartmentId == tsc.CourseForDepartmentId)
-                                                            .FirstOrDefault().SerializedSemesterId
+                                where tsc.StudentIdentificationId == studentIdentificationid
+                                select new
+                                {
+                                    studentID = loginId,
+                                    studentIdentificationid = tsc.StudentIdentificationId,
+                                    semesterId = tsc.SemesterId,
+                                    semesterNYear = _db.Semesters.Where(x => x.SemesterId == tsc.SemesterId).FirstOrDefault().SemesterNYear,
+                                    courseCode = _db.CourseForDepartments.Where(xx => xx.CourseForDepartmentId == tsc.CourseForDepartmentId).FirstOrDefault().CourseCode,
+                                    courseName = _db.CourseForDepartments.Where(xx => xx.CourseForDepartmentId == tsc.CourseForDepartmentId).FirstOrDefault().CourseName,
+                                    status = _db.CourseStatus.Where(xxx=>xxx.CourseStatusId == tsc.CourseStatusId).FirstOrDefault().ShortName,
+                                    letterGrade = tsc.LetterGrade,
+                                    serializedSemesterId = _db.CourseForDepartments
+                                                             .Where(xx => xx.CourseForDepartmentId == tsc.CourseForDepartmentId)
+                                                             .FirstOrDefault().SerializedSemesterId,
+
+                                    SerializedSemesterName = _db.SerializedSemesters
+                                                                .Where(ss => ss.SerializedSemesterId == (_db.CourseForDepartments
+                                                             .Where(xx => xx.CourseForDepartmentId == tsc.CourseForDepartmentId)
+                                                             .FirstOrDefault().SerializedSemesterId)).FirstOrDefault().SemesterName,
+
+                                    credit = _db.CourseForDepartments
+                                                             .Where(xx => xx.CourseForDepartmentId == tsc.CourseForDepartmentId)
+                                                             .FirstOrDefault().Credit
 
 
-                               }).OrderBy(dd=>dd.serializedSemesterId).ToList();
+
+                                }).OrderBy(dd => dd.serializedSemesterId).ToList();
+
+                            
 
 
             var departmentalCourses = (from dcrs in _db.CourseForDepartments
-                                      where  dcrs.DepartmentId == studentData.DepartmentId 
-                                      && dcrs.Deactivate == false
-                                      select new
-                                      {
-                                          studentID = loginId,
-                                          studentIdentificationid = studentData.StudentIdentificationId,
-                                          semesterId = -1,
-                                          semesterNYear = "",
-                                          courseCode = dcrs.CourseCode,
-                                          courseName = dcrs.CourseName,
-                                          statusId = -1,
-                                          letterGrade = "",
-                                          serializedSemesterId = dcrs.SerializedSemesterId
+                                       where dcrs.DepartmentId == studentData.DepartmentId
+                                       && dcrs.Deactivate == false
+                                       select new
+                                       {
+                                           studentID = loginId,
+                                           studentIdentificationid = studentData.StudentIdentificationId,
+                                           semesterId = -1,
+                                           semesterNYear = "",
+                                           courseCode = dcrs.CourseCode,
+                                           courseName = dcrs.CourseName,
+                                           status = "",
+                                           letterGrade = "",
+                                           serializedSemesterId = dcrs.SerializedSemesterId,
+                                           SerializedSemesterName = _db.SerializedSemesters
+                                                                .Where(ss => ss.SerializedSemesterId == dcrs.SerializedSemesterId).FirstOrDefault().SemesterName,
+                                           credit = dcrs.Credit
 
 
-                                      }).OrderBy(dd => dd.serializedSemesterId).ToList();
+                                       }).OrderBy(dd => dd.serializedSemesterId).ToList();
 
 
+            var distinctTakenCourses = takenCourses.Select(x => x.courseCode).Distinct().ToList();
+
+
+            foreach (var item in distinctTakenCourses)
+            {
+                departmentalCourses = departmentalCourses.Where(x => x.courseCode != item).ToList();
+
+            }
+
+            var newList = departmentalCourses;
+
+            var unionList = takenCourses.Union(newList);
+
+            unionList = unionList.OrderBy(x => x.courseCode);
+
+            var totalList = unionList.GroupBy(b => b.serializedSemesterId).ToList();
 
 
             //var studentWiseCourseList = _db.CourseForDepartments.Where(d => d.DepartmentId == studentData.DepartmentId).OrderBy(d => d.SerializedSemesterId);
 
             var data = new List<StudentReportByCurriculumViewModel>();
+            foreach (var item in totalList)
+            {
+                StudentReportByCurriculumViewModel model = new StudentReportByCurriculumViewModel();
+                List<StudentCurriculumListViewModel> curriculamList = new List<StudentCurriculumListViewModel>();
+                model.SerializedSemesterId = item.Key;
+                
+                foreach (var childItem in item)
+                {
+                    model.SerializedSemesterName = childItem.SerializedSemesterName;
+                    StudentCurriculumListViewModel child = new StudentCurriculumListViewModel();
+                    child.CourseCode = childItem.courseCode;
+                    child.CourseName = childItem.courseName;
+                    child.Credit = childItem.credit;
+                    child.Status = childItem.status;
+                    child.Grade = childItem.letterGrade;
+                    child.SemesterNYear = childItem.semesterNYear;
+
+                    curriculamList.Add(child);
+
+
+                }
+                model.studentCurriculumLists = curriculamList;
+                data.Add(model);
+            }
+
+
+
 
             //foreach (var courselist in studentWiseCourseList)
             //{

@@ -8,11 +8,11 @@ namespace PauFacultyPortal.ViewModel.Dashboard
 {
     public class StudentCurriculumListViewModel
     {
-        public string StudentId { get; set; }
-        public int StudentIdentificationId { set; get; }
+        //public string StudentId { get; set; }
+        //public int StudentIdentificationId { set; get; }
         public string SemesterNYear { get; set; }
 
-        public string SemesterName { get; set; }
+        //public string SemesterName { get; set; }
         public string CourseCode { get; set; }
         public string CourseName { get; set; }
         public double Credit { get; set; }
@@ -20,5 +20,6 @@ namespace PauFacultyPortal.ViewModel.Dashboard
         public string Status { get; set; }
         public string Grade { get; set; }
         
+
     }
 }
